@@ -287,6 +287,7 @@ $languageStrings = array(
 	'LBL_INVENTORY' => 'INVENTORY',
 	'LBL_IS_EMPTY' => 'is empty',
 	'LBL_IS_NOT_EMPTY' => 'is not empty',
+	'LBL_SELF'=>'Current user',
 	'LBL_ITEMS_TOTAL' => 'Items Total',
 	'LBL_ITEM_DETAILS' => 'Item Details',
 	'LBL_ITEM_NAME' => 'Item Name',

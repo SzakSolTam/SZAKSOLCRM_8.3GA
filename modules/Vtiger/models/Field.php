@@ -519,6 +519,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 		if($this->getFieldDataType() == 'owner') {
 			$userList = $currentUser->getAccessibleUsers();
+			$userList[]=vtranslate('LBL_SELF', $this->getModuleName());
 			$groupList = $currentUser->getAccessibleGroups();
 			$pickListValues = array();
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;

@@ -897,7 +897,7 @@ class QueryGenerator {
 	 * @param WebserviceField $field
 	 */
 	private function getConditionValue($value, $operator, $field) {
-
+		global $current_user;
 		$operator = strtolower($operator);
 		$db = PearDatabase::getInstance();
         $inEqualityFieldTypes = array('currency','percentage','double','integer','number');
@@ -970,7 +970,13 @@ class QueryGenerator {
 			}
 			return $sql;
 		}
+
 		foreach ($valueArray as $value) {
+			if($value==vtranslate('LBL_SELF')){
+				//we need to include current user in the value, if we are doing users
+				$value=trim($current_user->first_name.' '.$current_user->last_name);
+			}
+
 			if(!$this->isStringType($field->getFieldDataType())) {
 				$value = trim($value);
 			}
@@ -982,6 +988,7 @@ class QueryGenerator {
                 $sql[] = sprintf("IS NOT NULL AND %s != ''", $this->getSQLColumn($field->getFieldName()));
 				continue;
             }
+
 			if((strtolower(trim($value)) == 'null') ||
 					(trim($value) == '' && !$this->isStringType($field->getFieldDataType())) &&
 							($operator == 'e' || $operator == 'n')) {
