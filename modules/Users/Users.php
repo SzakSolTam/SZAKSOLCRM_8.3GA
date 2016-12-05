@@ -1145,6 +1145,8 @@ class Users extends CRMEntity {
         global $log, $adb;
         //Save entity being called with the modulename as parameter
         $this->saveentity($module_name);
+        
+        $this->triggerAfterSaveEventHandlers();
 
         // Added for Reminder Popup support
         $query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?",
@@ -1647,6 +1649,15 @@ class Users extends CRMEntity {
 			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
 		}
    }
+
+  static function isBulkSaveMode() {
+    global $VTIGER_BULK_SAVE_MODE;
+    if (isset($VTIGER_BULK_SAVE_MODE) && $VTIGER_BULK_SAVE_MODE) {
+      return true;
+    }
+    return false;
+  }
+
 }
 
 class Users_CRMSetup {

@@ -263,5 +263,9 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	   asort($languages_list);
 	   return $languages_list;
    }
+   
+    public function isWorkflowSupported() {
+      return true;
+    }   
 
 }
