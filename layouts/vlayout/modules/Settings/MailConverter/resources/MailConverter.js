@@ -147,7 +147,8 @@ jQuery.Class('Settings_MailConverter_Index_Js',{
 	setAssignedTo : function() {
 		jQuery("#actions").change(function() {
 			var selectedAction = jQuery("#actions").val();
-			if(!(selectedAction=="CREATE_HelpDesk_FROM" || selectedAction=="CREATE_Leads_SUBJECT" || selectedAction=="CREATE_Contacts_SUBJECT" || selectedAction=="CREATE_Accounts_SUBJECT")) {
+			if(!(selectedAction=="CREATE_HelpDesk_FROM" || selectedAction=="CREATE_Leads_SUBJECT" || selectedAction=="CREATE_Contacts_SUBJECT" || selectedAction=="CREATE_Accounts_SUBJECT"
+					|| selectedAction=="CREATETO_Leads_SUBJECT" || selectedAction=="CREATETO_Contacts_SUBJECT" || selectedAction=="CREATETO_Accounts_SUBJECT")) {
 				jQuery("#assignedTo").val("");
 				jQuery("#assignedToBlock").hide();
 			} else {
