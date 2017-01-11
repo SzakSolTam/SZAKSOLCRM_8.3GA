@@ -96,7 +96,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 
 	if($mail_status != 1)
 	{
-		$mail_error = getMailError($mail,$mail_status,$mailto);
+		$mail_error = getMailError($mail,$mail_status,$to_email);
 	}
 	else
 	{
@@ -197,7 +197,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 	$mail->IsSMTP();		//set mailer to use SMTP
 	//$mail->Host = "smtp1.example.com;smtp2.example.com";  // specify main and backup server
 
-	setMailServerProperties($mail);
+	setMailServerProperties($mail, $from_email);
 
 	//Handle the from name and email for HelpDesk
     $mail->From = $from_email;
@@ -258,36 +258,74 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 /**	Function to set the Mail Server Properties in the object passed
   *	$mail -- reference of the mailobject
   */
-function setMailServerProperties($mail)
+function setMailServerProperties($mail, $from_email = '')
 {
 	global $adb;
 	$adb->println("Inside the function setMailServerProperties");
 
-	$res = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
-	if(isset($_REQUEST['server']))
+	//Get Users SMTP data if found
+	$res = null;
+	$using_user = true;
+	if(!empty($from_email)){
+		$res = $adb->pquery("select smtp_server, smtp_username, smtp_password, smtp_port, smtp_auth from vtiger_users where email1=?", array($from_email));
+
+		$user_server = $adb->query_result($res,0,'smtp_server');
+		$user_username = $adb->query_result($res,0,'smtp_username');
+		$user_password = $adb->query_result($res,0,'smtp_password');
+
+		if(empty($user_server) || empty($user_username) || empty($user_password)){
+			$using_user = false;
+		}
+	}
+	else{
+		$using_user = false;
+	}
+
+	if(!$using_user){
+		$res = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
+	}
+
+	if(!$using_user && isset($_REQUEST['server'])) {
 		$server = $_REQUEST['server'];
-	else
+	}elseif($using_user) {
+		$server = $user_server;
+	}
+	else{
 		$server = $adb->query_result($res,0,'server');
-	if(isset($_REQUEST['server_username']))
+	}
+
+	if(!$using_user && isset($_REQUEST['server_username'])){
 		$username = $_REQUEST['server_username'];
-	else
-	        $username = $adb->query_result($res,0,'server_username');
-	if(isset($_REQUEST['server_password']))
+	}
+	elseif($using_user){
+		$username = $user_username;
+	}
+	else{
+		$username = $adb->query_result($res,0,'server_username');
+	}
+
+	if(!$using_user && isset($_REQUEST['server_password'])) {
 		$password = $_REQUEST['server_password'];
-	else
+	}
+	elseif($using_user){
+		$password = $user_password;
+	}
+	else{
 		$password = $adb->query_result($res,0,'server_password');
+	}
 
 	// Define default state
 	$smtp_auth = false;
 
 	// Prasad: First time read smtp_auth from the request
-	if(isset($_REQUEST['smtp_auth']))
+	if(!$using_user && isset($_REQUEST['smtp_auth']))
 	{
 		$smtp_auth = $_REQUEST['smtp_auth'];
-		if($smtp_auth == 'on')
+		if($smtp_auth == 'on'){
 			$smtp_auth = true;
+		}
 	}
-	else if (isset($_REQUEST['module']) && $_REQUEST['module'] == 'Settings' && (!isset($_REQUEST['smtp_auth'])))
+	else if (!$using_user && isset($_REQUEST['module']) && $_REQUEST['module'] == 'Settings' && (!isset($_REQUEST['smtp_auth'])))
 	{
 		//added to avoid issue while editing the values in the outgoing mail server.
 		$smtp_auth = false;
