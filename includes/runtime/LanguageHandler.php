@@ -140,8 +140,8 @@ class Vtiger_Language_Handler {
             $languageStrings = $jsLanguageStrings = array();
 			if(file_exists($file)){
                 require $file;
-                self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
-                self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+                self::$languageContainer[$language][$module]['languageStrings'] = array_merge(self::$languageContainer[$language][$module]['languageStrings'],$languageStrings);
+                self::$languageContainer[$language][$module]['jsLanguageStrings'] = array_merge(self::$languageContainer[$language][$module]['jsLanguageStrings'],$jsLanguageStrings);
             }             
         }
         $return = array();
