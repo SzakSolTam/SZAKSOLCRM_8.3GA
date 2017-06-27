@@ -197,8 +197,6 @@ class Vtiger_Language_Handler {
 		if ($userSelectedLanguage != $defaultLanguage) {
 			array_push($languages, $defaultLanguage);
 		}
-
-
 		$resultantLanguageString = array();
 		foreach ($languages as $currentLanguage) {
 			$exportLangString = array();
@@ -256,8 +254,7 @@ class Vtiger_Language_Handler {
 function vtranslate($key, $moduleName = '') {
 	$args = func_get_args();
 	$formattedString = call_user_func_array(array('Vtiger_Language_Handler', 'getTranslatedString'), $args);
-	array_shift($args);
-	array_shift($args);
+	$args = array_slice($args, 2); //Optimization from 2 array_slice calls
 	if (is_array($args) && !empty($args)) {
 		$formattedString = call_user_func_array('vsprintf', array($formattedString, $args));
 	}
