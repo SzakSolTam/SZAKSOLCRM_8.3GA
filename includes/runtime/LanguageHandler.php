@@ -141,16 +141,37 @@ class Vtiger_Language_Handler {
 	}
 
 	/**
-	 * Function that returns current language
-	 * @return <String> -
+	 * Returns the language string (i.e. folder name) to be used for translation
+	 * Try to get it from database, next from request headers and finally from global configuration
+	 * @return	<String> 	-  Language string to be used
 	 */
 	public static function getLanguage() {
-		$userModel = Users_Record_Model::getCurrentUserModel();
-		$language = '';
-		if (!empty($userModel)) {
-			$language = $userModel->get('language');
-		}
-		return empty($language) ? vglobal('default_language') : $language;
+		// First use Database language value		
+		$userModel = Users_Record_Model::getCurrentUserModel();		
+		if(!empty($userModel)) $locale = $userModel->get('language');
+		if(!empty($locale)) return $locale;
+		
+		//Fallback : Read the Accept-Language header of the request (really useful for login screen)
+		if( empty($locale) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) {
+			//Getting all languages directories in an array			
+			$languages = self::getAllLanguages();
+			//Extracting locales strings from header
+			preg_match_all("/([a-z-]+)[,;]/i", $_SERVER['HTTP_ACCEPT_LANGUAGE'], $locales);			
+			//Looping in found locales and test match against languages
+			foreach($locales[1] as $locale) {
+				foreach($languages as $code=>$lang) {
+					//First case insensitive comparison
+					if(strcasecmp($code, $locale) === 0) return $code;
+					//Second case with replacing '-' by '_'
+					if(strcasecmp($code, str_replace('-','_',$locale) ) === 0) return $code;
+					//Finally, try with short 2 letters country code
+					if(strcasecmp(substr($code, 0, 2), $locale) === 0) return $code;
+				}
+			}
+		}		
+		
+		// Last fallback : global configuration
+		return vglobal('default_language');
 	}
 
 	/**
