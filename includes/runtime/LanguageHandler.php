@@ -26,6 +26,7 @@ class Vtiger_Language_Handler {
 		if (empty($currentLanguage)) $currentLanguage = self::getLanguage();
 		$defaultLanguage = vglobal('default_language');
 		if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) $fallback = true;
+		else $fallback = false;
 		
 		//Decoding for Start Date & Time and End Date & Time 
 		if (!is_array($key)) $key = decode_html($key);
@@ -167,7 +168,7 @@ class Vtiger_Language_Handler {
 		
 		//Fallback : Read the Accept-Language header of the request (really useful for login screen)
 		if( empty($locale) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) {
-			//Getting all languages directories in an array			
+			//Getting all languages in an array			
 			$languages = self::getAllLanguages();
 			//Extracting locales strings from header
 			preg_match_all("/([a-z-]+)[,;]/i", $_SERVER['HTTP_ACCEPT_LANGUAGE'], $locales);			

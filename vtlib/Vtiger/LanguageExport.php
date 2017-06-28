@@ -218,9 +218,12 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 			}
 		} else {
 			global $languages;
-			foreach($languages as $prefix=>$label) {
-				$languageinfo[$prefix] = $label;
+			if(!empty($languages)) {
+				foreach($languages as $prefix=>$label) {
+					$languageinfo[$prefix] = $label;
+				}
 			}
+			else $languageinfo['en_us'] = 'American English';
 		}
 		asort($languageinfo);
 		return $languageinfo;

@@ -24,7 +24,7 @@ $logsqltm = LoggerManager::getLogger('SQLTIME');
 // See function convertPS2Sql in PearDatabase below
 class PreparedQMark2SqlValue {
 	// Constructor
-	function PreparedQMark2SqlValue($vals){
+	function __construct($vals){
         $this->ctr = 0;
         $this->vals = $vals;
     }
@@ -340,6 +340,8 @@ class PearDatabase{
    	* @param $msg -- Error message on query execution failure
    	*/
 	function pquery($sql, $params=array(), $dieOnError=false, $msg='') {
+		if(empty($this->database)) return;
+		
 		global $log, $default_charset;
 		$log->debug('Prepared sql query being executed : '.$sql);
 		$this->checkConnection();
@@ -351,7 +353,7 @@ class PearDatabase{
 		if (count($params) > 0) {
 			$log->debug('Prepared sql query parameters : [' . implode(",", $params) . ']');
 		}
-
+		
 		if($this->avoidPreparedSql || empty($params)) {
 			$sql = $this->convert2Sql($sql, $params);
 			$result = $this->database->Execute($sql);
@@ -828,7 +830,7 @@ class PearDatabase{
 	/**
 	 * Constructor
 	 */
-    function PearDatabase($dbtype='',$host='',$dbname='',$username='',$passwd='') {
+    function __construct($dbtype='',$host='',$dbname='',$username='',$passwd='') {
 		global $currentModule;
 		$this->log = LoggerManager::getLogger('PearDatabase_'. $currentModule);
 		$this->resetSettings($dbtype,$host,$dbname,$username,$passwd);
