@@ -19,9 +19,6 @@ mobileapp.controller('VtigerEditController', function ($scope, $api, $mdToast, $
         if(newrecord){
             if (typeof field.default != 'undefined') field.raw = field.default;
             else if (typeof field.type.defaultValue != 'undefined') field.raw = field.type.defaultValue;
-
-			// Special case
-			if (field.type.name == 'owner' && field.mandatory && !field.raw) { field.raw = "19x" + $scope.userinfo.id; }
         }
         if(!newrecord && value){
             field.raw = value;
@@ -119,9 +116,13 @@ mobileapp.controller('VtigerEditController', function ($scope, $api, $mdToast, $
            $scope.loadFields();
        }
        else{
-           $scope.$root.$on('UserInfo.Changed', function(){
-			   prepareCreateData(true);
-		   });
+		   if ($scope.userinfo) {
+                prepareCreateData(true);
+           } else {
+               $scope.$root.$on('UserInfo.Changed', function(){
+                    prepareCreateData(true);
+               });
+           }
        }
    });
     
@@ -188,7 +189,7 @@ mobileapp.controller('VtigerEditController', function ($scope, $api, $mdToast, $
 				}
                 var toast = $mdToast.simple().content(message).position($scope.getToastPosition()).hideDelay(1000);
                 $mdToast.show(toast);
-                window.location.href = "index.php?module="+$scope.module+"&view=List&app="+$scope.selectedApp;
+                //window.location.href = "index.php?module="+$scope.module+"&view=List&app="+$scope.selectedApp;
             }
         });
     };

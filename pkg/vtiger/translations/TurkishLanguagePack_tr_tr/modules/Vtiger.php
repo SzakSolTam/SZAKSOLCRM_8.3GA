@@ -1004,6 +1004,7 @@ Vtiger dışında.',
   'LBL_MARKETING' => 'PAZARLAMA',
   'LBL_SALES' => 'SATIŞ',
   'LBL_PROJECT' => 'PROJELER',
+	'LBL_TOOLS' => 'ARAÇLAR',
   'LBL_TAGS' => 'Etiketler',
   'LBL_SHARE_TAGS' => 'Kamu Etiketleri',
   'LBL_SHARE_TAG' => 'Hisse Etiketi',
@@ -1500,4 +1501,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Çoğaltın (ler) algılandı!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'yeniden girin şifreleri. "Yeni şifre" ve "onayla parola" değerleri eşleşmiyor.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Silmek istediğine emin misin?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Araç içindekiler boyutlandırma sonra yükleyecektir.',
 );

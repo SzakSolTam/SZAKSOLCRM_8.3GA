@@ -1141,6 +1141,7 @@ utanför Vtiger.',
   'LBL_MARKETING' => 'MARKNADSFÖRING',
   'LBL_SALES' => 'FÖRSÄLJNING',
   'LBL_PROJECT' => 'PROJEKT',
+	'LBL_TOOLS' => 'VERKTYG',
   'LBL_TAGS' => 'Taggar',
   'LBL_SHARE_TAGS' => 'Offentliga Taggar',
   'LBL_SHARE_TAG' => 'Dela Tag',
@@ -1665,4 +1666,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplicera (s) upptäckt!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Vänligen ange lösenord. Den "nya lösenord" och "Bekräfta lösenord" värden inte stämmer överens.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Är du säker att du vill radera?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Widget innehåll laddas efter storleksändring.',
 );

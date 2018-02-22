@@ -1005,6 +1005,7 @@ al di fuori di Vtiger.',
   'LBL_MARKETING' => 'MARKETING',
   'LBL_SALES' => 'VENDITA',
   'LBL_PROJECT' => 'PROGETTI',
+	'LBL_TOOLS' => 'UTENSILI',
   'LBL_TAGS' => 'Tag',
   'LBL_SHARE_TAGS' => 'Tag Pubblici',
   'LBL_SHARE_TAG' => 'Share Tag',
@@ -1496,4 +1497,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplicate (s) rilevata!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Si prega di inserire nuovamente le password. La "nuova password" e "password conferma" valori non corrispondono.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Sei sicuro di voler eliminare?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'contenuti Widget caricheranno dopo il ridimensionamento.',
 );

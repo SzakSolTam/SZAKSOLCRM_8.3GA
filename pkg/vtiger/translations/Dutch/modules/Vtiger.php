@@ -1003,6 +1003,7 @@ buiten Vtiger.',
   'LBL_MARKETING' => 'MARKETING',
   'LBL_SALES' => 'VERKOOP',
   'LBL_PROJECT' => 'PROJECTEN',
+	'LBL_TOOLS' => 'GEREEDSCHAP',
   'LBL_TAGS' => 'Tags',
   'LBL_SHARE_TAGS' => 'Openbare Tags',
   'LBL_SHARE_TAG' => 'Delen-Tag',
@@ -1501,4 +1502,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplicate (s) gedetecteerd!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Gelieve opnieuw in te voeren wachtwoorden. De "nieuwe wachtwoord" en "Wachtwoord bevestigen" waarden komen niet overeen.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Weet je zeker dat je wilt verwijderen?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Widget inhoud wordt geladen na resizen.',
 );

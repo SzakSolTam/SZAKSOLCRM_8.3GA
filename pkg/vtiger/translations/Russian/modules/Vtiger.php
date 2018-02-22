@@ -1005,6 +1005,7 @@ $languageStrings = array(
   'LBL_MARKETING' => 'Маркетинг',
   'LBL_SALES' => 'Продаж',
   'LBL_PROJECT' => 'Проекты',
+	'LBL_TOOLS' => 'ИНСТРУМЕНТЫ',
   'LBL_TAGS' => 'Теги',
   'LBL_SHARE_TAGS' => 'Теги Общественного',
   'LBL_SHARE_TAG' => 'Поделиться Тег',
@@ -1494,4 +1495,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Дубликат (s) обнаружено!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Пожалуйста, повторно ввести пароль. «Новый пароль» и «Подтверждение пароля» значения не совпадают.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Вы уверены, что хотите удалить?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Виджет содержимое будет загружаться после изменения размера.',
 );

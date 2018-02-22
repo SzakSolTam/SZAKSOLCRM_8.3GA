@@ -996,6 +996,7 @@ außerhalb Vtiger.',
   'LBL_MARKETING' => 'MARKETING',
   'LBL_SALES' => 'UMSATZ',
   'LBL_PROJECT' => 'PROJEKTE',
+	'LBL_TOOLS' => 'WERKZEUGE',
   'LBL_TAGS' => 'Tags',
   'LBL_SHARE_TAGS' => 'Öffentliche Tags',
   'LBL_SHARE_TAG' => 'Teilen Tag',
@@ -1497,4 +1498,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplizieren (n) erkannt!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Bitte geben Sie ein Passwort. Die „neue Kennwort“ und „Kennwort bestätigen“ Werte nicht übereinstimmen.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Widget Inhalt lädt nach der Skalierung.',
 );

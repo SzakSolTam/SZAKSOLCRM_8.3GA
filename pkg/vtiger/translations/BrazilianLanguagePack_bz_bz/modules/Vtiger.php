@@ -1164,6 +1164,7 @@ $languageStrings = array(
 	'LBL_MARKETING' => 'MARKETING',
 	'LBL_SALES' => 'VENDAS',
 	'LBL_PROJECT' => 'PROJETOS',
+	'LBL_TOOLS' => 'FERRAMENTAS',
 	'LBL_TAGS' => 'Tags',
 	'LBL_SHARE_TAGS' => 'Tags Pública',
 	'LBL_SHARE_TAG' => 'Tag(s) Campartilhada(s)',
@@ -1385,8 +1386,8 @@ $languageStrings = array(
 	'LBL_RECENT_UPDATES' => 'Atualizações recentes',
 	'LBL_VIEW_UPDATES_IN_DETAIL' => 'Ler Mais...',
 	'LBL_DEFAULT_DASHBOARD_TOOLTIP' => 'Tornar este Painel como padrão, reordenando-o como primeira aba!',
-);
 
+);
 $jsLanguageStrings = array(
 	'JS_EMAIL_SERVER_CONFIGURATION' => 'Por favor, ajuste as configurações do Servidor Envio Mensagens a partir do menu Configurações',
 	'JS_SMS_SERVER_CONFIGURATION' => 'Por favor, configure seu Notificador SMS na página de configuração do Notificar SMS',
@@ -1921,4 +1922,5 @@ $jsLanguageStrings = array(
 	'JS_SET_DEFAULT_TAB' => 'é definido como o painel de controle padrão',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Por favor, redigite as senhas. Os valores da "nova senha" e "confirmação da senha" não combinam.',
 	'LBL_LIST_DELETE_CONFIRMATION' => 'Você em certeza que deseja apagar?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'conteúdos Widget irá carregar após o redimensionamento.',
 );

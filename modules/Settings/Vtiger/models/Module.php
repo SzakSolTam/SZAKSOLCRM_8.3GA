@@ -214,5 +214,4 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 
 		return $settingsMenuList;
 	}
-
 }

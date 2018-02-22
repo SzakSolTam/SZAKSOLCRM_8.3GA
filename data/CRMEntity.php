@@ -85,7 +85,7 @@ class CRMEntity {
 			return;
 		}
 
-		$userSpecificTableIgnoredModules = array("SMSNotifier", "ModComments");
+		$userSpecificTableIgnoredModules = array('SMSNotifier', 'PBXManager', 'ModComments');
 		if(in_array($moduleName, $userSpecificTableIgnoredModules)) return;
 
 		$userSpecificTable = Vtiger_Functions::getUserSpecificTableName($moduleName);
@@ -493,7 +493,7 @@ class CRMEntity {
 			}
 			if (isset($this->column_fields[$fieldname])) {
 				if ($uitype == 56) {
-					if ($this->column_fields[$fieldname] == 'on' || $this->column_fields[$fieldname] == 1) {
+					if ($this->column_fields[$fieldname] === 'on' || $this->column_fields[$fieldname] == 1) {
 						$fldvalue = '1';
 					} else {
 						$fldvalue = '0';

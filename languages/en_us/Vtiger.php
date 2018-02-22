@@ -1164,6 +1164,7 @@ $languageStrings = array(
 	'LBL_MARKETING' => 'MARKETING',
 	'LBL_SALES' => 'SALES',
 	'LBL_PROJECT' => 'PROJECTS',
+	'LBL_TOOLS' => 'TOOLS',
 	'LBL_TAGS' => 'Tags',
 	'LBL_SHARE_TAGS' => 'Public Tags',
 	'LBL_SHARE_TAG' => 'Shared Tag(s)',
@@ -1936,4 +1937,5 @@ $jsLanguageStrings = array(
 	'JS_SET_DEFAULT_TAB' => 'is set as your default dashboard',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Please re-enter passwords. The "new password" and "confirm password" values do not match.',
 	'LBL_LIST_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Widget contents will load after resizing.',
 );

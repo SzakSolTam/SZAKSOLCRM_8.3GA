@@ -1006,6 +1006,7 @@ Faceți clic pe autorizați și de a obține Contacte din Google.',
   'LBL_MARKETING' => 'Marketing',
   'LBL_SALES' => 'Vanzari',
   'LBL_PROJECT' => 'Proiecte',
+	'LBL_TOOLS' => 'INSTRUMENTE',
   'LBL_TAGS' => 'Tag-uri',
   'LBL_SHARE_TAGS' => 'Tag-Uri Publice',
   'LBL_SHARE_TAG' => 'Împărtăși Tag-Ul',
@@ -1494,4 +1495,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplicate (e) detectat!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Vă rugăm să reintroduceți parolele. „Parola nouă“ și „parola confirma“ valorile nu se potrivesc.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Ești sigur că vrei să ștergi?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Cuprins Widget se va încărca după redimensionare.',
 );

@@ -1016,6 +1016,7 @@ fuera de Vtiger.',
   'LBL_MARKETING' => 'MARKETING',
   'LBL_SALES' => 'VENTAS',
   'LBL_PROJECT' => 'PROYECTOS',
+	'LBL_TOOLS' => 'HERRAMIENTAS',
   'LBL_TAGS' => 'Etiquetas',
   'LBL_SHARE_TAGS' => 'Etiquetas Públicas',
   'LBL_SHARE_TAG' => 'Compartir Etiqueta',
@@ -1532,4 +1533,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplicar (s) detectado!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Por favor, vuelva a introducir las contraseñas. La "nueva contraseña" y "Confirmar contraseña" valores no coinciden.',
 	'JS_LIST_DELETE_CONFIRMATION' => '¿Estas seguro que quieres borrarlo?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'contenido de un widget se carga después de cambiar el tamaño.',
 );

@@ -1134,6 +1134,7 @@ na zewnątrz free rosyjska.',
   'LBL_MARKETING' => 'Marketing',
   'LBL_SALES' => 'Sprzedaży',
   'LBL_PROJECT' => 'Projekty',
+	'LBL_TOOLS' => 'PRZYBORY',
   'LBL_TAGS' => 'Tagi',
   'LBL_SHARE_TAGS' => 'Tagi Publicznego',
   'LBL_SHARE_TAG' => 'Podziel Się Tag',
@@ -1650,4 +1651,5 @@ $jsLanguageStrings = array(
 	'JS_DUPLICATES_DETECTED' => 'Duplikat (e) wykryto!',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Należy ponownie wprowadzić hasło. „Nowe hasło” i „Potwierdź hasło” Wartości nie pasują.',
 	'JS_LIST_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'Widget zawartość zostanie załadowany po zmianie rozmiaru.',
 );

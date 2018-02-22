@@ -129,10 +129,11 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		}
 		//End
 
-		// Pre-conditional check for CSV import.
-		if ($fileFormat == 'csv') {
-			$isLocalInfileEnabled = Vtiger_Util_Helper::checkDbLocalInfileSupport();
-			if (!$isLocalInfileEnabled) throw new Exception(vtranslate('ERR_LOCAL_INFILE_NOT_ON', 'Import'));
+		$fileFormat = $request->get('fileFormat');
+		if (!$fileFormat || !in_array($fileFormat, $supportedFileTypes)) {
+			$fileFormat = 'csv';
+		} else {
+			$fileFormat = strtolower($fileFormat);
 		}
 
 		$viewer->assign('AVAILABLE_FIELDS', $moduleMeta->getMergableFields());
@@ -146,7 +147,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$viewer->assign('CURRENCIES', getAllCurrencies());
 		}
 
-		$viewer->assign('FORMAT', $request->get('fileFormat'));
+		$viewer->assign('FORMAT', $fileFormat);
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 

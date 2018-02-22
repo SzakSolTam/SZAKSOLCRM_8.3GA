@@ -385,7 +385,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
-	public function getFields() {
+	public function getFields($blockInstance=false) {
 		if(empty($this->fields)){
 			$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this);
 			$this->fields = array();
@@ -593,17 +593,18 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <Array> returns related fields list.
 	 */
 	public function getRelatedListFields() {
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		$list_fields_name = $entityInstance->list_fields_name;
-		$list_fields = $entityInstance->list_fields;
 		$relatedListFields = array();
-		foreach ($list_fields as $key => $fieldInfo) {
-			foreach ($fieldInfo as $columnName) {
-				if(array_key_exists($key, $list_fields_name)){
-					$relatedListFields[$columnName] = $list_fields_name[$key];
+		$entityInstance = CRMEntity::getInstance($this->getName());
+		if (isset($entityInstance->list_fields_name)) {
+			$list_fields_name = $entityInstance->list_fields_name;
+			$list_fields = $entityInstance->list_fields;
+			foreach ($list_fields as $key => $fieldInfo) {
+				foreach ($fieldInfo as $columnName) {
+					if(array_key_exists($key, $list_fields_name)){
+						$relatedListFields[$columnName] = $list_fields_name[$key];
+					}
 				}
 			}
-
 		}
 		return $relatedListFields;
 	}

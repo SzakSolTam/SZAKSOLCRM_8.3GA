@@ -1220,9 +1220,6 @@ if(defined('VTIGER_UPGRADE')) {
 				transition_data VARCHAR(1000) NOT NULL)', true);
 	}
 
-	//Adding user specific field to Calendar table instead of events table
-	$db->pquery('UPDATE vtiger_field SET tablename=? WHERE tablename=?', array('vtiger_calendar_user_field', 'vtiger_events_user_field'));
-
 	//Invite users table mod to support status tracking
 	$columns = $db->getColumnNames('vtiger_invitees');
 	if (!in_array('status', $columns)) {
@@ -1419,7 +1416,7 @@ if(defined('VTIGER_UPGRADE')) {
 		$result = $db->pquery('SELECT id FROM vtiger_dashboard_tabs WHERE userid=? AND tabname=?', array(1, 'Default'));
 		$defaultTabid = $db->query_result($result, 0, 'id');
 		//Setting admin user default tabid to DEFAULT
-		$db->pquery("ALTER TABLE vtiger_module_dashboard_widgets ADD COLUMN dashboardtabid INT(11) DEFAULT $defaultTabid", array());
+		$db->pquery("ALTER TABLE vtiger_module_dashboard_widgets ADD COLUMN dashboardtabid INT(11)", array());
 
 		//TODO : this will fail if there are any entries to vtiger_module_dashboard_widgets
 		$db->pquery('ALTER TABLE vtiger_module_dashboard_widgets ADD CONSTRAINT FOREIGN KEY (dashboardtabid) REFERENCES vtiger_dashboard_tabs(id) ON DELETE CASCADE', array());
@@ -1430,12 +1427,10 @@ if(defined('VTIGER_UPGRADE')) {
 	$num_rows = $db->num_rows($result);
 	for ($i=0; $i<$num_rows; $i++) {
 		$rowdata = $db->query_result_rowdata($result, $i);
-		if ($rowdata['dashboardtabid'] == null) {
-			$result1 = $db->pquery('SELECT id FROM vtiger_dashboard_tabs WHERE userid=? AND tabname=?', array($rowdata['userid'], 'My Dashboard'));
-			if ($db->num_rows($result1) > 0) {
-				$tabid = $db->query_result($result1, 0, 'id');
-				$db->pquery('UPDATE vtiger_module_dashboard_widgets SET dashboardtabid=? WHERE id=? AND userid=?', array($tabid, $rowdata['id'], $rowdata['userid']));
-			}
+		$result1 = $db->pquery('SELECT id FROM vtiger_dashboard_tabs WHERE userid=? AND tabname IN (?, ?)', array($rowdata['userid'], 'My Dashboard', 'Default'));
+		if ($db->num_rows($result1) > 0) {
+			$tabid = $db->query_result($result1, 0, 'id');
+			$db->pquery('UPDATE vtiger_module_dashboard_widgets SET dashboardtabid=? WHERE id=? AND userid=?', array($tabid, $rowdata['id'], $rowdata['userid']));
 		}
 	}
 
@@ -2174,6 +2169,7 @@ if(defined('VTIGER_UPGRADE')) {
 		}
 	}
 
+	$skippedTablesForAll = array('vtiger_crmentity_user_field');
 	$skippedTables = array('Calendar' => array('vtiger_seactivityrel', 'vtiger_cntactivityrel', 'vtiger_salesmanactivityrel'));
 	$allEntityModules = Vtiger_Module_Model::getEntityModules();
 	$dbName = $db->dbName;
@@ -2201,6 +2197,9 @@ if(defined('VTIGER_UPGRADE')) {
 			if (is_array($relatedTables)) {
 				if ($skippedTables[$moduleName]) {
 					$relatedTables = array_diff_key($relatedTables, array_flip($skippedTables[$moduleName]));
+				}
+				if ($skippedTablesForAll) {
+					$relatedTables = array_diff_key($relatedTables, array_flip($skippedTablesForAll));
 				}
 
 				//Checking foriegn key with base table
