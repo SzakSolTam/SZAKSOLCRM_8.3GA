@@ -13,28 +13,6 @@ chdir(dirname(__FILE__) . '/../../../');
 include_once 'modules/com_vtiger_workflow/VTTaskManager.inc';
 include_once 'include/utils/utils.php';
 
-if(defined('VTIGER_UPGRADE')) {
-        //Collating all module package updates here
-	updateVtlibModule('Import', 'packages/vtiger/mandatory/Import.zip');
-        updateVtlibModule('PBXManager', 'packages/vtiger/mandatory/PBXManager.zip');
-	updateVtlibModule('MailManager', 'packages/vtiger/mandatory/MailManager.zip');
-	updateVtlibModule('Mobile', 'packages/vtiger/mandatory/Mobile.zip');
-        updateVtlibModule('ModTracker', 'packages/vtiger/mandatory/ModTracker.zip');
-        updateVtlibModule('ServiceContracts', 'packages/vtiger/mandatory/ServiceContracts.zip');
-        updateVtlibModule('Services', 'packages/vtiger/mandatory/Services.zip');
-	updateVtlibModule('WSAPP', 'packages/vtiger/mandatory/WSAPP.zip');
-        updateVtlibModule('Arabic_ar_ae', 'packages/vtiger/optional/Arabic_ar_ae.zip');
-        updateVtlibModule('Assets', 'packages/vtiger/optional/Assets.zip');
-        updateVtlibModule('EmailTemplates', 'packages/vtiger/optional/EmailTemplates.zip');
-        updateVtlibModule('Google', 'packages/vtiger/optional/Google.zip');
-        updateVtlibModule('ModComments', 'packages/vtiger/optional/ModComments.zip');
-        updateVtlibModule('Projects', 'packages/vtiger/optional/Projects.zip');
-	updateVtlibModule('RecycleBin', 'packages/vtiger/optional/RecycleBin.zip');
-	updateVtlibModule('SMSNotifier', "packages/vtiger/optional/SMSNotifier.zip");
-        updateVtlibModule("Sweden_sv_se","packages/vtiger/optional/Sweden_sv_se.zip");
-	updateVtlibModule("Webforms","packages/vtiger/optional/Webforms.zip");
-        installVtlibModule('ExtensionStore', 'packages/vtiger/marketplace/ExtensionStore.zip');
-}
 if(defined('INSTALLATION_MODE')) {
 		// Set of task to be taken care while specifically in installation mode.
 }

@@ -176,8 +176,5 @@ if (defined('VTIGER_UPGRADE')) {
 	}
 	//END::Google calendar sync settings
 
-	//Update existing package modules
-	Install_Utils_Model::installModules();
-
 	echo '<br>Succecssfully vtiger version updated to <b>7.1.0</b><br>';
 }

@@ -128,6 +128,19 @@ class Migration_Index_View extends Vtiger_View_Controller {
 			}
 		}
 
+
+		if(defined('VTIGER_UPGRADE')) {
+		
+			echo "<table class='config-table'><tr><th><span><b><font color='red'> Upgrading Modules -- Starts. </font></b></span></th></tr></table>";
+			echo "<table class='config-table'>";
+	
+			//Update existing package modules
+			Install_Utils_Model::installModules();
+
+			echo "<table class='config-table'><tr><th><span><b><font color='red'>Upgrading Modules -- Ends.</font></b></span></th></tr></table>";
+			
+		}
+		
 		//update vtiger version in db
 		$migrationModuleModel->updateVtigerVersion();
 		// To carry out all the necessary actions after migration
