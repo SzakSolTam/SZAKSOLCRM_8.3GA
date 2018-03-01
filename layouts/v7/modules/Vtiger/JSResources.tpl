@@ -34,6 +34,7 @@
     <script type="text/javascript" src="layouts/v7/lib/jquery/daterangepicker/moment.min.js"></script>
     <script type="text/javascript" src="layouts/v7/lib/jquery/daterangepicker/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="layouts/v7/lib/jquery/jquery.timeago.js"></script>
+	<script type="text/javascript" src="layouts/v7/lib/jquery/jquery.hoverIntent.min.js"></script>
     <script type="text/javascript" src="libraries/jquery/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="libraries/jquery/ckeditor/adapters/jquery.js"></script>
 	<script type='text/javascript' src='layouts/v7/lib/anchorme_js/anchorme.min.js'></script>

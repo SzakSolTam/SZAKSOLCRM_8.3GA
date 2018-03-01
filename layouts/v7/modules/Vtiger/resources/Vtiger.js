@@ -373,6 +373,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 		this.registerFileChangeEvent();
 		this.registerMultiUpload();
 		this.registerHoverEventOnAttachment();
+		this.registerTooltipEvents();
 		//this.addBodyScroll();
 		this.modulesMenuScrollbar();
 		Vtiger_Index_Js.registerActivityReminder();
@@ -1456,7 +1457,93 @@ Vtiger.Class('Vtiger_Index_Js', {
 			self._showQuickPreviewForId(recordId, moduleName, appName, isReference);
 		}
 	},
+	/**
+	 * Function to trigger tooltip feature.
+	 */
+	registerTooltipEvents : function(){
+		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
+		var lastPopovers = [];
 
+		// Fetching reference fields often is not a good idea on a given page.
+		// The caching is done based on the URL so we can reuse.
+		var CACHE_ENABLED = true; // TODO - add cache timeout support.
+
+		function prepareAndShowTooltipView() {
+			hideAllTooltipViews();
+			
+			var el = jQuery(this);
+			var url = el.attr('href')? el.attr('href') : '';
+			if (url == '') {
+				return;
+			}
+
+			// Rewrite URL to retrieve Tooltip view.
+			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
+			url = url.replace('index.php?', '');
+			
+			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="'+url+'"]') : null;
+			if (cachedView && cachedView.length) {
+				showTooltip(el, cachedView.html());
+			} else {
+				app.request.get({data: url}).then(function (err, data){
+					cachedView = jQuery('<div>').css({display:'none'}).attr('data-url-cached', url);
+					//cachedView.html(data);
+					jQuery('body').append(cachedView.html(data));
+					showTooltip(el, data);
+				});
+				
+			}
+		}
+
+		function get_popover_placement(el) {
+		  var width = window.innerWidth;
+		  var left_pos = jQuery(el).offset().left;
+		  if (width - left_pos > 400) return 'right';
+		  return 'left';
+		}
+
+		function showTooltip(el, data) {
+			var the_placement = get_popover_placement(el);
+			el.popover({
+				//title: '', - Is derived from the Anchor Element (el).
+				trigger: 'manual',
+				content: data,
+				html: true,
+				animation: false,
+				placement:  the_placement,
+				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
+			});
+			lastPopovers.push(el.popover('show'));
+			registerToolTipDestroy();
+		}
+
+		function hideAllTooltipViews() {
+			// Hide all previous popover
+			var lastPopover = null;
+			while (lastPopover = lastPopovers.pop()) {
+				lastPopover.popover('hide');
+			}
+		}
+
+		references.each(function(index, el){
+			jQuery(el).hoverIntent({
+				interval: 100,
+				sensitivity: 7,
+				timeout: 10,
+				over: prepareAndShowTooltipView,
+				out: hideAllTooltipViews
+			});
+		});
+
+		function registerToolTipDestroy() {
+			jQuery('button[name="vtTooltipClose"]').on('click', function(e){
+				var lastPopover = lastPopovers.pop();
+				lastPopover.popover('hide');
+				// Fix suggested http://code.vtiger.com/vtiger/vtigercrm/issues/43
+				jQuery('.popover').css( "display", "none", "important");
+			});
+		}
+	},
 	registerReferencePreviewEvent : function() {
 		var self = this;
 		var view = app.view();
