@@ -27,3 +27,8 @@ $languageStrings = array(
 	'LBL_ADD_NEW_DASHBOARD'=>'Adicionar novo Painel',
 	'LBL_MAX_CHARACTERS_ALLOWED_DASHBOARD' => 'São permitidos no máximo 30 caracteres no nome do Painel.',
 );
+
+$jsLanguageStrings = array(
+	'JS_TAB_NAME_SHOULD_NOT_BE_EMPTY' => 'O nome do Painel não pode estar vazio',
+	'JS_NO_DATA_AVAILABLE' => 'Nenhum dado disponível',
+);

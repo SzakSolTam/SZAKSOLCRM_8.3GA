@@ -53,6 +53,7 @@ $languageStrings = array(
 	'LBL_CANCEL_IMPORT' => 'Cancelar Importação',
 	'LBL_ERROR' => 'Erro',
 	'LBL_CLEAR_DATA' => 'Limpar Dados',
+	'ERR_LOCAL_INFILE_NOT_ON' => 'a variável local_infile foi destativa no servidor de dados.',
 	'ERR_UNIMPORTED_RECORDS_EXIST' => 'Não é possível importar mais dados neste lote. Por favor, comece uma nova importação.',
 	'ERR_IMPORT_INTERRUPTED' => 'A importação atual foi interrompida. Por favor, tente novamente mais tarde',
 	'ERR_FAILED_TO_LOCK_MODULE' => 'Falha ao bloquear o módulo para importação. Tente novamente mais tarde',
@@ -72,7 +73,7 @@ $languageStrings = array(
 	
         'LBL_IMPORT_LINEITEMS_CURRENCY'=> 'Moeda (Para Campos de Itens da Linha)',
         'LBL_USE_SAVED_MAPS'=>'Utilizar Mapas Salvos',
-        'L'=>'Mapear as colunas para os campos do CRM',
+        'LBL_IMPORT_MAP_FIELDS'=>'Mapear as colunas para os campos do CRM',
         'LBL_UPLOAD_CSV'=>'Transferir Arquivo CSV', 
         'LBL_UPLOAD_VCF'=>'Transferir Arquivo VCF',
         'LBL_DUPLICATE_HANDLING'=>'Manipular Duplicados',

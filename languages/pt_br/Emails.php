@@ -28,7 +28,7 @@ $languageStrings = array(
 	'LBL_EXCEEDED' => 'Excedido',
 	'LBL_EMAILTEMPLATE_WARNING'    => 'Suas tags de mesclagem estão corretas?',
 	'LBL_EMAILTEMPLATE_WARNING_CONTENT' => 'Por favor, certifique-se de que o modelo selecionado foi mesclado corretamente ao registro do destinatário. 
-											Se você estiver enviando um e-mail para Lead, mas as tags de mesclagem pertencem ao módulo de Contato (ex: $contacts-lastname$), os valores não serão mesclados.',
+											Se você estiver enviando um e-mail para Lead, mas as tags de mesclagem pertencerem ao módulo de Contato (ex: $contacts-   lastname$), os valores não serão mesclados.',
 
 	//Button Names translation
 	'LBL_FORWARD' => 'Encaminhar',

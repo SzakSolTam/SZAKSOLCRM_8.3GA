@@ -45,7 +45,7 @@ $languageStrings = array(
 
 	/*Vtiger7 Strings*/
 	'LBL_EDIT_PROFILE' => 'Editar Perfil',
-	'LBL_GLOBAL_PERMISSION_WARNING' => 'Aviso : Usuários associados com este Perfil pode acessar todos os registros no CRM',
+	'LBL_GLOBAL_PERMISSION_WARNING' => 'Aviso : Usuários associados com este Perfil podem acessar todos os registros no CRM',
 );
 
 $jsLanguageStrings = array(

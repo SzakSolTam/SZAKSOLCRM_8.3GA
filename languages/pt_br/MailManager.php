@@ -126,7 +126,7 @@ $languageStrings = Array (
 
 $jsLanguageStrings = Array (
 	'MailManager' => 'Gestor Mensagens',
-	'JSLBL_Loading_Please_Wait'  => 'Carregando...por favor, aguarde',
+	'JSLBL_Loading_Please_Wait'  => 'Carregando...Por favor, aguarde',
 	'JSLBL_Loading'              => 'Carregando',
 	'JSLBL_Settings'             => 'Configurações',
 	'JSLBL_Opening'              => 'Abrindo',
@@ -138,7 +138,7 @@ $jsLanguageStrings = Array (
 	'JSLBL_Finding_Relation'     => 'Encontrando relação',
 	'JSLBL_Find_Relation_Now'    => 'Encontrar relação agora',
 	'JSLBL_Searching'            => 'Pesquisando',
-	'JSLBL_Searching_Please_Wait'=> 'Pesquisando... por favor, aguarde',
+	'JSLBL_Searching_Please_Wait'=> 'Pesquisando...Por favor, aguarde',
 	'JSLBL_Sending'              => 'Enviando',
 	'JSLBL_Replied'              => 'Respondido',
 	'JSLBL_Failed_To_Send_Mail'  => 'Falha ao enviar a mensagem',

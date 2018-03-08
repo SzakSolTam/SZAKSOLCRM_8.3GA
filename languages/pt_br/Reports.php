@@ -92,8 +92,8 @@ $languageStrings = array(
 	//DetailView
 	'LBL_SUM' => 'SOMA',
 	'LBL_AVG' => 'MED',
-	'LBL_MIN' => 'MIN' ,
 	'LBL_MAX' => 'Max',
+	'LBL_MIN' => 'MIN' ,
 	'LBL_FIELD_NAMES' => 'Nomes Campos',
 	'LBL_REPORT_CSV' => 'Exportar CSV',
 	'LBL_VIEW_DETAILS' => 'Detalhes Visualização' ,

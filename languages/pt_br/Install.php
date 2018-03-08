@@ -11,9 +11,11 @@
 $languageStrings = array(
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Não foi possível conectar à Base de Dados',
 	'ERR_DB_NOT_FOUND' => 'Esta Base de Dados não foi encontrada. Tente mudar as configurações da Base de Dados',
+	'ERR_DB_NOT_UTF8'  => 'Charset do Banco de Dados ou Collation não são compatíveis com UTF8',
 	'ERR_INVALID_MYSQL_PARAMETERS' => 'Os parâmetros especificados para a conexão com o MySQL são inválidos',
 	'ERR_INVALID_MYSQL_VERSION' => 'A versão do MySQL não é suportada, por favor, utilize MySQL 5.1.x ou acima',
 	'ERR_UNABLE_CREATE_DATABASE' => 'Não é possível Criar a Base de Dados',
+	'ERR_DB_SQLMODE_NOTFRIENDLY' => 'O Servidor MySQL deve ser configurado com:<br> sql_mode = ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION',
 	'LBL_ADMIN_INFORMATION'=>'Informação Usuário Admin',
 	'LBL_ADMIN_USER_INFORMATION' => 'Informação Usuário Admin',
 	'LBL_CHOOSE_LANGUAGE' => 'Escolher o idioma padrão para esta instalação:',

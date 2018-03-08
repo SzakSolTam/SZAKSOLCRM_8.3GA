@@ -221,9 +221,9 @@ $languageStrings = array(
 	'LBL_ACCESS_DENIED_FOR' => 'Acesso Negado para',
 	'LBL_GO_BACK' => 'Voltar',
 	'LBL_NO_DATA_AVAILABLE' => 'Nenhum dado disponível',
-	'LBL_GLOBAL_SEARCH' => 'Digite palavra chave e pressione Enter',
 
 	// Global Search
+	'LBL_GLOBAL_SEARCH' => 'Digite palavra chave e pressione Enter',
 	'LBL_ALL_RECORDS' => 'Todos os Registros',
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum registro encontrado',
 
@@ -1164,6 +1164,7 @@ $languageStrings = array(
 	'LBL_MARKETING' => 'MARKETING',
 	'LBL_SALES' => 'VENDAS',
 	'LBL_PROJECT' => 'PROJETOS',
+	'LBL_TOOLS' => 'FERRAMENTAS',
 	'LBL_TAGS' => 'Tags',
 	'LBL_SHARE_TAGS' => 'Tags Pública',
 	'LBL_SHARE_TAG' => 'Tag(s) Campartilhada(s)',
@@ -1176,7 +1177,7 @@ $languageStrings = array(
 	'LBL_CREATE_NEW_TAG' => 'Criar Nova Tag',
 	'LBL_ADD_TAG' => 'Adicionar Tag',
 	'LBL_REMOVE_TAG' => 'Remover Tag',
-	'LBL_TAG_SEPERATOR_DESC' => 'Utilize vírgula para separar múltiplas tags',
+	'LBL_TAG_SEPARATOR_DESC' => 'Utilize vírgula para separar múltiplas tags',
 	'LBL_ENTER_TAG_NAME' => 'Digite o nome da tag',
 
 	'LBL_SELECT_COLOR' => 'Selecionar Cor',
@@ -1273,6 +1274,7 @@ $languageStrings = array(
 	'LBL_CHART_VIEW' => 'Visualização Gráfico',
 	'LBL_EMAIL_SUPPORT' => 'Suporte Email',
 	'LBL_NO_ENTITIES_FOUND' => 'Nenhum(a) %s encontrado(a)',
+
 	'LBL_TRANSFER_ALL_CASES_TO' => 'Transferir Todos os Casos para',
 	'LBL_SLA_TO_BE_DELETED' => 'SLA a ser Apagada',
 	'LBL_TO_USE_SWITCH_TO_NEW_LOOK' => 'Para utilizar <b>%s</b>, recomendamos que mude para novo visual.',
@@ -1283,8 +1285,8 @@ $languageStrings = array(
 	'OFFICE_REVOKE_ACCESS_MESSAGE' => 'Ao clicar aqui serão removida a autenticação do Office365 existente para Contatos, Agenda de Emails. Este procedimento não irá apagar nenhum dos registros já sincronizado.',
 	'LBL_MENU' => 'Menu',
 	'LBL_EMAIL_DOMAIN_HELPTEXT' => 'O campo Domínio Email será utilizado para combinar Casos e Contatos criados a partir de emails.' 
-    . 'Por exemplo, se chegar um novo e-mail para o Suporte, vindo de john@apple.com, o mesmo seria relacionado à Organização que tivesse'
-    . 'apple.com no campo domínio email. Múltiplos domínios deveriam ser separados por virgulas',
+    . 'Por exemplo, se chegar um novo e-mail para o Suporte, vindo de john@empresa.com, o mesmo seria relacionado à Organização que tivesse'
+    . 'empresa.com no campo domínio email. Múltiplos domínios deveriam ser separados por virgulas',
 	'LBL_START_GUIDED_TOUR' => 'Iniciar Tour Guiado',
 	'LBL_SHARED_LIST_NON_ADMIN_MESSAGE' => 'Este é uma Lista Compartilhada. Entre em contato com o Administrado do CRM para configurar as colunas para a lista Todos',
 	'LBL_SHARED_LIST_OWNER_MESSAGE' => 'Esta é uma lista compartilhada. Contate %s para alterar as coluas desta lista',
@@ -1412,6 +1414,7 @@ $jsLanguageStrings = array(
 	'JS_SUBJECT_VALUE_CANT_BE_EMPTY' => 'O Assunto não pode estar vazio',
 	'JS_PERCENTAGE_SHOULD_BE_LESS_THAN_100' => 'O percentual deve ser menor que 100',
 
+
 	'INVALID_NUMBER_OF' => 'Número inválido de',
 	'INVALID_NUMBER' => 'Número inválido',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Tem certeza que deseja apagar?',
@@ -1446,6 +1449,7 @@ $jsLanguageStrings = array(
 	'JS_SHOULD_BE_GREATER_THAN_CURRENT_DATE' => 'deve ser maior que a Data Atual',
 	'JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO' => 'deve ser maior ou igual a',
 	'JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO' => 'deve ser menor que ou igual a',
+	'JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO' => 'deve ser maior ou igual a',
 	'JS_CURRENT_DATE' => 'Data Atual',
 	'JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100' => 'O valor percentual deve ser menor que 100',
 	'JS_ACCEPT_ONLY_NUMBER' => 'Aceita somente números',
@@ -1584,6 +1588,7 @@ $jsLanguageStrings = array(
 
 	'JS_MAX_RECORDS_LIMIT' => 'O número máximo de Registros para Impressão é:',
 	'JS_USER_EXISTS' => 'O Usuário já Existe',
+	'JS_REENTER_PASSWORDS' => 'Redigite as Senhas',
 	'LBL_SIGN_IN_AS_USER' => 'Ao acessar com outro Usuários terminará a sessão atual. Você tem certeza que deseja continuar?',
 	'JS_REENTER_PASSWORDS' => 'Redigite as Senhas',
 	'SINGLE_Vendors' => 'Fornecedor',
@@ -1641,6 +1646,7 @@ $jsLanguageStrings = array(
 	'LBL_WARNING' => 'Atenção',
 	'DELETE_USER_PERMANENT_WARNING' => 'Ao apagar um Usuário permanentemente, serão transferidos todos os registros, incluindo os Comentários e Histórico, para o novo Usuário.',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'O separador de casas decimal e o separador de casas de milhar não podem ser os mesmos',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é possivel aguardar para o futuro',
 	'JS_CLOSE' => 'Fechar',
 
 	// For Line Iteam Currency Symbol select while Import
@@ -1706,9 +1712,9 @@ $jsLanguageStrings = array(
 	'JS_SELECTED_LEAD_DOES_NOT_HAVE_AN_ADDRESS' => 'O Lead selecionado não contem endereço para copiar',
 	'JS_INVALID_EMAILS' => 'Emails Inválidos',
 	'JS_DIRECTORY_IS_EMPTY' => 'O diretório está vazio',
+	'JS_NO_LINE_ITEM' => 'Os itens da linha não podem estar vazios.',
 	'JS_INTERNAL_COMMENT' => 'Comentários Internos',
 	'JS_INTERNAL_COMMENT_INFO' => 'O Comentário só será visto pelos Usuários de CRM, se a caixa de seleção do Comentário interno estiver ativada. Para notificar Clientes (através de Workflows ou Portal do Cliente) mantenha esta caixa de seleção desativada.',
-	'JS_NO_LINE_ITEM' => 'Os itens da linha não podem estar vazios.',
 
 	'JS_NO_TAXES_EXISTS' => 'Não existe impostos',
 	'JS_CONFIRM_TAXES_AND_CHARGES_REPLACE' => 'Deseja atualizar os valores dos Impostos e Taxas correspondentes à região selecionada?',
@@ -1763,6 +1769,7 @@ $jsLanguageStrings = array(
 	'JS_LOADING_PLEASE_WAIT' => 'Carregando... Por favor, aguarde..',
 	'JS_SAVING_PLEASE_WAIT' => 'Salvando.. Por favor, aguarde..',
 	'JS_DUPLICATE_EMAILS_PLEASE_CHECK' => 'Endereço de email duplicado. Por favor, verifique',
+	'JS_USER_EXISTS' => 'O Usuário já existe',
 	'JS_ALERT' => 'Alerta',
 	'JS_SUCCESS' => 'Successo',
 	'JS_REMOVE_MASS_TAG_WARNING' => 'Você tem certeza que deseja remover %s tag para o registro selecionado',
@@ -1797,6 +1804,7 @@ $jsLanguageStrings = array(
 	'JS_MORE_GOOGLE' => 'Existem mais registros para serem sincronizados no Google',
 	'JS_MORE_OFFICE365' => 'Existem mais registros para serem sincronizados no Office365',
 	'JS_TOKEN_EXPIRED' => 'A autenticação do Office365 expirou. Clique no botão Iniciar sessão no Office365 para reautorizar.',
+	'JS_EDIT_FIELDS' => '%s Arquivos & Layout',
 	'JS_WISH_TO_PROCEED' => 'Você tem certeza que deseja prosseguir?',
 	'JS_SWITCH_TO_OLD_LOOK_CONFIRMATION_MESSAGE' => 'Alguns recursos, incluindo notificações, lista de opções coloridas, registro Seguir, não disponíveis na versão antiga. Você deve mudar para nova versão escolhendo nova versão a partir do menu no topo a direita.',
 	'JS_PROCEED_OLD_VERSION' => 'Prosseguir com a versão antiga',
@@ -1807,6 +1815,7 @@ $jsLanguageStrings = array(
 	'JS_FROM_NOW' => 'a partir de agora',
 	'JS_LESSTHAN_A_MINUTE' => 'menos de um minuto',
 	'JS_A_MINUTE' => 'um minuto',
+	'JS_MINUTES' => 'minutos',
 	'JS_AN_HOUR' => 'uma hora',
 	'JS_HOURS' => 'horas',
 	'JS_A_DAY' => 'um mdia',
@@ -1843,13 +1852,16 @@ $jsLanguageStrings = array(
 	'JS_LBL_RESTART_TOUR_TEXT' => 'Clique aqui para iniciar este tour novamente',
 	'JS_GOOGLE_REMOVE_SYNC_CONFIRMATION' => 'Ao revogar o acesso, será revogada somente a autenticação do Google existente para Contatos e Agenda, ou seja, os registros sincronizados não serão apagados. Se você sincronizar com a mesma conta Google novamente, os registros serão duplicados. Você tem certeza que deseja revogar o acesso?',
 	'JS_OFFICE_REMOVE_SYNC_CONFIRMATION' => 'Ao revogar o acesso, será revogada somente a autenticação do Google existente para Contatos e Agenda, ou seja, os registros sincronizados não serão apagados. Se você sincronizar com a mesma conta Office365 novamente, os registros serão duplicados. Você tem certeza que deseja revogar o acesso?',
-	'JS_FOLLOW_RECORD' => 'Seguindo o registro',
+	'JS_FOLLOW_RECORD' => 'Seguindo registro',
 	'JS_FOLLOWING' => 'Seguindo',
-	'JS_UNFOLLOW_RECORD' => 'Parar de seguir registro',
+	'JS_UNFOLLOW_RECORD' => 'Parar seguir registro',
 	'JS_UNFOLLOWING' => 'Parar de seguir',
 	'JS_RECORD_CREATED' => 'Registro criado',
 	'JS_RECORD_UPDATED' => 'Registro atualizado',
 	'JS_LIST_SAVED' => 'Lista salva',
+	'JS_TAB_DELETED' => 'apagada',
+	'JS_TAB_RENAMED' => 'Renomeada',
+	'JS_TAB_REORDERED' => 'Reordenada',
 	'JS_RECIPIENT_PREFERENCES_SAVED' => 'Preferências do Destinatário salva',
 	'JS_TASK_ADDED' => 'Tarefa adicionada',
 	'JS_MARKED_COMPLETED' => 'Marcado como concluída',
@@ -1921,4 +1933,5 @@ $jsLanguageStrings = array(
 	'JS_SET_DEFAULT_TAB' => 'é definido como o painel de controle padrão',
 	'JS_PASSWORD_MISMATCH_ERROR' => 'Por favor, redigite as senhas. Os valores da "nova senha" e "confirmação da senha" não combinam.',
 	'LBL_LIST_DELETE_CONFIRMATION' => 'Você em certeza que deseja apagar?',
+	'JS_WIDGET_RESIZING_WAIT_MSG' => 'O conteúdo do Widget será carregado após ser redimensionado.',
 );

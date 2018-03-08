@@ -76,7 +76,8 @@
         'LBL_CHANGE_USER' => 'Alterar Usuário',
         'LBL_SAVE_AND_IMPORT' => 'Salvar e Importar',
         'LBL_IMPORT_RESULTS_GOOGLE' => 'Resultado Importação Google',
-        
+		'LBL_REDIRECT_URL' => 'URL de redirecionamento',
+		'LBL_REDIRECT_URL_MESSAGE' => 'Copie a seguinte URL de redirecionamento e cole em seu projeto de autenticação do Google, como exibido na imagem',        
     );
     $jsLanguageStrings = array(
         'LBL_SYNC_BUTTON' => 'Sincronizar Agora',

@@ -59,7 +59,7 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Campos de referência não podem ser obrigatórios sem sobrescrever o valor',
 	'JS_TYPE_TO_SEARCH' => 'Tipo de pesquisa',
 	"JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS" => 'Já existe um Webform com este nome',
-	'JS_MAX_FILE_FIELDS_LIMIT' => 'Maximum you can add %s file fields.',
-	'JS_COPIED_SUCCESSFULLY' => 'Copied successfully.',
-	'JS_COPY_FAILED' => 'Copy failed. Please copy manually.',
+	'JS_MAX_FILE_FIELDS_LIMIT' => 'Máximo que você pode adicionar %s campos do arquivo.',
+	'JS_COPIED_SUCCESSFULLY' => 'Copiado com sucesso.',
+	'JS_COPY_FAILED' => 'A cópia falhou. Por favor, tente copiar manualmente.',
 );
