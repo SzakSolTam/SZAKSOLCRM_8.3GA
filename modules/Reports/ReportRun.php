@@ -4375,9 +4375,9 @@ class ReportRun extends CRMEntity {
 						continue;
 					$value = decode_html($value);
 					if (in_array($dataType, $numericTypes)) {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 					} else {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
 					$count = $count + 1;
 				}
@@ -4409,7 +4409,7 @@ class ReportRun extends CRMEntity {
 						continue;
 					}
 					$value = decode_html($value);
-					$excelDatatype = vCell\DataType::TYPE_STRING;
+					$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 					if (is_numeric($value)) {
 						$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 					}
@@ -4419,19 +4419,10 @@ class ReportRun extends CRMEntity {
 			}
 		}
                 ob_clean();
-                // Redirect output to a client’s web browser (Xlsx)
-                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                header('Content-Disposition: attachment;filename="'.$fileName.'"');
-                // If you're serving to IE 9, then the following may be needed
-                header('Cache-Control: max-age=1');
-                // If you're serving to IE over SSL, then the following may be needed
-                header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-                header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
-                header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-                header('Pragma: public'); // HTTP/1.0
-                $workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-		$workbookWriter->save('php://output');
-                exit;
+               
+                $workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+		$workbookWriter->save($fileName);
+                
 	}
 
 	function writeReportToCSVFile($fileName, $filterlist = '') {
