@@ -4307,7 +4307,7 @@ class ReportRun extends CRMEntity {
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("libraries/PhpSpreadsheet/Spreadsheet.php");
+		require_once("vendor/autoload.php");
 
                 
                 $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
