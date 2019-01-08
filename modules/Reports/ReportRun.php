@@ -4336,7 +4336,7 @@ class ReportRun extends CRMEntity {
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
 		$header_styles = array(
-			'fill' => array('type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => array('argb' => 'FFE1E0F7')),
 				//'font' => array( 'bold' => true )
 		);
 
