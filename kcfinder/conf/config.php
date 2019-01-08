@@ -21,10 +21,10 @@ $_CONFIG = array(
 
 // GENERAL SETTINGS
 
-    'disabled' => true,
+    'disabled' => false,
     'uploadURL' => "upload",
     'uploadDir' => "",
-    'theme' => "oxygen",
+    'theme' => "default",
 
     'types' => array(
 
