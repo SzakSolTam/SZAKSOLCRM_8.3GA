@@ -4307,10 +4307,12 @@ class ReportRun extends CRMEntity {
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("libraries/PHPExcel/PHPExcel.php");
+		require_once("libraries/PhpSpreadsheet/Spreadsheet.php");
 
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+                
+                $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$spreadsheet->setActiveSheetIndex(0);
+                $worksheet = $spreadsheet->getActiveSheet();
 
 		$reportData = $this->GenerateReport("PDF", $filterlist, false, false, false, 'ExcelExport');
 		$arr_val = $reportData['data'];
@@ -4318,7 +4320,7 @@ class ReportRun extends CRMEntity {
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
 		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
 				//'font' => array( 'bold' => true )
 		);
 
@@ -4391,19 +4393,29 @@ class ReportRun extends CRMEntity {
 						continue;
 					}
 					$value = decode_html($value);
-					$excelDatatype = PHPExcel_Cell_DataType::TYPE_STRING;
+					$excelDatatype = vCell\DataType::TYPE_STRING;
 					if (is_numeric($value)) {
-						$excelDatatype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+						$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 					}
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value, $excelDatatype);
 					$count = $count + 1;
 				}
 			}
 		}
-		//Reference Article:  http://phpexcel.codeplex.com/discussions/389578
-		ob_clean();
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
-		$workbookWriter->save($fileName);
+                ob_clean();
+                // Redirect output to a client’s web browser (Xlsx)
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="'.$fileName.'"');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+                // If you're serving to IE over SSL, then the following may be needed
+                header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+                header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header('Pragma: public'); // HTTP/1.0
+                $workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$workbookWriter->save('php://output');
+                exit;
 	}
 
 	function writeReportToCSVFile($fileName, $filterlist = '') {
