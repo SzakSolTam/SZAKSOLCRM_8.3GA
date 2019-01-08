@@ -684,8 +684,8 @@ function vtlib_purify($input, $ignore=false) {
 			include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$config = HTMLPurifier_Config::createDefault();
-			$config->set('Core', 'Encoding', $use_charset);
-			$config->set('Cache', 'SerializerPath', "$use_root_directory/test/vtlib");
+			$config->set('Core.Encoding', $use_charset);
+			$config->set('Cache.SerializerPath', "$use_root_directory/test/vtlib");
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
