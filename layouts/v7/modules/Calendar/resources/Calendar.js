@@ -557,6 +557,8 @@ Vtiger.Class("Calendar_Calendar_Js", {
 					var feedIndicatorTemplate = jQuery('#calendarview-feeds').find('ul.dummy > li.feed-indicator-template');
 					feedIndicatorTemplate.removeClass('.feed-indicator-template');
 					var newFeedIndicator = feedIndicatorTemplate.clone(true, true);
+					//replacing module name prefix with translated module name and concatinating with field name
+					feedIndicatorTitle = translatedModuleName + feedIndicatorTitle.substr(feedIndicatorTitle.indexOf('-'));
 					newFeedIndicator.find('span:first').text(feedIndicatorTitle);
 					var newFeedCheckbox = newFeedIndicator.find('.toggleCalendarFeed');
 					newFeedCheckbox.attr('data-calendar-sourcekey', calendarSourceKey).
@@ -1567,16 +1569,41 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		var thisInstance = this;
 		var userDefaultActivityView = thisInstance.getDefaultCalendarView();
 		var userDefaultTimeFormat = thisInstance.getDefaultCalendarTimeFormat();
+                
+                var dateFormat = app.getDateFormat();
+                //Converting to fullcalendar accepting date format
+                var monthPos = dateFormat.search("mm");
+                var datePos = dateFormat.search("dd");
+                if (monthPos < datePos) {
+                    dateFormat = "M/D";
+                } else {
+                    dateFormat = "D/M";
+                }
+            
 		var calenderConfigs = {
 			header: {
 				left: 'month,agendaWeek,agendaDay,vtAgendaList',
 				center: 'title',
 				right: 'today prev,next',
 			},
+                        columnFormat: {
+                            month: 'ddd',
+                            week: 'ddd '+dateFormat,
+                            day: 'dddd '+dateFormat
+                        },
 			views: {
-				vtAgendaList: {
-					duration: {days: Calendar_Calendar_Js.numberOfDaysInAgendaView}
-				}
+                            vtAgendaList: {
+                                    duration: {days: Calendar_Calendar_Js.numberOfDaysInAgendaView}
+                            },
+                            month:{
+                                columnFormat:'ddd'
+                            },
+                            agendaWeek: {
+                                columnFormat: 'ddd ' + dateFormat
+                            },
+                            agendaDay: {
+                                columnFormat: 'dddd '+dateFormat
+                            }
 			},
 			fixedWeekCount: false,
 			firstDay: thisInstance.daysOfWeek[thisInstance.getUserPrefered('start_day')],

@@ -82,10 +82,8 @@ body > .mCSB_inside > .mCSB_container{
 body{
     font-family: 'OpenSans-Regular', sans-serif; 
     font-size : 12px;
-    -webkit-font-smoothing: antialiased;
     font-weight: normal;
     font-style: normal;
-    letter-spacing:  0.008rem;
     font-kerning: normal;
 }
 .app-fixed-navbar{
@@ -529,7 +527,6 @@ body{
 
 .app-menu .app-name {
     padding-left: 2%;
-    font-weight: bold;
     max-width:75%;
     display:inline-block;
 }
@@ -1036,7 +1033,7 @@ input[type="password"].inputElement{
     text-transform: uppercase;
     height: 42px;
     padding-top: 11px;
-    padding-left: 11px;
+    padding-left: 8px;
     &:before{
         content: "";
         display: block;
@@ -1051,6 +1048,7 @@ input[type="password"].inputElement{
         vertical-align: middle;
         float: left;
         font-size: 20px;
+		padding-left: 3px;
     }
     &>span{
         margin-left: 10px;
@@ -1488,7 +1486,6 @@ ul.unstyled{
     margin: 4px 2px;
     border-radius: 2px;
     border: 1px solid #ddd;
-    text-transform: uppercase;
     color: #666;
     background: #fff;
 }
@@ -3908,7 +3905,7 @@ strong, b, th{
 
 .ModulemanagerSettings:hover .actions{
     opacity: 1;
-    background:@ModulemanagerSettingshover;
+    /* background:@ModulemanagerSettingshover; */
 }
 
 #OutgoingMoretable td,th{
@@ -5306,7 +5303,7 @@ li.dashboardWidget {
 }
 
 .dashBoardContainer .tabContainer ul{
-    margin:0 auto;
+    margin:0 inherit;
 }
 
 .dashBoardContainer .tabContainer .nav{
@@ -5438,6 +5435,12 @@ li.dashboardWidget {
     background-color: @notepadTextareaBackground;
     resize: none;
     width:100%;
+}
+.dashboardWidget .wait_resizing_msg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 //rewriting css styles
 
@@ -5600,7 +5603,7 @@ hr{
      z-index:0;//TN-#35081
 }
 .settingsPageDiv .modal-overlay-footer{
-    margin-left:230px;
+    border-left:230px solid #2c3b49
 }
 .settingsOverlayContainer .modal-overlay-footer{
    margin:0;
@@ -6000,7 +6003,7 @@ hr{
 .timePicker{
     width: 9.5em !important;
     //layout editor drop down should show
-    z-index: 1070 !important;
+    z-index: 1100 !important;
 } 
 
 .weekDaySelect {
@@ -8411,11 +8414,13 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 .modules-menu .custom-module {
 	color: @white;
 	margin-left: 0px;
-	display: inline;
+	display: block;
 	border: 1px solid @white;
 	border-radius: 4px;
 	padding: 3px 4px 3px 2px !important;
-	font-weight: bold;
+	font-size: 12px;
+	width: 26px;
+	height: 24px;
 }
 #quickCreateModules .custom-module,
 .workflowListContainer .custom-module,

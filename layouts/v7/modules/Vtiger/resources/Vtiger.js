@@ -20,7 +20,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 	 * @param {type} recordId
 	 * @returns {undefined}
 	 */
-	previewFile: function (e, recordId,attachmentId) {
+	previewFile: function (e, recordId, attachmentId) {
 		e.stopPropagation();
 		if (recordId) {
 			var params = {
@@ -29,9 +29,14 @@ Vtiger.Class('Vtiger_Index_Js', {
 				record: recordId,
 				attachmentid: attachmentId
 			};
-			app.request.post({data:params}).then(function(err, res){
-				app.helper.showModal(res);
-				jQuery('.filePreview .preview-area').height(jQuery(window).height()-143);
+			var modalParams = {
+				cb: function (modalContainer) {
+					modalContainer.find('.viewer').zoomer();
+				},
+				'ignoreScroll' : true
+			};
+			app.request.post({data: params}).then(function (err, res) {
+				app.helper.showModal(res, modalParams);
 			});
 		}
 	},
@@ -95,7 +100,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 						if(prefsNeedToUpdate && length > 1) {
 							app.helper.hideProgress();
 							app.helper.showModal(data);
-							emailEditInstance.registerEmailFieldSelectionEvent();
+							emailEditInstance.registerEmailFieldSelectionEvent(cb);
 							return true;
 						}
 
@@ -111,7 +116,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 							}else {
 								app.helper.hideProgress();
 								app.helper.showModal(data);
-								emailEditInstance.registerEmailFieldSelectionEvent();
+								emailEditInstance.registerEmailFieldSelectionEvent(cb);
 							}
 						}else{
 							emailFields.attr('checked','checked');
@@ -376,6 +381,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 		this.registerTooltipEvents();
 		//this.addBodyScroll();
 		this.modulesMenuScrollbar();
+		this.modulesMenuClearIconTitle();
 		Vtiger_Index_Js.registerActivityReminder();
 		//reference preview event registeration
 		this.registerReferencePreviewEvent();
@@ -1297,6 +1303,11 @@ Vtiger.Class('Vtiger_Index_Js', {
 
 	modulesMenuScrollbar : function(){
 		app.helper.showVerticalScroll(jQuery("#modnavigator #modules-menu"),{autoHideScrollbar:true});
+	},
+
+	modulesMenuClearIconTitle: function() {
+		jQuery('#modules-menu i').removeAttr('title');
+		jQuery('#modules-menu .custom-module').removeAttr('title');
 	},
 
 	registerChangeTemplateEvent: function (container, recordId) {

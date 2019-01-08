@@ -32,7 +32,7 @@
             console.log('supported interface not found!');
            
         return this.each(function(index,element){
-            var jQElement = jQuery(element);
+            var jQElement = jQuery(element).empty(); /* Clear any existing content to avoid overlapping redraw */
             var instance = new vtChart();
             instance.init(jQElement,data[0],data[1]);
         });

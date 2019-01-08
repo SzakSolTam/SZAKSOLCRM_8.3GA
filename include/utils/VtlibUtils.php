@@ -681,11 +681,11 @@ function vtlib_purify($input, $ignore=false) {
 			if(empty($use_charset)) $use_charset = 'UTF-8';
 			if(empty($use_root_directory)) $use_root_directory = dirname(__FILE__) . '/../..';
 
-			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+			include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$config = HTMLPurifier_Config::createDefault();
-			$config->set('Core', 'Encoding', $use_charset);
-			$config->set('Cache', 'SerializerPath', "$use_root_directory/test/vtlib");
+			$config->set('Core.Encoding', $use_charset);
+			$config->set('Cache.SerializerPath', "$use_root_directory/test/vtlib");
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
@@ -718,7 +718,7 @@ function purifyHtmlEventAttributes($value){
 						"onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|".
 						"ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|".
 						"onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste";
-	if(preg_match("/\s(".$htmlEventAttributes.")\s*=/i", $value)) {
+	if(preg_match("/\s*(".$htmlEventAttributes.")\s*=/i", $value)) {
 		$value = str_replace("=", "&equals;", $value);
 	}
 	return $value;
@@ -731,7 +731,7 @@ function purifyHtmlEventAttributes($value){
  * @return <String> $string/false
  */
 function vtlib_purifyForSql($string, $skipEmpty=true) {
-	$pattern = "/^[_a-zA-Z0-9.]+$/";
+	$pattern = "/^[_a-zA-Z0-9.:\-]+$/";
 	if ((empty($string) && $skipEmpty) || preg_match($pattern, $string)) {
 		return $string;
 	}

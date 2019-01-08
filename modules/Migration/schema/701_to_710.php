@@ -9,7 +9,7 @@
  *********************************************************************************/
 
 if (defined('VTIGER_UPGRADE')) {
-	global $current_user;
+	global $current_user, $adb;
 	$db = PearDatabase::getInstance();
 
 	//START::Workflow task's template path
@@ -145,27 +145,13 @@ if (defined('VTIGER_UPGRADE')) {
 	}
 	$db->pquery('UPDATE vtiger_tab SET source=NULL', array());
 
-	$pkgModules = array();
-	$pkgFolder = 'pkg/vtiger/modules';
-	$pkgHandle = opendir($pkgFolder);
-
-	if ($pkgHandle) {
-		while (($pkgModuleName = readdir($pkgHandle)) !== false) {
-			$pkgModules[$pkgModuleName] = $pkgModuleName;
-
-			$moduleHandle = opendir("$pkgFolder/$pkgModuleName");
-			while (($innerModuleName = readdir($moduleHandle)) !== false) {
-				if (is_dir("$pkgFolder/$pkgModuleName/$innerModuleName")) {
-					$pkgModules[$innerModuleName] = $innerModuleName;
-				}
-			}
-			closedir($moduleHandle);
-		}
-		closedir($pkgHandle);
-		$pkgModules = array_keys($pkgModules);
+	$packageModules = array('Project', 'ProjectTask', 'ProjectMilestone'); /* Projects zip is bundle */
+	$packageZips = glob("packages/vtiger/*/*.zip");
+	foreach ($packageZips as $zipfile) {
+		$packageModules[] = str_replace('.zip', '', array_pop(explode("/", $zipfile)));
 	}
 
-	$db->pquery('UPDATE vtiger_tab SET source="custom" WHERE version IS NOT NULL AND name NOT IN ('.generateQuestionMarks($pkgModules).')', $pkgModules);
+	$db->pquery('UPDATE vtiger_tab SET source="custom" WHERE version IS NOT NULL AND name NOT IN ('.generateQuestionMarks($packageModules).')', $packageModules);
 	echo '<br>Succecssfully added source column vtiger tab table<br>';
 	//END::Differentiate custom modules from Vtiger modules
 
@@ -182,7 +168,7 @@ if (defined('VTIGER_UPGRADE')) {
 		Vtiger_Utils::CreateTable($generalUserFieldTable,
 				'(`recordid` INT(19) NOT NULL, 
 				`userid` INT(19) NOT NULL,
-				`starred` VARCHAR(100) DEFAULT NULL', true);
+				`starred` VARCHAR(100) DEFAULT NULL)', true);
 	}
 
 	if (Vtiger_Utils::CheckTable($generalUserFieldTable)) {
@@ -334,6 +320,104 @@ if (defined('VTIGER_UPGRADE')) {
 	}
 	echo '<br>Succesfully added RSS, Email Templates for new parent TOOLS<br>';
 	//END::Adding new parent TOOLS in menu
+
+	//START::Supporting to store dashboard size
+	$dashboardWidgetColumns = $db->getColumnNames('vtiger_module_dashboard_widgets');
+	if (!in_array('size', $dashboardWidgetColumns)) {
+		$db->pquery('ALTER TABLE vtiger_module_dashboard_widgets ADD COLUMN size VARCHAR(50)', array());
+	}
+	//END::Supporting to store dashboard size
+
+	//START::Profile save failures because of Reports module entry is not available in the vtiger_profile2standardpermissions
+	$query = 'SELECT DISTINCT profileid FROM vtiger_profile';
+	$result = $adb->pquery($query, array());
+
+	$tabIdsList = array(getTabid('Reports'));
+	$actionIdPerms = array(	0 => 1,//Save
+							1 => 1,//EditView
+							2 => 1,//Delete
+							3 => 0,//Index
+							4 => 0,//DetailView
+							7 => 1);//CreateView
+
+	for ($i=0; $i<$adb->num_rows($result); $i++) {
+		$profileId = $adb->query_result($result, $i, 'profileid');
+
+		foreach ($tabIdsList as $tabId) {
+			foreach ($actionIdPerms as $actionId => $permission) {
+				$isExist = $adb->pquery('SELECT 1 FROM vtiger_profile2standardpermissions WHERE profileid=? AND tabid=? AND operation=?', array($profileId, $tabId, $actionId));
+				if ($adb->num_rows($isExist)) {
+					$query = 'UPDATE vtiger_profile2standardpermissions SET permissions=? WHERE profileid=? AND tabid=? AND operation=?';
+				} else {
+					$query = 'INSERT INTO vtiger_profile2standardpermissions(permissions, profileid, tabid, operation) VALUES (?, ?, ?, ?)';
+				}
+				$db->pquery($query, array($actionIdPerms[$actionId], $profileId, $tabId, $actionId));
+			}
+		}
+	}
+	//END::Profile save failures because of Reports module entry is not available in the vtiger_profile2standardpermissions
+
+	//START::Updating custom view and report columns, filters for createdtime and modifiedtime fields as typeofdata (T~...) is being transformed to (DT~...)
+	$cvTables = array('vtiger_cvcolumnlist', 'vtiger_cvadvfilter');
+	foreach ($cvTables as $tableName) {
+		$updatedColumnsList = array();
+		$result = $db->pquery("SELECT columnname FROM $tableName WHERE columnname LIKE ? OR columnname LIKE ?", array('vtiger_crmentity:createdtime%:T', 'vtiger_crmentity:modifiedtime%:T'));
+		while ($rowData = $db->fetch_array($result)) {
+			$columnName = $rowData['columnname'];
+			if (!array_key_exists($columnName, $updatedColumnsList)) {
+				if (preg_match('/vtiger_crmentity:createdtime:(\w*\:)*T/', $columnName) || preg_match('/vtiger_crmentity:modifiedtime:(\w*\:)*T/', $columnName)) {
+					$columnParts = explode(':', $columnName);
+					$lastKey = count($columnParts)-1;
+
+					if ($columnParts[$lastKey] == 'T') {
+						$columnParts[$lastKey] = 'DT';
+						$updatedColumnsList[$columnName] = implode(':', $columnParts);
+					}
+				}
+			}
+		}
+
+		if ($updatedColumnsList) {
+			$cvQuery = "UPDATE $tableName SET columnname = CASE columnname";
+			foreach ($updatedColumnsList as $oldColumnName => $newColumnName) {
+				$cvQuery .= " WHEN '$oldColumnName' THEN '$newColumnName'";
+			}
+			$cvQuery .= ' ELSE columnname END';
+			$db->pquery($cvQuery, array());
+		}
+		echo "<br>Succecssfully migrated columns in <b>$tableName</b> table<br>";
+	}
+
+	$reportTables = array('vtiger_selectcolumn', 'vtiger_relcriteria');
+	foreach ($reportTables as $tableName) {
+		$updatedColumnsList = array();
+		$result = $db->pquery("SELECT columnname FROM $tableName WHERE columnname LIKE ? OR columnname LIKE ?", array('vtiger_crmentity%:createdtime:%T', 'vtiger_crmentity%:modifiedtime:%T'));
+		while ($rowData = $db->fetch_array($result)) {
+			$columnName = $rowData['columnname'];
+			if (!array_key_exists($columnName, $updatedColumnsList)) {
+				if (preg_match('/vtiger_crmentity(\w*):createdtime:(\w*\:)*T/', $columnName) || preg_match('/vtiger_crmentity(\w*):modifiedtime:(\w*\:)*T/', $columnName)) {
+					$columnParts = explode(':', $columnName);
+					$lastKey = count($columnParts)-1;
+
+					if ($columnParts[$lastKey] == 'T') {
+						$columnParts[$lastKey] = 'DT';
+						$updatedColumnsList[$columnName] = implode(':', $columnParts);
+					}
+				}
+			}
+		}
+
+		if ($updatedColumnsList) {
+			$reportQuery = "UPDATE $tableName SET columnname = CASE columnname";
+			foreach ($updatedColumnsList as $oldColumnName => $newColumnName) {
+				$reportQuery .= " WHEN '$oldColumnName' THEN '$newColumnName'";
+			}
+			$reportQuery .= ' ELSE columnname END';
+			$db->pquery($reportQuery, array());
+		}
+		echo "<br>Succecssfully migrated columns in <b>$tableName</b> table<br>";
+	}
+	//END::Updating custom view and report columns, filters for createdtime and modifiedtime fields as typeofdata (T~...) is being transformed to (DT~...)
 
 	//Update existing package modules
 	Install_Utils_Model::installModules();

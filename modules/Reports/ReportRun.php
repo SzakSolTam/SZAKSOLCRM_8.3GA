@@ -2221,6 +2221,10 @@ class ReportRun extends CRMEntity {
 				$query .= " left join vtiger_users as vtiger_createdbyLeads on vtiger_createdbyLeads.id = vtiger_crmentity.smcreatorid";
 			}
 
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " " . $this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" where vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0";
@@ -2256,6 +2260,10 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_createdbyAccounts')) {
 				$query .= " left join vtiger_users as vtiger_createdbyAccounts on vtiger_createdbyAccounts.id = vtiger_crmentity.smcreatorid";
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
 
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
@@ -2299,6 +2307,10 @@ class ReportRun extends CRMEntity {
 				$query .= " left join vtiger_users as vtiger_createdbyContacts on vtiger_createdbyContacts.id = vtiger_crmentity.smcreatorid";
 			}
 
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" where vtiger_crmentity.deleted=0";
@@ -2335,6 +2347,11 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_createdbyPotentials')) {
 				$query .= " left join vtiger_users as vtiger_createdbyPotentials on vtiger_createdbyPotentials.id = vtiger_crmentity.smcreatorid";
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" where vtiger_crmentity.deleted=0 ";
@@ -2374,6 +2391,11 @@ class ReportRun extends CRMEntity {
 						AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
 				) AS innerProduct ON innerProduct.productid = vtiger_products.productid";
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 						getNonAdminAccessControlQuery($this->primarymodule,$current_user)."
 				where vtiger_crmentity.deleted=0";
@@ -2416,6 +2438,10 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_createdbyHelpDesk')) {
 				$query .= " left join vtiger_users as vtiger_createdbyHelpDesk on vtiger_createdbyHelpDesk.id = vtiger_crmentity.smcreatorid";
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
 
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
@@ -2488,6 +2514,10 @@ class ReportRun extends CRMEntity {
 				$query .= " left join vtiger_users as vtiger_createdbyCalendar on vtiger_createdbyCalendar.id = vtiger_crmentity.smcreatorid";
 			}
 
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" WHERE vtiger_crmentity.deleted=0 and (vtiger_activity.activitytype != 'Emails')";
@@ -2557,6 +2587,11 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_currency_info')) {
 				$query .= ' LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_quotes.currency_id';
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$focus = CRMEntity::getInstance($module);
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
@@ -2622,6 +2657,11 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_currency_info')) {
 				$query .= ' LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_purchaseorder.currency_id';
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					" where vtiger_crmentity.deleted=0";
@@ -2687,6 +2727,11 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_currency_info')) {
 				$query .= ' LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_invoice.currency_id';
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					" where vtiger_crmentity.deleted=0";
@@ -2756,6 +2801,11 @@ class ReportRun extends CRMEntity {
 			if ($this->queryPlanner->requireTable('vtiger_currency_info')) {
 				$query .= ' LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_salesorder.currency_id';
 			}
+
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					" where vtiger_crmentity.deleted=0";
@@ -2786,6 +2836,10 @@ class ReportRun extends CRMEntity {
 				$query .= " left join vtiger_users as vtiger_createdby$module on vtiger_createdby$module.id = vtiger_crmentity.smcreatorid";
 			}
 
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" where vtiger_crmentity.deleted=0";
@@ -2814,6 +2868,10 @@ class ReportRun extends CRMEntity {
 				$query .= " left join vtiger_users as vtiger_createdby$module on vtiger_createdby$module.id = vtiger_crmentity.smcreatorid";
 			}
 
+			$focus = CRMEntity::getInstance($module);
+			$relquery = $focus->getReportsUiType10Query($module, $this->queryPlanner);
+			$query .= $relquery . ' ';
+			
 			$query .= " ".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 					getNonAdminAccessControlQuery($this->primarymodule,$current_user).
 					" WHERE vtiger_crmentity.deleted = 0";
@@ -4249,10 +4307,12 @@ class ReportRun extends CRMEntity {
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("libraries/PHPExcel/PHPExcel.php");
+		require_once("vendor/autoload.php");
 
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+                
+                $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$spreadsheet->setActiveSheetIndex(0);
+                $worksheet = $spreadsheet->getActiveSheet();
 
 		$reportData = $this->GenerateReport("PDF", $filterlist, false, false, false, 'ExcelExport');
 		$arr_val = $reportData['data'];
@@ -4260,7 +4320,7 @@ class ReportRun extends CRMEntity {
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
 		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => array('argb' => 'FFE1E0F7')),
 				//'font' => array( 'bold' => true )
 		);
 
@@ -4299,9 +4359,9 @@ class ReportRun extends CRMEntity {
 						continue;
 					$value = decode_html($value);
 					if (in_array($dataType, $numericTypes)) {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 					} else {
-						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
 					$count = $count + 1;
 				}
@@ -4333,19 +4393,20 @@ class ReportRun extends CRMEntity {
 						continue;
 					}
 					$value = decode_html($value);
-					$excelDatatype = PHPExcel_Cell_DataType::TYPE_STRING;
+					$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 					if (is_numeric($value)) {
-						$excelDatatype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+						$excelDatatype = \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 					}
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value, $excelDatatype);
 					$count = $count + 1;
 				}
 			}
 		}
-		//Reference Article:  http://phpexcel.codeplex.com/discussions/389578
-		ob_clean();
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+                ob_clean();
+               
+                $workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
 		$workbookWriter->save($fileName);
+                
 	}
 
 	function writeReportToCSVFile($fileName, $filterlist = '') {
