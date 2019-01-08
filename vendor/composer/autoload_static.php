@@ -65,6 +65,7 @@ class ComposerStaticInita56f0534676bf5373a1b818c8c3cc451
         'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
         '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
         '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -102,11 +103,22 @@ class ComposerStaticInita56f0534676bf5373a1b818c8c3cc451
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita56f0534676bf5373a1b818c8c3cc451::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita56f0534676bf5373a1b818c8c3cc451::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita56f0534676bf5373a1b818c8c3cc451::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

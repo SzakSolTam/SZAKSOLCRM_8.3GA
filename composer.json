@@ -1,6 +1,7 @@
 {
     "name": "vtigercrm",
     "require": {
-        "phpoffice/phpspreadsheet": "1.6"
+        "phpoffice/phpspreadsheet": "1.6",
+        "ezyang/htmlpurifier": "4.10"
     }
 }
