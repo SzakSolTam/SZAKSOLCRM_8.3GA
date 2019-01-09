@@ -21,7 +21,7 @@ $_CONFIG = array(
 
 // GENERAL SETTINGS
 
-    'disabled' => false,
+    'disabled' => true,
     'uploadURL' => "upload",
     'uploadDir' => "",
     'theme' => "default",
@@ -112,7 +112,7 @@ $_CONFIG = array(
     '_check4htaccess' => true,
     //'_tinyMCEPath' => "/tiny_mce",
 
-    '_sessionVar' => &$_SESSION['KCFINDER'],
+    '_sessionVar' => "KCFINDER",
     //'_sessionLifetime' => 30,
     //'_sessionDir' => "/full/directory/path",
     //'_sessionDomain' => ".mysite.com",
