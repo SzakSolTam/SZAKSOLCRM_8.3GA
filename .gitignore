@@ -5,3 +5,6 @@ vtigercrm.tgz
 varlibmysql
 vtigercrm
 .configured.lock
+test/
+config.csrf-secret.php
+
