@@ -7,4 +7,4 @@ vtigercrm
 .configured.lock
 test/
 config.csrf-secret.php
-
+cache
