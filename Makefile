@@ -52,7 +52,7 @@ up: is-configured ## Run vtiger
 	docker-compose up -d
 down: ## Down Vtiger
 	docker-compose down
-logs: ## Docker-compose logs, for specific container add T=name of container
+log: ## Docker-compose logs, for specific container add T=name of container
 	docker-compose logs -f ${T}
 ps: is-configured ## PS vtiger
 	docker-compose ps
