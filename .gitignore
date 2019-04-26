@@ -1,0 +1,7 @@
+varlibmysql.tgz
+vtigercrm.tgz
+*.swp
+*.tpl.php
+varlibmysql
+vtigercrm
+.configured.lock
