@@ -1,4 +1,4 @@
-# Instruction to run vtigercrm in Docker
+# Instruction to run Vtiger CRM with Docker
 
 ## Requirements
 
@@ -15,13 +15,33 @@ You also need to install the following to your computer:
 
 ## Initial configuration
 
-Run the configure script which does nothing else than setting the proper file permissions for VTiger to be able to write to the current dir files from inside Docker
-
+Run the configure script which set the proper file permissions for Vtiger to be able to write to the current dir files from inside Docker.
 ```sh
 ./configure
 ```
 
-## Running VTiger
+## Install Vtiger
+
+You have two option. Install the latest release (this directory) or install the latest stable release (recommended). 
+
+To install and use the version in the current directory do the following:
+
+```sh
+make configure-latest
+```
+
+This will create the necessary directory structure for Docker to work.
+
+Otherwise do:
+
+```sh
+configure-stable
+```
+
+This will pull the latest release from a sourceforge, and uncompress it into the vtigercrm directory inside this current directory... keeping the current code intact.
+
+
+## Running Vtiger
 
 Simply use the command: 
 
@@ -41,7 +61,7 @@ Creating vtigercrm_web-dev_1 ...
 Creating vtigercrm_web-dev_1 ... done
 ```
 
-Then VTiger is running and is accessible with at http://127.0.0.1:7280
+Then Vtiger is running and is accessible with at http://127.0.0.1:7280
 
 If you wish to access the mysql server as root user for administration purpose you must do make logs (see Logs below) immediately and search for an entry looking like this:
 
@@ -57,6 +77,21 @@ you can use docker logs
 ```
 make log
 ```
+
+## Accessing the Vtiger Database Directly
+
+### Access MySQL database with the MySQL Cli
+
+```sh
+make mysql-cli
+```
+
+### Accessing MySQL with your another client directy
+
+MySQL from Vtiger is mapped to the port 3308 on the host machine.
+
+You simply need to configure your MySQL management UI to connect to 
+the ip: 127.0.0.1 with username: vtiger, password: vtiger, database vtiger and port 3308
 
 
 

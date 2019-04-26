@@ -56,6 +56,8 @@ log: ## Docker-compose logs, for specific container add T=name of container
 	docker-compose logs -f ${T}
 ps: is-configured ## PS vtiger
 	docker-compose ps
+mysql-cli: is-configured ## PS vtiger
+	docker-compose run mysql mysql -h mysql -u vtiger -p vtiger
 sh-prod: ## Connect to the prod host with SSH
 	ssh vtiger@vtiger.prod
 ####### Down from here are sub-commands that aren't useful to call manually
