@@ -1,0 +1,32 @@
+version: '2'
+services:
+    web-dev:
+        image: nginx:alpine
+        links:
+            - php
+        volumes:
+            - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./etc/nginx/options.include:/etc/nginx/options.include
+            - ./etc/nginx/vtiger.conf:/etc/nginx/conf.d/dev.conf
+            - ./vtigercrm:/var/www/html
+        ports:
+            - 0.0.0.0:7280:7280
+
+    php:
+      image: mauricext4fs/docker-php7-alpine-imagic-openssl
+      volumes:
+        - ./vtigercrm:/var/www/html
+
+    mysql:
+      image: mysql:5.7
+      command: --sql_mode=ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION --character-set-server=utf8,--collation-server=utf8_general_ci
+      ports:
+          - 3308:3306
+      volumes:
+        - ./varlibmysql:/var/lib/mysql
+      environment:
+        MYSQL_DATABASE: vtiger
+        MYSQL_USER: vtiger
+        MYSQL_PASSWORD: vtiger
+        MYSQL_RANDOM_ROOT_PASSWORD: '1'
+
