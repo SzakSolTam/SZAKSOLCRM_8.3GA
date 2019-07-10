@@ -1,13 +1,18 @@
 /**
- * Brazilian translation for bootstrap-datepicker
- * Cauan Cabral <cauan@radig.com.br>
+ * Breton translation for bootstrap-datepicker
+ * Gwenn Meynier <tornoz@laposte.net>
  */
 ;(function($){
 	$.fn.datepicker.dates['br'] = {
-		days: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"],
-		daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-		daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa", "Do"],
-		months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-		monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+		days: ["Sul", "Lun", "Meurzh", "Merc'her", "Yaou", "Gwener", "Sadorn"],
+		daysShort: ["Sul", "Lun", "Meu.", "Mer.", "Yao.", "Gwe.", "Sad."],
+		daysMin: ["Su", "L", "Meu", "Mer", "Y", "G", "Sa"],
+		months: ["Genver", "C'hwevrer", "Meurzh", "Ebrel", "Mae", "Mezheven", "Gouere", "Eost", "Gwengolo", "Here", "Du", "Kerzu"],
+		monthsShort: ["Genv.", "C'hw.", "Meur.", "Ebre.", "Mae", "Mezh.", "Goue.", "Eost", "Gwen.", "Here", "Du", "Kerz."],
+		today: "Hiziv",
+		monthsTitle: "Miz",
+		clear: "Dilemel",
+		weekStart: 1,
+		format: "dd/mm/yyyy"
 	};
 }(jQuery));
