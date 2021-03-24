@@ -170,6 +170,10 @@ class Vtiger_Viewer extends SmartyBC
      */
     public function getTemplatePath($templateName, $moduleName = '')
     {
+        if (Vtiger_Customizer::methodWasExtened(__CLASS__, __METHOD__)) {
+            return Vtiger_Customizer::callExtendedMethod($this, __CLASS__, __METHOD__, func_get_arg());
+        }
+
         $moduleName = str_replace(':', '/', $moduleName);
         $completeFilePath = $this->getTemplateDir(0). DIRECTORY_SEPARATOR . "modules/$moduleName/$templateName";
 
