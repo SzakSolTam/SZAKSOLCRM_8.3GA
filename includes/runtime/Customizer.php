@@ -131,5 +131,7 @@ class Vtiger_Customizer
         if (empty(self::$extendableFunctions[$functionName])) {
             throw new CustomizerException("Function '{$functionName}' cannot be extended");
         }
+
+        self::$extendableFunctions[$functionName]['callable'][] = $callable;
     }
 }
