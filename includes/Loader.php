@@ -218,15 +218,12 @@ class Vtiger_Loader {
         global $LOADER_FILE_DIR;
 
         // Retrieve all active modules
-        $db = PearDatabase::getInstance();
-        $result = $db->pquery('SELECT * FROM vtiger_tab WHERE presence IN (0, 2)', array());
-        $numberOfModules = $db->num_rows($result);
+        $modules = Vtiger_Module_Model::getAll(array(0, 2));
         $modulesDirectory = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'modules';
 
         // For each modules look for autoload.php file then include it
-        for ($i = 0; $i < $numberOfModules; ++$i) {
-            $row = $db->query_result_rowdata($result, $i);
-            $file = $modulesDirectory . DIRECTORY_SEPARATOR . $row['name'] . DIRECTORY_SEPARATOR . 'autoload.php';
+        foreach ($modules as $module) {
+            $file = $modulesDirectory . DIRECTORY_SEPARATOR . $module->name . DIRECTORY_SEPARATOR . 'autoload.php';
             if (file_exists($file)) {
                 checkFileAccessForInclusion($file);
                 include_once $file;
