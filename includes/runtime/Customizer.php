@@ -16,6 +16,10 @@ class Vtiger_Customizer
      *
      */
     static protected $extendableMethods = array(
+        'Vtiger_Viewer::getTemplatePath' => array(
+            'file' => 'includes/runtime/Viewer.php',
+            'args' => array('templateName', 'moduleName'),
+        ),
         'Users::doLogin' => array('file' => 'modules/Users/Users.php'),
     );
 
@@ -39,21 +43,28 @@ class Vtiger_Customizer
             throw new CustomizerException("Method '{$fullMethodName}' cannot be extended");
         }
 
-        self::$extendableMethods[$fullMethodName][] = $callable;
+        self::$extendableMethods[$fullMethodName]['callable'][] = $callable;
     }
 
     /**
      *
      */
-    public static function methodWasExtended($className, $methodName)
+    public static function methodWasExtended($fullMethodName)
     {
-        $fullMethodName = $className.'::'.$methodName;
+        if (empty(self::$extendableMethods[$fullMethodName])) {
+            throw new CustomizerException("Method $fullMethodName not registerd for custmizer");
+        }
 
         if (empty(self::$extendableMethods[$fullMethodName]['callable'])) {
             return false;
         }
 
         if (empty(self::$extendableMethods[$fullMethodName]['runtime'])) {
+            self::$extendableMethods[$fullMethodName]['runtime'] = self::$extendableMethods[$fullMethodName]['callable'];
+            return true;
+        }
+
+        if (count(self::$extendableMethods[$fullMethodName]['runtime']) < count(self::$extendableMethods[$fullMethodName]['callable'])) {
             return true;
         }
 
@@ -63,9 +74,13 @@ class Vtiger_Customizer
     /**
      *
      */
-    public static function callExtendedMethod($self, $className, $methodName, $args)
+    public static function callExtendedMethod($self, $fullMethodName, $args)
     {
+        $callable = array_pop(self::$extendableMethods[$fullMethodName]['runtime']);
 
+        $namedArgs = array_combine(self::$extendableMethods[$fullMethodName]['args'], $args);
+
+        return call_user_func_array($callable, array($self, $namedArgs));
     }
 
     /**
