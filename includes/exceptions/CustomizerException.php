@@ -8,6 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-class AppException extends Exception {
+class CustomizerException extends \Exception
+{
 
 }

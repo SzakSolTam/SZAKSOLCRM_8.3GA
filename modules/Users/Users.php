@@ -351,7 +351,7 @@ class Users extends CRMEntity {
 	 */
 	function doLogin($user_password) {
 		if (Vtiger_Customizer::methodWasExtened(__CLASS__, __METHOD__)) {
-			return Vtiger_Customizer::callExtenedMethods($this, __METHOD__);
+			return Vtiger_Customizer::callExtendedMethod($this, __CLASS__, __METHOD__, func_get_arg());
 		}
 
 		global $AUTHCFG;
