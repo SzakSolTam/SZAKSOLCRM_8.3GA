@@ -185,6 +185,54 @@ class Vtiger_Loader {
 		}
 		return false;
 	}
+
+    /**
+     * Looking for module custom autoload than include if exists.
+     *
+     * This method enable "Modules Developer" to extend in a standard way proper module with third-party vendor library.
+     * Every module with a 'autoload.php' inside (eg. 'modules/CustomMenu/autoload.php') will call this file automatically
+     * At each CRM page or webservice call.
+     *
+     *
+     * Modules Developer
+     * =================
+     *
+     * The 'autoload.php' is the right place to call functions like:
+     *
+     *   - spl_autoload_register(...)
+     *   - set_error_handler(...)
+     *   - set_exception_handler(...)
+     *   - register_shutdown_function(...)
+     *   - register_tick_function(...)
+     *
+     * This file enable the usage of Composer vendors with a simple trick, just add one line like this
+     *
+     *    require_once __DIR__.'/vendor/autoload.php';
+     *
+     * With this solution any Modules Developer can create rich modules with additional PHP library
+     * Furthermore, with this solution can also be created modules with the purpose of providing additional vendors to the vtiger core.
+     * No more huge library placed multiple times in a couples of modules.
+     */
+	public static function includeModulesAutoloadFile()
+    {
+        global $LOADER_FILE_DIR;
+
+        // Retrieve all active modules
+        $db = PearDatabase::getInstance();
+        $result = $db->pquery('SELECT * FROM vtiger_tab WHERE presence IN (0, 2)', array());
+        $numberOfModules = $db->num_rows($result);
+        $modulesDirectory = $LOADER_FILE_DIR . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'modules';
+
+        // For each modules look for autoload.php file then include it
+        for ($i = 0; $i < $numberOfModules; ++$i) {
+            $row = $db->query_result_rowdata($result, $i);
+            $file = $modulesDirectory . DIRECTORY_SEPARATOR . $row['name'] . DIRECTORY_SEPARATOR . 'autoload.php';
+            if (file_exists($file)) {
+                checkFileAccessForInclusion($file);
+                include_once $file;
+            }
+        }
+    }
 }
 
 function vimport($qualifiedName) {
@@ -199,4 +247,12 @@ function vimport_path($qualifiedName) {
 	return Vtiger_Loader::includePath($qualifiedName);
 }
 
+/**
+ * Register Standard Core Modules
+ */
 spl_autoload_register('Vtiger_Loader::autoLoad');
+
+/**
+ * Call 'autoload.php' files placed into modules by "Modules Developer"
+ */
+Vtiger_Loader::includeModulesAutoloadFile();

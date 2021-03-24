@@ -350,6 +350,10 @@ class Users extends CRMEntity {
 	 * @return true if the user is authenticated, false otherwise
 	 */
 	function doLogin($user_password) {
+		if (Vtiger_Customizer::methodWasExtened(__CLASS__, __METHOD__)) {
+			return Vtiger_Customizer::callExtenedMethods($this, __METHOD__);
+		}
+
 		global $AUTHCFG;
 		$usr_name = $this->column_fields["user_name"];
 
