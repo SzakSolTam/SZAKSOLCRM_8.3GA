@@ -20,14 +20,20 @@ class Vtiger_Customizer
             'file' => 'includes/runtime/Viewer.php',
             'args' => array('templateName', 'moduleName'),
         ),
-        'Users::doLogin' => array('file' => 'modules/Users/Users.php'),
+        'Users::doLogin' => array(
+            'file' => 'modules/Users/Users.php',
+            'args' => array('password'),
+        ),
     );
 
     /**
      *
      */
     static protected $extendableFunctions = array(
-        'send_mail' => 'modules/Emails/mail.php',
+        'send_mail' => array(
+            'file' => 'modules/Emails/mail.php',
+            'args' => array('templateName', 'moduleName'),
+        ),
     );
 
     /**
@@ -47,12 +53,18 @@ class Vtiger_Customizer
     }
 
     /**
+     * Check if method was extended by custom module.
      *
+     * @param $fullMethodName
+     *
+     * @return bool
+     *
+     * @throws CustomizerException
      */
     public static function methodWasExtended($fullMethodName)
     {
         if (empty(self::$extendableMethods[$fullMethodName])) {
-            throw new CustomizerException("Method $fullMethodName not registerd for custmizer");
+            throw new CustomizerException("Method '$fullMethodName' not supported by Customizer.");
         }
 
         if (empty(self::$extendableMethods[$fullMethodName]['callable'])) {
@@ -60,11 +72,8 @@ class Vtiger_Customizer
         }
 
         if (empty(self::$extendableMethods[$fullMethodName]['runtime'])) {
-            self::$extendableMethods[$fullMethodName]['runtime'] = self::$extendableMethods[$fullMethodName]['callable'];
             return true;
-        }
-
-        if (count(self::$extendableMethods[$fullMethodName]['runtime']) < count(self::$extendableMethods[$fullMethodName]['callable'])) {
+        } elseif (count(self::$extendableMethods[$fullMethodName]['queue']) > 0) {
             return true;
         }
 
@@ -72,15 +81,42 @@ class Vtiger_Customizer
     }
 
     /**
-     *
+     * @param $self
+     * @param $fullMethodName
+     * @param $args
+     * @return false|mixed
      */
     public static function callExtendedMethod($self, $fullMethodName, $args)
     {
-        $callable = array_pop(self::$extendableMethods[$fullMethodName]['runtime']);
+        if (empty(self::$extendableMethods[$fullMethodName]['queue'])) {
+            self::$extendableMethods[$fullMethodName]['queue'] = self::$extendableMethods[$fullMethodName]['callable'];
+        }
 
         $namedArgs = array_combine(self::$extendableMethods[$fullMethodName]['args'], $args);
 
-        return call_user_func_array($callable, array($self, $namedArgs));
+        $return = self::callNextExtendedMethod($self, $namedArgs);
+
+        while (count(self::$extendableMethods[$fullMethodName]['queue']) > 0) {
+            $return = self::callNextExtendedMethod($self, $namedArgs);
+        }
+
+        return $return;
+    }
+
+    /**
+     * @param $self
+     * @param $fullMethodName
+     * @param $namedArgs
+     * @return false|mixed
+     */
+    protected static function callNextExtendedMethod($self, $fullMethodName, $namedArgs)
+    {
+        $callable = array_pop(self::$extendableMethods[$fullMethodName]['queue']);
+        self::$extendableMethods[$fullMethodName]['runtime'] = true;
+        $return = call_user_func_array($callable, array($self, $namedArgs));
+        unset(self::$extendableMethods[$fullMethodName]['runtime']);
+
+        return $return;
     }
 
     /**
