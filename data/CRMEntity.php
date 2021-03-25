@@ -56,6 +56,9 @@ class CRMEntity {
 			checkFileAccessForInclusion("modules/$module/$modName.php");
 			require_once("modules/$module/$modName.php");
 		}
+		if (Vtiger_Customizer::hasInspector('crmentity-before-new-instance')) {
+		    list($module, $modName) = Vtiger_Customizer::callInspector(array($module, $modName));
+        }
 		$focus = new $modName();
 		$focus->moduleName = $module;
 		$focus->column_fields = new TrackableObject();

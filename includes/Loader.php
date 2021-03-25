@@ -187,7 +187,7 @@ class Vtiger_Loader {
 	}
 
     /**
-     * Looking for module custom autoload than include if exists.
+     * Looking for module's custom autoload than include if exists.
      *
      * This method enable "Modules Developer" to extend in a standard way proper module with third-party vendor library.
      * Every module with a 'autoload.php' inside (eg. 'modules/CustomMenu/autoload.php') will call this file automatically
