@@ -7,4 +7,47 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Inventory_Detail_Js("SalesOrder_Detail_Js",{},{});
+Inventory_Detail_Js("SalesOrder_Detail_Js",{
+	displayCreateAllInvoicesModal: function(){
+		var listInstance = app.controller();
+		app.helper.showProgress();
+		
+		var params = {
+			'module': 'SalesOrder',
+			'view': 'CreateRecurringInvoices',
+			'record': app.getRecordId(),
+		}
+		
+		app.request.post({data : params}).then(function(error, data) {
+			app.helper.hideProgress();
+			app.helper.showModal(data);
+		});
+	},
+	
+	createAllInvoices: function(){
+		app.helper.showProgress();
+		
+		var params = {
+			'module': 'SalesOrder',
+			'action': 'CreateRecurringInvoices',
+			'record': app.getRecordId(),
+		}
+		
+		app.request.post({data : params}).then(function(error, result) {
+			if (error === null) {
+				if (typeof result === 'object' && result !== null) {
+					console.log(result);
+					app.helper.showSuccessNotification({title: app.vtranslate('JS_SUCCESS'), message: app.vtranslate('JS_LBL_INVOICES_CREATED')});
+				} else {
+					app.helper.showErrorNotification({title: app.vtranslate('JS_ERROR'), message: app.vtranslate('Unexpected error')},  {'delay' : 0});
+				}
+			} else {
+				console.log(error);
+				app.helper.showErrorNotification({title: app.vtranslate('JS_ERROR'), message: error.message},  {'delay' : 0});
+			}
+			app.helper.hideModal();
+			app.helper.hideProgress();
+		});
+    },
+    
+},{});

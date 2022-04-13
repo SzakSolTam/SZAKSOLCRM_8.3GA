@@ -12,6 +12,7 @@ $languageStrings = array(
 	'SINGLE_SalesOrder'            => 'Pedido'                      , 
 	'LBL_EXPORT_TO_PDF'            => 'Exportar a PDF'              , 
 	'LBL_SEND_MAIL_PDF'            => 'Enviar correo con PDF'         ,
+    'LBL_CREATE_ALL_INVOICES' => 'Crear todas las facturas',
 	'LBL_ADD_RECORD'               => 'Agregar Pedido'     , 
 	'LBL_RECORDS_LIST'             => 'Lista de Pedidos', 
 	'LBL_SO_INFORMATION'           => 'Información del Pedido'     , 
@@ -56,9 +57,16 @@ $languageStrings = array(
     'Net 60 days' => '60 días',
     'Cancel' => 'Cancelada',
     'Next Invoice Date' => 'Fecha de próxima factura',
+    'LBL_CREATE_ALL_INVOICES_FROM_SO' => 'Crear Facturas a partir de Pedido',
+    'LBL_NO_INVICES_CAN_BE_CREATED' => 'No hay facturas pendientes por crear. Puede ser que la recurrencia no esté activa, que el periodo de facturación aún no haya empezado, que el periodo de facturación ya haya terminado o que todas las facturas ya hayan sido creadas.',
+//'There are no invoices to be created. Either recurrence is not enabled, the period has not yet started, the period has already finished or all invoices have already been created.',
+    
 
   'LBL_THIS' => 'Este',
   'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => 'Se ha eliminado del sistema. Por favor elimine o reemplace este artículo',
   'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Esta línea de artículos ha sido eliminada del sistema. Por favor elimine esta línea de artículos',
+);
 
+$jsLanguageStrings = array(
+    'JS_LBL_INVOICES_CREATED' => 'Las facturas fueron creadas',
 );

@@ -13,10 +13,13 @@ $languageStrings = array(
 	'SINGLE_SalesOrder' => 'Sales Order',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
     'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
+    'LBL_CREATE_ALL_INVOICES' => 'Create All Invoices',
 
 	//Basic strings
 	'LBL_ADD_RECORD' => 'Add Sales Order',
 	'LBL_RECORDS_LIST' => 'Sales Order List',
+    'LBL_CREATE_ALL_INVOICES_FROM_SO' => 'Create Invoices from Sales Order',
+    'LBL_NO_INVICES_CAN_BE_CREATED' => 'There are no invoices to be created. Either recurrence is not enabled, the period has not yet started, the period has already finished or all invoices have already been created.',
 
 	// Blocks
 	'LBL_SO_INFORMATION' => 'Sales Order Details',
@@ -54,4 +57,5 @@ $languageStrings = array(
 
 $jsLanguageStrings = array(
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Please remove line item that is deleted',
+    'JS_LBL_INVOICES_CREATED' => 'Invoices created!',
 );
