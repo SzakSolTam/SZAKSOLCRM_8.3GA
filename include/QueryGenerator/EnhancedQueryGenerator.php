@@ -443,7 +443,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
 				}
 
-				// if the field name is tags then we need to join with specific table 
+				// if the field name is tags then we need to join with specific table
 				if ($fieldName == 'tags') {
 					$tableList['vtiger_freetagged_objects'] = 'vtiger_freetagged_objects';
 					$tableJoinMapping['vtiger_freetagged_objects'] = 'INNER JOIN';
@@ -1013,12 +1013,12 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		}
 	}
 
-	/**
-	 * Function to get the condition query for special date condtions
-	 * @param <string> $comparator
-	 * @param <date> or <array> $date - date value or array of dates for between condition 
-	 * @return <string> condition query
-	 */
+    /**
+     * Function to get the condition query for special date conditions
+     * @param string $comparator
+     * @param string|array $date - date value or array of dates for between condition
+     * @return string condition query
+     */
 	static function getSpecialDateConditionQuery($comparator, $date) {
 		switch ($comparator) {
 			case 'bw' : return " BETWEEN '$date[0]' AND '$date[1]' ";

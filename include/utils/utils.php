@@ -121,6 +121,7 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 	global $current_user;
 	if(isset($current_user) && $current_user->id != '')
 	{
+		/** @var string $current_user_parent_role_seq */
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	}
@@ -192,6 +193,8 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 	global $current_user;
 	if(isset($current_user) && $current_user->id != '')
 	{
+		/** @var string $current_user_parent_role_seq */
+		/** @var array $parent_roles */
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	}
@@ -329,9 +332,9 @@ function set_default_config(&$defaults)
 
 /**
  * Function to decide whether to_html should convert values or not for a request
- * @global type $doconvert
- * @global type $inUTF8
- * @global type $default_charset
+ * @global bool $doconvert
+ * @global bool $inUTF8
+ * @global string $default_charset
  */
 function decide_to_html() {
 	global $doconvert, $inUTF8, $default_charset;
@@ -573,11 +576,9 @@ function getActionid($action)
 }
 
 /** Function to get a action for a given action id
-  * @param $action id -- action id :: Type integer
-    * @returns $actionname-- action name :: Type string
-       */
-
-
+ * @param int $actionid -- action id :: Type integer
+ * @returns string $actionname-- action name :: Type string
+ */
 function getActionname($actionid)
 {
 	global $log;
@@ -588,7 +589,8 @@ function getActionname($actionid)
 
 	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0))
 	{
-		include('tabdata.php');
+		/** @var array $action_name_array */
+		include(__DIR__.'/../../tabdata.php');
 		$actionname= $action_name_array[$actionid];
 	}
 	else
@@ -2368,7 +2370,7 @@ function getRecordOwnerReportsToId($record) {
 
 /**
  * Function to get last week range of give date
- * @param type $date
+ * @param string $date
  * @return array($timestamps)
  */
 function getLastWeekRange($date) {
@@ -2390,7 +2392,7 @@ function getLastWeekRange($date) {
 
 /**
  * Function to get current week range of given date
- * @param type $date
+ * @param string $date
  * @return array($timestamps)
  */
 function getCurrentWeekRange($date) {
@@ -2411,7 +2413,7 @@ function getCurrentWeekRange($date) {
 /**
  * Function to get a group id for a given entity
  * @param $record -- entity id :: Type integer
- * @returns group id <int>
+ * @returns int group id <int>
  */
 function getRecordGroupId($record) {
 	global $adb;

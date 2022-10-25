@@ -824,18 +824,18 @@ function purifyJavascriptAlert($value){
                    $value = $originalValue;
                    return $value;
                }
-            }        
+            }
         }
     }
-    
+
     return $value;
 }
 
 /**
  * Function to return the valid SQl input.
- * @param <String> $string
- * @param <Boolean> $skipEmpty Skip the check if string is empty.
- * @return <String> $string/false
+ * @param string $string
+ * @param boolean $skipEmpty Skip the check if string is empty.
+ * @return false|string $string/false
  */
 function vtlib_purifyForSql($string, $skipEmpty=true) {
 	$pattern = "/^[_a-zA-Z0-9.:\-]+$/";

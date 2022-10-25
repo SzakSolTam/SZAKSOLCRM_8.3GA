@@ -122,8 +122,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	/**
 	 * Function which sets value for given name
-	 * @param <String> $name - name for which value need to be assinged
-	 * @param <type> $value - values that need to be assigned
+	 * @param string $name - name for which value need to be assigned
+	 * @param mixed $value - values that need to be assigned
 	 * @return Vtiger_Field_Model
 	 */
 	public function set($name, $value) {
@@ -133,7 +133,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	/**
 	 * Function to get the Field Id
-	 * @return <Number>
+	 * @return numeric
 	 */
 	public function getId() {
 		return $this->id;
@@ -1051,9 +1051,9 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	/**
 	 * Function to get instance
-	 * @param <String> $value - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
-	 * @return <Vtiger_Field_Model>
+	 * @param string $value - field name or field id
+	 * @param false|Vtiger_Module $module - optional - module instance
+	 * @return false|Vtiger_Field_Model
 	 */
 	public static function  getInstance($value, $module = false) {
 		$fieldObject = null;
@@ -1181,7 +1181,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	/**
 	 * Function returns list of Currencies available in the system
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getCurrencyList() {
 		$db = PearDatabase::getInstance();
@@ -1218,9 +1218,9 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 
 	/**
-	 * Function whcih will get the databse insert value format from user format
-	 * @param type $value in user format
-	 * @return type
+	 * Function which will get the database insert value format from user format
+	 * @param mixed $value in user format
+	 * @return mixed
 	 */
 	public function getDBInsertValue($value) {
 		if(!isset($this->uitype_instance) || !$this->uitype_instance) {
@@ -1390,7 +1390,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	/**
 	 * Function to get the auto fill reference field for this field
-	 * @return <array> $autoFill - with module name and field name
+	 * @return array $autoFill - with module name and field name
 	 */
 	public function getAutoFillValue() {
 		$moduleModel = $this->getModule();

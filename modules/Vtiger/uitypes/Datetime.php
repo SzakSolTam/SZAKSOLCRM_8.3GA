@@ -39,11 +39,11 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 		}
 		return $dateValue;
 	}
-	
+
 	/**
 	 * Function to get Date and Time value for Display
-	 * @param <type> $date
-	 * @return <String>
+	 * @param string $date
+	 * @return string
 	 */
 	public static function getDisplayDateTimeValue($date) {
 		$date = new DateTimeField($date);
@@ -52,8 +52,8 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 
 	/**
 	 * Function to get Date and Time value for Display
-	 * @param <type> $date
-	 * @return <String>
+	 * @param string $date
+	 * @return string
 	 */
 	public static function getDBDateTimeValue($date) {
 		$date = new DateTimeField($date);
@@ -69,6 +69,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 		return Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime);
 	}
 
+    /**
+     * @param string $value
+     * @return string
+     */
 	public function getDBInsertValue($value) {
 		$result = explode(' ', $value);
 		//If database value is date, then fall back to parent

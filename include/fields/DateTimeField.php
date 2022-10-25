@@ -16,8 +16,7 @@ class DateTimeField {
 	private static $cache = array();
 
 	/**
-	 *
-	 * @param type $value
+	 * @param string $value
 	 */
 	public function __construct($value) {
 		if(empty($value)) {
@@ -54,7 +53,7 @@ class DateTimeField {
 	/**
 	 *
 	 * @param Users $user
-	 * @return String
+	 * @return string
 	 */
 	public function getDBInsertDateTimeValue($user = null) {
 		return $this->getDBInsertDateValue($user) . ' ' .

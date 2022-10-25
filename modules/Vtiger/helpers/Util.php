@@ -119,9 +119,9 @@ class Vtiger_Util_Helper {
 	}
 	/**
 	 * Function to validate the input with given pattern.
-	 * @param <String> $string
-	 * @param <Boolean> $skipEmpty Skip the check if string is empty.
-	 * @return <String>
+	 * @param string $string
+	 * @param bool $skipEmpty Skip the check if string is empty.
+	 * @return false|string
 	 * @throws AppException
 	 */
 	public static function validateStringForSql($string, $skipEmpty=true) {

@@ -18,9 +18,9 @@ require_once("include/events/include.inc");
 require_once 'includes/runtime/Cache.php';
 global $log;
 
-/** To retreive the mail server info resultset for the specified user
-  * @param $user -- The user object:: Type Object
-  * @returns  the mail server info resultset
+/** To retrieve the mail server info result set for the specified user
+ * @param object $user -- The user object:: Type Object
+ * @returns ADORecordSet the mail server info result set
  */
 function getMailServerInfo($user)
 {

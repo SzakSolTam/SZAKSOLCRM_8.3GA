@@ -186,6 +186,10 @@ class PearDatabase{
 		return false;
     }
 
+	/**
+	 * @param string $arr
+	 * @return array|string
+	 */
     function change_key_case($arr) {
 		return is_array($arr)?array_change_key_case($arr):$arr;
     }
@@ -716,8 +720,8 @@ class PearDatabase{
 	 * The case of all the field names is converted to lower case.
 	 * as with the other methods.
 	 *
-	 * @param &$result The query result to fetch from.
-	 * @param $row The row number to fetch. It's default value is 0
+	 * @param ADORecordSet &$result The query result to fetch from.
+	 * @param int $row The row number to fetch. It's default value is 0
 	 *
 	 */
 	function raw_query_result_rowdata(&$result, $row=0) {
