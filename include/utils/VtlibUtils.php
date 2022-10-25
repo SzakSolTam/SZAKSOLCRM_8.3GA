@@ -112,7 +112,7 @@ function vtlib_isModuleActive($module) {
 
 	$active = false;
 	//Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7991
-	if($presence === 0 || $presence==='0') $active = true; 
+	if($presence === 0 || $presence==='0') $active = true;
 
 	return $active;
 }
@@ -305,7 +305,7 @@ function __vtlib_get_modulevar_value($module, $varname) {
 				'IsCustomModule'=>false,
 				'table_name'  => 'vtiger_contactdetails',
 				'table_index' => 'contactid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_account' => Array ('accountid' ),
 					//REVIEW: Added these tables for displaying the data into relatedlist (based on configurable fields)
 					'vtiger_contactaddress' => Array('contactaddressid', 'vtiger_contactdetails', 'contactid'),
@@ -386,7 +386,7 @@ function __vtlib_get_modulevar_value($module, $varname) {
 				'table_name' => 'vtiger_invoice',
 				'table_index'=> 'invoiceid',
 				'popup_fields'=> Array('subject'),
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_invoicecf' => Array('invoiceid', 'vtiger_invoice', 'invoiceid'),
 					'vtiger_invoiceshipads' => Array('invoiceshipaddressid','vtiger_invoice','invoiceid'),
 					'vtiger_invoicebillads' => Array('invoicebilladdressid','vtiger_invoice','invoiceid'),
@@ -438,16 +438,16 @@ function __vtlib_get_modulevar_value($module, $varname) {
 				'table_name' => 'vtiger_vendor',
 				'table_index'=> 'vendorid',
 				'popup_fields'=>Array('vendorname'),
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_vendorcf' => Array('vendorid', 'vtiger_vendor', 'vendorid')
 					),
 			),
-			'Project' => 
+			'Project' =>
 			Array(
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_project',
 				'table_index'=> 'projectid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_projectcf' => Array('projectid', 'vtiger_project', 'projectid')
 					),
 			),
@@ -456,43 +456,43 @@ function __vtlib_get_modulevar_value($module, $varname) {
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_projectmilestone',
 				'table_index'=> 'projectmilestoneid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_projectmilestonecf' => Array('projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid')
 					),
 			),
-			'ProjectTask' => 
+			'ProjectTask' =>
 			Array(
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_projecttask',
 				'table_index'=> 'projecttaskid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_projecttaskcf' => Array('projecttaskid', 'vtiger_projecttask', 'projecttaskid')
 					),
 			),
-			'Services' => 
+			'Services' =>
 			Array(
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_service',
 				'table_index'=> 'serviceid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_servicecf' => Array('serviceid')
 					),
 			),
-			'ServiceContracts' => 
+			'ServiceContracts' =>
 			Array(
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_servicecontracts',
 				'table_index'=> 'servicecontractsid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_servicecontractscf' => Array('servicecontractsid')
 					),
 			),
-			'Assets' => 
+			'Assets' =>
 			Array(
 				'IsCustomModule'=>false,
 				'table_name' => 'vtiger_assets',
 				'table_index'=> 'assetsid',
-				'related_tables'=> Array( 
+				'related_tables'=> Array(
 					'vtiger_assetscf' => Array('assetsid')
 					),
 			)
@@ -736,10 +736,10 @@ function vtlib_purify($input, $ignore = false) {
  * @return <String>
  */
 function purifyHtmlEventAttributes($value,$replaceAll = false){
-	
+
 $tmp_markers = $office365ImageMarkers =  array();
-$value = Vtiger_Functions::strip_base64_data($value,true,$tmp_markers);	
-$value = Vtiger_Functions::stripInlineOffice365Image($value,true,$office365ImageMarkers);		
+$value = Vtiger_Functions::strip_base64_data($value,true,$tmp_markers);
+$value = Vtiger_Functions::stripInlineOffice365Image($value,true,$office365ImageMarkers);
 $tmp_markers = array_merge($tmp_markers, $office365ImageMarkers);
 
 $htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onresize|onauxclick|oncancel|oncanplay|oncanplaythrough|".
@@ -762,12 +762,12 @@ $htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|on
     if ($replaceAll) {
         $regex = '\s*[=&%#]\s*(?:"[^"]*"[\'"]*|\'[^\']*\'[\'"]*|[^]*[\s\/>])*/i';
         $value = preg_replace("/\s*(" . $htmlEventAttributes . ")" . $regex, '', $value);
-		
+
         //remove script tag with contents
         $value = purifyScript($value);
         //purify javascript alert from the tag contents
-        $value = purifyJavascriptAlert($value); 
-	
+        $value = purifyJavascriptAlert($value);
+
     } else {
         if (preg_match("/\s*(" . $htmlEventAttributes . ")\s*=/i", $value)) {
             $value = str_replace("=", "&equals;", $value);
@@ -784,7 +784,7 @@ $htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|on
 		}
 		$value = str_replace($keys, $values, $value);
 	}
-	
+
     return $value;
 }
 
@@ -800,14 +800,14 @@ function purifyScript($value){
 //function to purify html tag having 'javascript:' string by removing the tag contents.
 function purifyJavascriptAlert($value){
     $restrictJavascriptInTags = array('a','iframe','object','embed','animate','set','base','button','input','form');
-    
+
     foreach($restrictJavascriptInTags as $tag){
-        
+
         if(!empty($value)){
             $originalValue = $value;
         }
-        
-        // skip javascript: contents check if tag is not available,as javascript: regex will cause performace issue if the contents will be large 
+
+        // skip javascript: contents check if tag is not available,as javascript: regex will cause performace issue if the contents will be large
         if (preg_match_all('/(&.*?lt;|<)'.$tag.'[^>]*?(>|&.*?gt;)/i', $value,$matches)) {
             $javaScriptRegex = '/(&.*?lt;|<).?'.$tag.' [^>]*(j[\s]?a[\s]?v[\s]?a[\s]?s[\s]?c[\s]?r[\s]?i[\s]?p[\s]?t[\s]*[=&%#:])[^>]*?(>|&.*?gt;)/i';
             foreach($matches[0] as $matchedValue){
@@ -815,7 +815,7 @@ function purifyJavascriptAlert($value){
                 $purifyContent = preg_replace('/&NewLine;|&amp;NewLine;|&Tab;|&amp;Tab;|\t/i',' ',$matchedValue);
                 $purifyContent = preg_replace($javaScriptRegex,"<$tag>",$purifyContent);
                 $value = str_replace($matchedValue, $purifyContent, $value);
-                
+
                 /*
                 * if the content length will more. In that case, preg_replace will fail and return Null due to PREG_BACKTRACK_LIMIT_ERROR error
                 * so skipping the validation and reseting the value - TODO

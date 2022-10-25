@@ -324,7 +324,7 @@ class DateTimeField {
 		$log->debug("Exiting getDisplayTime method ...");
 		return $time;
 	}
-    
+
      function getFullcalenderTime( $user = null ) {
 		global $log;
 		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");

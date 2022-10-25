@@ -25,14 +25,14 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	const QUICKCREATE_NOT_ENABLED = 1;
 	const QUICKCREATE_ENABLED = 2;
 	const QUICKCREATE_NOT_PERMITTED = 3;
-	
+
 	const DISPLAYTYPE_ALL = 1;
 	const DISPLAYTYPE_DETAIL_AND_LIST = 2; //e.g. Created time, Modified time
 	const DISPLAYTYPE_LIST = 3;//e.g. Total, Subtotal in Inventory modules
 	const DISPLAYTYPE_PASSWORD = 4;
 	const DISPLAYTYPE_LINEITEM = 5;
 	const DISPLAYTYPE_STARRED = 6;//show on List View and as separate button on Detail View
-	
+
 	const PRESENCE_ALWAYS_VISIBLE = 0;//cannot be hidden by user
 	const PRESENCE_HIDDEN = 1;
 	const PRESENCE_VISIBLE = 2;//can be hidden by user
@@ -92,7 +92,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	const UITYPE_CURRENCY_CODE = 117;//picklist with currencies
 	const UITYPE_LASTNAME = 255;//last name in contacts and leads
 	const UITYPE_EMAIL_PARENT_RECORD = 357;
-	
+
 	//UITYPES for Users module
 	const UITYPE_USER_ACCESS_KEY = 3;
 	const UITYPE_USER_THEME = 31;
@@ -105,8 +105,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	const UITYPE_USER_STATUS = 115;
 	const UITYPE_USER_END_HOUR = 116;
 	const UITYPE_USER_IS_ADMIN = 156;
-	
-	
+
+
 	/**
 	 * Function to get the value of a given property
 	 * @param <String> $propertyName
@@ -321,7 +321,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	public function isRoleBased() {
-		if($this->get('uitype') == self::UITYPE_ROLE_BASED_PICKLIST || $this->get('uitype') == self::UITYPE_MULTI_SELECT || ($this->get('uitype') == SELF::UITYPE_SALUTATION_OR_FIRSTNAME && $this->getFieldName() == 'salutationtype')) {
+		if($this->get('uitype') == self::UITYPE_ROLE_BASED_PICKLIST || $this->get('uitype') == self::UITYPE_MULTI_SELECT || ($this->get('uitype') == self::UITYPE_SALUTATION_OR_FIRSTNAME && $this->getFieldName() == 'salutationtype')) {
 			return true;
 		}
 		return false;
@@ -348,7 +348,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
         if($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist' || $fieldDataType == 'metricpicklist' || $fieldDataType == 'timestring') {
             $fieldPickListValues = array();
             $picklistValues = Vtiger_Util_Helper::getPickListValues($fieldName);
-            
+
             foreach ($picklistValues as $value) {
                 if (!is_numeric($value)) {
                     $addValue = vtranslate($value, $this->getModuleName());
@@ -357,13 +357,13 @@ class Vtiger_Field_Model extends Vtiger_Field {
                 }
                 $fieldPickListValues[$value] = $addValue;
             }
-            
+
             return $fieldPickListValues;
 		}
 		return null;
     }
-    
-    
+
+
     /**
 	 * Function to get all editable  picklist values for the current user
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
@@ -390,7 +390,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
             }else{
                 $picklistValues = Vtiger_Util_Helper::getPickListValues($fieldName);
             }
-            
+
             foreach($picklistValues as $value) {
                     $fieldPickListValues[$value] = vtranslate($value,$this->getModuleName());
 			}
@@ -519,9 +519,9 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 */
 	public function isAjaxEditable() {
 	    $ajaxRestrictedFields = array(
-	        self::UITYPE_RECORD_NO, 
-	        self::UITYPE_CURRENCY_AMOUNT, 
-	        self::UITYPE_ATTACHMENT, 
+	        self::UITYPE_RECORD_NO,
+	        self::UITYPE_CURRENCY_AMOUNT,
+	        self::UITYPE_ATTACHMENT,
 	        self::UITYPE_DOWNLOAD_TYPE,
 	        self::UITYPE_FILENAME
 	    );
@@ -663,7 +663,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			} else {
 				$this->fieldInfo['picklistvalues'] = array();
 			}
-            
+
             if(!empty($editablePicklistValues)) {
                 $this->fieldInfo['editablepicklistvalues'] = $editablePicklistValues;
             } else {
@@ -676,7 +676,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 				$this->fieldInfo['picklistColors'] = $picklistColors;
 			}
 		}
-        
+
         if($fieldDataType == "documentsFolder"){
             $documentFolders = $this->getDocumentFolders();
             if(!empty($documentFolders)) {
@@ -1148,7 +1148,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			case 'end_period'			:	$funcName1 = array('name' => 'greaterThanDependentField', 'params' => array('start_period'));
 											array_push($validator, $funcName1);
 											$funcName = array('name' => 'lessThanDependentField', 'params' => array('duedate'));
-											break; 
+											break;
 			case 'start_period'			:	$funcName = array('name' => 'lessThanDependentField', 'params' => array('end_period'));
 											break;
 		}
@@ -1339,12 +1339,12 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		$presence = $this->get('presence');
 		return in_array($presence, self::getVisiblePresenceCodesList());
 	}
-	
+
 	private static function getVisiblePresenceCodesList()
 	{
 		return array(self::PRESENCE_ALWAYS_VISIBLE, self::PRESENCE_VISIBLE);
 	}
-	
+
 	public function isMassEditable() {
 		return $this->masseditable == 1 ? true : false;
 	}
@@ -1409,11 +1409,11 @@ class Vtiger_Field_Model extends Vtiger_Field {
 						}
 					}
 
-					$newautoFillData[] = $data;
+					$newAutoFillData[] = $data;
 				}
 
-				return $newautoFillData;
-			} 
+				return $newAutoFillData;
+			}
 		}
 
 		return false;

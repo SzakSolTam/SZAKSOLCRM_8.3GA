@@ -87,7 +87,7 @@ class Vtiger_Util_Helper {
 			if ($months > 11)	return $prefix . self::pluralize(floor($days/365), "LBL_YEAR") . $suffix;
 		}catch(Exception $e){
 			//Not handling if failed to parse
-		}	
+		}
 	}
 
 	/**
@@ -367,10 +367,10 @@ class Vtiger_Util_Helper {
 				  WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
 		$result = $db->pquery($query, array($roleId));
 		$picklistValues = Array();
-		if($db->num_rows($result) > 0) { 
-			while ($row = $db->fetch_array($result)) { 
-				//Need to decode the picklist values twice which are saved from old ui 
-				$picklistValues[$row[$fieldName]] = decode_html(decode_html($row[$fieldName])); 
+		if($db->num_rows($result) > 0) {
+			while ($row = $db->fetch_array($result)) {
+				//Need to decode the picklist values twice which are saved from old ui
+				$picklistValues[$row[$fieldName]] = decode_html(decode_html($row[$fieldName]));
 			}
 		}
 		Vtiger_Cache::set('PicklistRoleBasedValues',$fieldName.$roleId,$picklistValues);
@@ -408,7 +408,7 @@ class Vtiger_Util_Helper {
 		}
 
 		$newFileName = ltrim(basename(' '.$newFileName));//allowed filename like UTF-8 characters
-		
+
 		return $newFileName;
 	}
 
@@ -417,7 +417,7 @@ class Vtiger_Util_Helper {
 	 * @return <Float> maximum upload size
 	 */
 	public static function getMaxUploadSize() {
-		return ceil(vglobal('upload_maxsize') / (1024 * 1024)); 
+		return ceil(vglobal('upload_maxsize') / (1024 * 1024));
 	}
 
 	/**
@@ -553,7 +553,7 @@ class Vtiger_Util_Helper {
 	public static function getUserCurrencyInfo() {
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id'))); 
+		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if($db->num_rows($result)) return $db->query_result_rowdata($result, 0);
 	}
 
@@ -759,7 +759,7 @@ class Vtiger_Util_Helper {
 				case 'character_set_database' : $db_character_set = $arr['value']; break;
 				case 'collation_database'     : $db_collation_type = $arr['value']; break;
 			}
-			// If we have all the required information break the loop. 
+			// If we have all the required information break the loop.
 			if($db_character_set != null && $db_collation_type != null) break;
 		}
 		return (stristr($db_character_set, 'utf8') && stristr($db_collation_type, 'utf8'));
@@ -823,14 +823,14 @@ class Vtiger_Util_Helper {
 
 	 /**
 	 * Function to convert PHP array to Json format.
-	 * This is similiar to json_encode($data, JSON_UNESCAPED_UNICODE); to work 
+	 * This is similiar to json_encode($data, JSON_UNESCAPED_UNICODE); to work
 	 * in php ver < 5.4
-	 * 
+	 *
 	 * Refrences : http://stackoverflow.com/questions/9801533/json-encode-with-option-json-unescaped-unicode
-	 *             https://code.google.com/p/apns-php/issues/detail?id=22 
+	 *             https://code.google.com/p/apns-php/issues/detail?id=22
 	 * @param <array> $data
 	 * @return <json> $unescapedUtf8Json
-	 */    
+	 */
 	public static function toJsonWithUnescapedUtf8($data) {
 		if (!is_array($data)) {
 			$data = array($data);
@@ -1001,7 +1001,7 @@ class Vtiger_Util_Helper {
 			$fieldnames[] = $resultrow['fieldname'];
 		}
 
-		// Cache information		
+		// Cache information
 		self::$detectFieldnamesToResolveCache[$module] = $fieldnames;
 
 		return $fieldnames;
@@ -1158,19 +1158,19 @@ class Vtiger_Util_Helper {
 									}
 									break;
 			case 'picklist'		:	$pickListDetails = $fieldModel->getPicklistValues();
-                                    if($defaultValue){ 
-                                        $value = $defaultValue; 
-                                        break; 
-                                    } 
+                                    if($defaultValue){
+                                        $value = $defaultValue;
+                                        break;
+                                    }
 									foreach ($pickListDetails as $key => $value) {
 										$value = $key;
 										break;
 									}
 									break;
 			case 'multipicklist':	$pickListDetails = $fieldModel->getPicklistValues();
-                                    if($defaultValue){ 
-                                        $value = $defaultValue; 
-                                        break; 
+                                    if($defaultValue){
+                                        $value = $defaultValue;
+                                        break;
                                     }
 									foreach ($pickListDetails as $key => $value) {
 										$value = $key;
@@ -1249,7 +1249,7 @@ class Vtiger_Util_Helper {
 			return preg_replace($pattern, '\\\\$0', $string);
 		}
 	}
-    
+
     public static function getEncryptedFileName($sanitizedFileName) {
 		$encryptedFileName = $sanitizedFileName;
 		if ($sanitizedFileName) {
@@ -1259,7 +1259,7 @@ class Vtiger_Util_Helper {
 		}
 		return $encryptedFileName;
 	}
-    
+
     public static function validateFieldValue($fieldValue,$fieldModel){
         $fieldDataType = $fieldModel->getFieldDataType();
         $fieldInfo = $fieldModel->getFieldInfo();

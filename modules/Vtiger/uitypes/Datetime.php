@@ -17,7 +17,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 	public function getTemplateName() {
 		return 'uitypes/DateTime.tpl';
 	}
-	
+
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param <Object> $value
@@ -59,7 +59,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 		$date = new DateTimeField($date);
 		return $date->getDBInsertDateTimeValue();
 	}
-	
+
 	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <type> $dateTime

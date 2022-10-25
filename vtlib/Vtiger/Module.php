@@ -15,7 +15,7 @@ include_once('vtlib/Vtiger/ModuleBasic.php');
  * @package vtlib
  */
 class Vtiger_Module extends Vtiger_ModuleBasic {
-    
+
     const ONE_TO_ONE = '1:1';
 	const ONE_TO_MANY = '1:N';
 	const MANY_TO_ONE = 'N:1';
@@ -28,7 +28,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 	public function getId() {
 		return $this->id;
 	}
-        
+
 	/**
 	 * Get unique id for related list
 	 * @access private
@@ -95,11 +95,11 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 		Vtiger_Utils::AddColumn('vtiger_relatedlists', 'actions', 'VARCHAR(50)');
 		$adb->pquery("INSERT INTO vtiger_relatedlists(relation_id,tabid,related_tabid,name,sequence,label,presence,actions,relationfieldid,relationtype) VALUES(?,?,?,?,?,?,?,?,?,?)",
 			Array($relation_id,$this->id,$moduleInstance->id,$function_name,$sequence,$label,$presence,$useactions_text,$fieldId,$relationType));
-        
+
         if(method_exists($this,'set')) {
             $this->set('relation_id', $relation_id);
         }
-        
+
 		self::log("Setting relation with $moduleInstance->name [$useactions_text] ... DONE");
 	}
 
@@ -121,7 +121,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 
 		self::log("Unsetting relation with $moduleInstance->name ... DONE");
 	}
-    
+
 	function unsetRelatedListForField($fieldId) {
 		$db = PearDatabase::getInstance();
 		$db->pquery("DELETE FROM vtiger_relatedlists WHERE relationfieldid=?", array($fieldId));

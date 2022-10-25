@@ -143,9 +143,9 @@ class PearDatabase{
 
 	function startTransaction() {
 		/* Restore php_mysql based behavior */
-		if (true) { 
-			if ($this->database) $this->database->Execute('SET AUTOCOMMIT=1'); 
-			return; 
+		if (true) {
+			if ($this->database) $this->database->Execute('SET AUTOCOMMIT=1');
+			return;
 		}
 
 	    if($this->isPostgres()) return;
@@ -155,7 +155,7 @@ class PearDatabase{
     }
 
 	function completeTransaction() {
-		/* Restore php_mysql based behaviour */	
+		/* Restore php_mysql based behaviour */
 		if (true) return;
 
 	    if($this->isPostgres()) return;
