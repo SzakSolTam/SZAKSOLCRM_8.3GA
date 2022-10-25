@@ -1231,7 +1231,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	/**
-	 * Function to get visibilty permissions of a Field
+	 * Function to get visibility permissions of a Field
 	 * @param <String> $accessmode
 	 * @return <Boolean>
 	 */
