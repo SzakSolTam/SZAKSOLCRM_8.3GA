@@ -338,14 +338,14 @@ function set_default_config(&$defaults)
  */
 function decide_to_html() {
 	global $doconvert, $inUTF8, $default_charset;
- 	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : ''; 
- 		     
-    $inUTF8 = (strtoupper($default_charset) == 'UTF-8'); 
+ 	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 
-    $doconvert = true; 
+    $inUTF8 = (strtoupper($default_charset) == 'UTF-8');
+
+    $doconvert = true;
 	if ($action == 'ExportData') {
-        $doconvert = false; 
-    } 
+        $doconvert = false;
+    }
 }
 decide_to_html();
 
@@ -468,7 +468,7 @@ function getColumnFields($module)
             getColumnFields('Events');
             $cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
         }
-        
+
 		if (!$cachedModuleFields) {
             $cachedModuleFields = $cachedEventsFields;
 		} else {
@@ -1346,7 +1346,7 @@ function transferCurrency($old_cur, $new_cur) {
 
 	// Transfer PriceBook Currency to new currency
 	transferPriceBookCurrency($old_cur, $new_cur);
-    
+
     // Transfer Services Currency to new currency
     transferServicesCurrency($old_cur, $new_cur);
 }
@@ -1363,7 +1363,7 @@ function transferUserCurrency($old_cur, $new_cur) {
 	$current_user->retrieve_entity_info($currentUserId, 'Users');
 	unset(Users_Record_Model::$currentUserModels[$currentUserId]);
 
-	require_once('modules/Users/CreateUserPrivilegeFile.php'); 
+	require_once('modules/Users/CreateUserPrivilegeFile.php');
 	createUserPrivilegesfile($currentUserId);
 
 	$log->debug("Exiting function transferUserCurrency...");
@@ -1645,7 +1645,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 	}
-    
+
     $em->triggerEvent("vtiger.entity.afterrelate", $data);
 }
 
@@ -2341,7 +2341,7 @@ function lower_array(&$string){
 if (!function_exists('get_magic_quotes_runtime')) { function get_magic_quotes_runtime() { return false; } }
 if (!function_exists('set_magic_quotes_runtime')) { function set_magic_quotes_runtime($flag) {} }
 
-/** 
+/**
  * Function to escape backslash (\ to \\) in a string
  * @param string $value String to be escaped
  * @return string escaped string
@@ -2608,5 +2608,3 @@ function getDuplicatesPreventionMessage($moduleName, $duplicateRecordsList) {
 
 	return $message;
 }
-
-?>
