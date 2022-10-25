@@ -574,7 +574,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
 		related_tabid=?', array($tabid, $relatedTabId));
 	if (empty($relatedListResult))
-		return;
+		return null;
 	$relatedListRow = $adb->fetch_row($relatedListResult);
 	$header = $relatedListRow['label'];
 	$actions = $relatedListRow['actions'];
@@ -625,7 +625,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$output .= '</td>';
 	$log->debug("Exiting getTableHeaderNavigation method ...");
 	if ($navigation_array['first'] == '')
-		return;
+		return null;
 	else
 		return $output;
 }
