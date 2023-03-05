@@ -27,6 +27,10 @@ class Vtiger_Mail_Imap {
         return static::$_errors;
     }
 
+    public static function iserror() {
+        return !empty(static::$_errors);
+    }
+
     public function __construct($url, $username, $password, $type = null) {
 
         // {host:port/imap/ssl/novalidate-cert}
@@ -58,7 +62,6 @@ class Vtiger_Mail_Imap {
 
     private function debug($message, $dir = "") {
         if ($this->_debug) echo $dir . $message;
-        // file_put_contents("logs/p.log", "$dir $message", FILE_APPEND);
     }
 
     private function ensureConnect() {
@@ -83,7 +86,7 @@ class Vtiger_Mail_Imap {
 
             if (stripos($line, "$code OK ") !== 0 && $line != ")\r\n") { // V3 OK ... (or) FETCH (BODY[1] {count}...\r\n... )
                 if (stripos($line, "$code BAD ") !== false ||  stripos($line, "$code NO ") !== false) {
-                    static::$_errors[] = $line;
+                    static::$_errors[] = trim(str_replace($code, '', $line));
                 } else {
                     $lines[] = $line;
                 }
@@ -106,7 +109,8 @@ class Vtiger_Mail_Imap {
     }
 
     public function doLogin() {
-        $this->ensureConnect();
+        $connected = $this->ensureConnect();
+        if (!$connected) return false;
 
         $username = $this->username;
         $password = $this->password;
@@ -119,7 +123,13 @@ class Vtiger_Mail_Imap {
             $command = "LOGIN $username $password";
         }
         $this->sendCommand("V".$this->count, $command);
-        $this->readResponse("V".$this->count);
+        $res = $this->readResponse("V".$this->count);
+
+        if (static::iserror()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function doListFolders($ref, $pattern) {
@@ -163,7 +173,8 @@ class Vtiger_Mail_Imap {
 
     public function doSelect($folder) {
         $this->sendCommand("V".$this->count, "SELECT $folder");
-        $this->readResponse("V".$this->count);
+        $res = $this->readResponse("V".$this->count);
+        // TODO: Validate response.
     }
 
     public function doSearch($query) {
@@ -412,8 +423,8 @@ function imapv_open($url, $username, $password, $type = null) {
 
     if ($type) {
         $connector = new Vtiger_Mail_Imap($url, $username, $password, $type);
-        $connector->doLogin();
-        return $connector;
+        $ok = $connector->doLogin();
+        return $ok ? $connector : false;
     }
     return imap_open($url, $username, $password);
 }
