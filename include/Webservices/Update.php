@@ -36,7 +36,7 @@
 		}
 		
 		if($entityName !== $webserviceObject->getEntityName()){
-			throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Id specified is incorrect");
+			throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Webservice entity id {$webserviceObject->getEntityId()} with name {$webserviceObject->getEntityName()} does not match the type of the record which is \"$entityName\".");
 		}
 		
 		if(!$meta->hasPermission(EntityMeta::$UPDATE,$element['id'])){
