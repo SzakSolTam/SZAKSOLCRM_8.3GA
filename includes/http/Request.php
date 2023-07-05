@@ -200,9 +200,12 @@ class Vtiger_Request {
 	}
 
 	protected function validateReferer() {
-        $user=  vglobal('current_user');
+		$user=  vglobal('current_user');
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
+			if ($this->get('module') == 'Home' && $this->get('view') == 'DashBoard' && empty($_POST) && empty($_GET)) {
+				return true;
+			}
 			global $site_URL;
 			if ((stripos($_SERVER['HTTP_REFERER'], $site_URL) !== 0) && ($this->get('module') != 'Install')) {
 				throw new Exception('Illegal request');
