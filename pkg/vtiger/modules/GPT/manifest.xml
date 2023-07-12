@@ -1,0 +1,85 @@
+<?xml version='1.0'?>
+<module>
+	<exporttime>2014-07-05 15:30:30</exporttime>
+	<name>GPT</name>
+	<label>GPT</label>
+	<parent>Tools</parent>
+	<version>2.2</version>
+	<dependencies>
+		<vtiger_version>6.0.0rc</vtiger_version>
+		<vtiger_max_version>7.*</vtiger_max_version>
+	</dependencies>
+	<license>
+		<inline>
+			<![CDATA[
+			*************************************************************************************
+			* The contents of this file are subject to the vtiger CRM Public License Version 1.2
+			* ("License"); You may not use this file except in compliance with the License
+			* The Original Code is:  vtiger CRM Open Source
+			* The Initial Developer of the Original Code is vtiger.
+			* Portions created by vtiger are Copyright (C) vtiger.
+			* All Rights Reserved.
+			*************************************************************************************
+			]]>
+		</inline>
+	</license>
+	<tables>
+		<table>
+			<name>vtiger_gpt_config</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_gpt_config` (
+            `id` int(20) NOT NULL AUTO_INCREMENT,
+            `provider` varchar(50) default NULL,
+            `isactive` int(1) default NULL,
+            `org_id` varchar(255) default NULL,
+            `api_key` varchar(255) default NULL,
+            PRIMARY KEY (`id`),
+            KEY `index_id` (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_gpt_logs</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_gpt_logs` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `requested_user` varchar(50) NOT NULL,
+            `requested_on` datetime DEFAULT NULL,
+            `provider` varchar(50) DEFAULT NULL,
+            `gpt_prompt` longtext,
+            `gpt_response` longtext CHARACTER SET utf8mb4,
+            `tokens_consumed` text DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+	<blocks>
+		<block>
+			<label>LBL_BASIC_INFORMATION</label>
+			<fields>
+				<field>
+					<fieldname>gpt_response</fieldname>
+					<uitype>34</uitype>
+					<columnname>gpt_response</columnname>
+					<columntype>LONGTEXT</columntype>
+					<tablename>vtiger_gpt_logs</tablename>
+					<generatedtype>1</generatedtype>
+					<fieldlabel>GPT Response</fieldlabel>
+					<readonly>1</readonly>
+					<presence>2</presence>
+					<defaultvalue></defaultvalue>
+					<sequence>5</sequence>
+					<maximumlength>100</maximumlength>
+					<typeofdata>V~O</typeofdata>
+					<displaytype>1</displaytype>
+					<info_type>BAS</info_type>
+					<helpinfo>
+					<![CDATA[]]>
+					</helpinfo>
+					<masseditable>1</masseditable>
+					<summaryfield>1</summaryfield>
+				</field>
+			</fields>
+		</block>
+	</blocks>
+	<sharingaccess>
+		<default>private</default>
+	</sharingaccess>
+</module>
