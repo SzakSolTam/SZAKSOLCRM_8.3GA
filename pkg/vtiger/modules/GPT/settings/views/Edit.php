@@ -24,7 +24,6 @@ Class Settings_GPT_Edit_View extends Vtiger_Edit_View {
         $viewer = $this->getViewer($request);
         if($id){
             $recordModel = Settings_GPT_Record_Model::getInstanceById($id, $qualifiedModuleName);
-            $gateway = $recordModel->get('gateway');
         }else{
             $recordModel = Settings_GPT_Record_Model::getCleanInstance();
         }

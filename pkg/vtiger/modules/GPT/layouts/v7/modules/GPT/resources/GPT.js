@@ -8,13 +8,19 @@
  *************************************************************************************/
 
 var Vtiger_GPT_Js = {
+
+	ckEditorInstance : false,
+
+
 	addGPTIcon: function() {
 		var globalNav = jQuery('.global-nav').find('.navbar-nav');
 		globalNav.prepend('<li><div><a href="#" class="fa fa-commenting global-gpt" aria-hidden="true"></a></div></li>');
     },
 
-	registerEventForGPT: function() {
+	registerEventForGlobalGPT: function() {
+		var thisInstance = this;
 		var gptAction = jQuery('.global-nav');
+		gptAction.off("click");
 		gptAction.on("click", ".global-gpt", function(e) {
 			var params = {
 				'module' : 'GPT',
@@ -26,6 +32,7 @@ var Vtiger_GPT_Js = {
 				if(err == null) {
 					app.helper.showModal(data);
 					app.helper.hideProgress();
+					thisInstance.registerSendGlobalGPTRequest();
 				} else {
 					app.helper.showErrorNotification({message: err.message});
 					app.helper.hideProgress();
@@ -34,14 +41,64 @@ var Vtiger_GPT_Js = {
 		});
 	},
 
+	registerSendGlobalGPTRequest: function() {
+		var thisInstance = this;
+		var gptModal = jQuery('.globalgptcontainer');
+		gptModal.off("click", "#getGlobalGPTResponse");
+		gptModal.on("click", "#getGlobalGPTResponse", function(e) {
+			var query = gptModal.find("#AskGPTInput").val();
+			var params = {
+				'module' : 'GPT',
+				'view' : 'AskGPT',
+				'mode' : 'requestGPT',
+				'type' : 'Global',
+				'query' : query,
+			}
+			app.helper.showProgress();
+			app.request.post({"data":params}).then(function(err,data) {
+				app.helper.hideProgress();
+				if(err == null) {
+					jQuery('.globalgptcontainer').remove();
+					var ele = jQuery('<div class="modal popupModal"></div>');
+					ele.append(data);
+					jQuery('body').append(ele);
+					var emailEditInstance = new Emails_MassEdit_Js();
+					emailEditInstance.showpopupModal();
+					var isCkeditorApplied = jQuery('#gptResponseField').data('isCkeditorApplied');
+					if(isCkeditorApplied != true && jQuery('#gptResponseField').length > 0){
+						thisInstance.loadCkEditor(jQuery('#gptResponseField').data('isCkeditorApplied',true));
+					}
+					var ckEditorInstance = thisInstance.getckEditorInstance();
+					var fullResponse = jQuery(data);
+					var ckValue = fullResponse.find('#gptResponseField').val();
+					ckEditorInstance.loadContentsInCkeditor(ckValue);
+				} else {
+					app.helper.showErrorNotification({message : err.message});
+				}
+			});
+		});
+	},
+
+	loadCkEditor : function(textAreaElement){
+		var ckEditorInstance = this.getckEditorInstance();
+		ckEditorInstance.loadCkEditor(textAreaElement);
+	},
+
+	getckEditorInstance : function(){
+		if(this.ckEditorInstance == false){
+			this.ckEditorInstance = new Vtiger_CkEditor_Js();
+		}
+		return this.ckEditorInstance;
+	},
+
     registerEvents : function(){
 		var thisInstance = this;
 		thisInstance.addGPTIcon();
-		thisInstance.registerEventForGPT();
+		thisInstance.registerEventForGlobalGPT();
 	}
 }
 
-//On Page Load
+//On Page Load register GPT Js Events
 jQuery(window).on("load", function() {
 	Vtiger_GPT_Js.registerEvents();
 });

@@ -18,20 +18,18 @@
                         </button>
                     </div>
                     <h4 class="pull-left" id="globalgptHeaderLabel">
-                        {vtranslate('LBL_ASK_GPT', $MODULE)}
+                        {vtranslate('GPT_RESPONSE', $MODULE)}
                     </h4>
                 </div>
             </div>
             <div class="modal-content">
-                <form id="globalgptEditForm" autocomplete="off">
+                <form autocomplete="off">
                     <div class="modal-body">
+                        <div class="form-group" style="margin-bottom: 35px">
+                            <textarea rows="5" class="inputElement textAreaElement col-lg-12"  aria-required="true" style="resize: none;" readonly>{$QUERY}</textarea>
+                        </div>
                         <div class="form-group">
-                            <div class="gpt-chat-container" style="border: 1px solid black; height: 32px;">
-                                <textarea rows="5" id="AskGPTInput" class="inputElement textAreaElement col-lg-12 " data-rule-required="true" aria-required="true" placeholder="{vtranslate('LBL_GPT_PLACEHOLDER', $MODULE)}" style="resize: none; max-width:95%; border: none;"></textarea>
-                                <button id="getGlobalGPTResponse" style="border: none; background: none;">
-                                    <i class="fa fa-paper-plane" style=" margin-top: 50%;"></i>
-                                </button>
-                            </div>
+                            <textarea rows="5" id="gptResponseField" class="inputElement textAreaElement col-lg-12 " data-rule-required="true" aria-required="true">{$RESPONSE}</textarea>
                         </div>
                     </div>
                     <div class="textAlignCenter" style="background-color: lightblue;padding-top: 10px; padding-bottom: 10px; font-weight: 500;">
@@ -46,4 +44,4 @@
             </div>
         </div>
     </div>
-{/strip}}
+{/strip}

@@ -31,15 +31,20 @@ class Settings_GPT_Record_Model extends Settings_Vtiger_Record_Model {
         $serverModel = new self();
         $db = PearDatabase::getInstance();
         $query = 'SELECT * FROM '.self::tableName;
-        $gatewatResult = $db->pquery($query, array());
-        $gatewatResultCount = $db->num_rows($gatewatResult);
+        $gptConfigResult = $db->pquery($query, array());
+        $gptResultCount = $db->num_rows($gptConfigResult);
 
-        if($gatewatResultCount > 0) {
-            $rowData = $db->query_result_rowdata($gatewatResult, 0);
+        if($gptResultCount > 0) {
+            $rowData = $db->query_result_rowdata($gptConfigResult, 0);
             $serverModel->set('id',$rowData['id']);
             $serverModel->set('org_id',$rowData['org_id']);
             $serverModel->set('api_key',$rowData['api_key']);
             return $serverModel;
+        } else {
+            $message = vtranslate('PLEASE_CONFIGURE_GPT', 'Settings:GPT');
+            $response = new Vtiger_Response();
+            $response->setError($message);
+            $response->emit();
         }
         return $serverModel;
     }

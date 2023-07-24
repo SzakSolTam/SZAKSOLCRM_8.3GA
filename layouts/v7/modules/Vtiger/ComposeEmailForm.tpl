@@ -112,7 +112,13 @@
                             <div class="col-lg-6">
                                 <input type="text" name="subject" value="{$SUBJECT}" data-rule-required="true" id="subject" spellcheck="true" class="inputElement"/>
                             </div>
-                            <div class="col-lg-4"></div>
+                            {assign var=USER_PRIVILEGES_MODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
+                            {assign var=GPT_MODULE_MODEL value=Vtiger_Module_Model::getInstance('GPT')}
+                            {if $USER_PRIVILEGES_MODEL->hasModulePermission($GPT_MODULE_MODEL->getId())}
+                                <div class="col-lg-4" style="padding-left: 0px;" id="gptSubjectContainer">
+                                    <button class="fa fa-commenting mail-subject-gpt" style="border: none; background: none; margin-top: 5px; font-size: 20px;"></button>
+                                </div>
+                            {/if}
                         </div>
                     </div>
                             
@@ -188,6 +194,9 @@
                     <div class="pull-right cancelLinkContainer">
                         <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                     </div>
+                    {if $USER_PRIVILEGES_MODEL->hasModulePermission($GPT_MODULE_MODEL->getId())}
+                        <button id="askGPTMailContent" class="btn btn-primary" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}"><strong>Ask GPT Suggestions</strong></button>
+                    {/if}
                     <button id="sendEmail" name="sendemail" class="btn btn-success" title="{vtranslate("LBL_SEND_EMAIL",$MODULE)}" type="submit"><strong>{vtranslate("LBL_SEND_EMAIL",$MODULE)}</strong></button>
                     <button id="saveDraft" name="savedraft" class="btn btn-default" title="{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}" type="submit"><strong>{vtranslate('LBL_SAVE_AS_DRAFT',$MODULE)}</strong></button>
                 </div>

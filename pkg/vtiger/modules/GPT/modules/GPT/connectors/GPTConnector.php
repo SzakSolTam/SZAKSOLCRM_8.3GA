@@ -16,6 +16,8 @@ class GPT_GPT_Connector {
 
     const webappurl = 'https://api.openai.com/v1/chat/completions';
     const modelURL = 'https://api.openai.com/v1/models';
+    const gptModel = 'gpt-3.5-turbo';
+    const maxTokens = 20;
     private static $SETTINGS_REQUIRED_PARAMETERS = array('org_id' => 'text' , 'api_key' => 'text');
 
     /**
@@ -23,7 +25,7 @@ class GPT_GPT_Connector {
      * returns <array>
      */
     public static function getSettingsParameters() {
-        return SELF::$SETTINGS_REQUIRED_PARAMETERS;
+        return self::$SETTINGS_REQUIRED_PARAMETERS;
     }
 
     public function getServiceURL($type = false) {
@@ -32,6 +34,14 @@ class GPT_GPT_Connector {
 
     public function getModelURL() {
         return self::modelURL;
+    }
+
+    public function getGPTModel() {
+        return self::gptModel;
+    }
+
+    public function getMaxTokens() {
+        return self::maxTokens;
     }
 
     /**
@@ -44,28 +54,28 @@ class GPT_GPT_Connector {
     }
 
     /**
-     * Function to check openAI credentials
-     * We are verifying by sending request to openAI before saving to DB.
+     * Function to ask openAI.
      */
     public static function AskGPT($query) {
         $serviceURL = self::getServiceURL();
         $accessKey = self::getApiKey();
-        $body = array('question' => $query,'max_tokens'=>2000);
+        $gptModel = self::getGPTModel();
+        $maxTokens = self::getMaxTokens();
+        $body = array('model' => $gptModel, 'temperature' => 0.7, 'max_tokens'=> $maxTokens, 'messages' => $query);
+        $body = json_encode($body);
 
         $httpClient = new Vtiger_Net_Client($serviceURL);
         $httpClient->setHeaders(array('Content-type' => 'application/json', 'Authorization' => 'Bearer '.$accessKey));
+
         $result = $httpClient->doPost($body);
-        $response = array();
-		if($result) { 
-			if($result['success']) {
-				$response = $result;
-			} else {
-				throw new Exception($result['error']['message']);
-			}
-		}
-		return $response;
+        
+        return $result;
     }
 
+    /**
+     * Function to check openAI credentials
+     * We are verifying by sending request to openAI before saving to DB.
+     */
     public static function checkCredentials($org_id, $api_key) {
         $modelURL = self::getModelURL();
         $httpClient = new Vtiger_Net_Client($modelURL);

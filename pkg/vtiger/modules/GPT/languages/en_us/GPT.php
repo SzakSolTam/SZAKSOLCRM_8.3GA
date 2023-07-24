@@ -11,5 +11,6 @@ $languageStrings = array(
 	'LBL_ASK_GPT' => 'Ask GPT',
     'LBL_GPT_INFO' => 'Note: Do not send confidential details such as email and phone. please note that CRM administrators can view the submitted prompts to track usage.',
     'LBL_GPT_PLACEHOLDER' => 'Type your query',
+    'GPT_RESPONSE' => 'GPT Response',
     
 );
