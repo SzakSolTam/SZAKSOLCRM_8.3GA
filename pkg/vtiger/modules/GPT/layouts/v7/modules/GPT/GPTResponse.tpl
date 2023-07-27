@@ -8,7 +8,7 @@
 ************************************************************************************}
 
 {strip}
-    <div class="globalgptcontainer">
+    <div class="gptResponseContainer">
         <div class="modal-md modal-dialog modelContainer">
             <div class="modal-header">
                 <div class="clearfix">
@@ -17,7 +17,7 @@
                             <span aria-hidden="true" class='fa fa-close'></span>
                         </button>
                     </div>
-                    <h4 class="pull-left" id="globalgptHeaderLabel">
+                    <h4 class="pull-left" id="gptHeaderLabel">
                         {vtranslate('GPT_RESPONSE', $MODULE)}
                     </h4>
                 </div>
@@ -37,7 +37,9 @@
                     </div>
                     <div class="modal-footer ">
                         <center>
-                            <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <div id="gptmodalCancelLink">
+                                <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            </div>
                         </center>
                     </div>
                 </form>

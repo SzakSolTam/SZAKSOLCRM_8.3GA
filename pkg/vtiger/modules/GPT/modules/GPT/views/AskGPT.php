@@ -26,8 +26,10 @@ class GPT_AskGPT_View extends Vtiger_Index_View {
 
     public function AskGPTView(Vtiger_Request $request) {
         $module = $request->get('module');
+		$type = $request->get('type');
         $viewer = $this->getViewer($request);
         $viewer->assign('MODULE', $module);
+		$viewer->assign('TYPE', $type);
         $viewer->view('AskGPT.tpl', $module);
     }
 
@@ -35,7 +37,6 @@ class GPT_AskGPT_View extends Vtiger_Index_View {
 		$module = $request->get('module');
 		$query = $request->get('query');
 		$viewer = $this->getViewer($request);
-		$responseField = 'gpt_response';
 		$response = new Vtiger_Response();
 
 		try {
@@ -45,12 +46,7 @@ class GPT_AskGPT_View extends Vtiger_Index_View {
 				$response->setError($message);
 				$response->emit();
 			} else {
-				$moduleModel = Vtiger_Module_Model::getInstance('GPT');
-				$fieldModel = Vtiger_Field_Model::getInstance($responseField, $moduleModel);
-				$fieldModel->set('fieldvalue', $GPTResponse['data']);
-
 				$viewer->assign('MODULE', $module);
-				$viewer->assign('FIELD_MODEL', $fieldModel);
 				$viewer->assign('QUERY', $query);
 				$viewer->assign('RESPONSE', $GPTResponse['data']);
 				$viewer->view('GPTResponse.tpl', $module);

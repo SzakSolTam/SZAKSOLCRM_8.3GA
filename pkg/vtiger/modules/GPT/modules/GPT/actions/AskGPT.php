@@ -27,7 +27,7 @@ class GPT_AskGPT_Action extends Vtiger_BasicAjax_Action {
         $query = $request->get('query');
         $type  =$request->get('type');
         $connector = new GPT_GPT_Connector;
-        if($type == 'Global') {
+        if($type == 'Global' || $type == 'MailBody') {
             $formattedQuery = array(
                 array('role'=>'system','content'=>'You are a helpful assistant.'),
                 array('role'=>'user','content'=>$query),
@@ -39,12 +39,22 @@ class GPT_AskGPT_Action extends Vtiger_BasicAjax_Action {
     }
 
     public function formatResponse($type, $response){
-        if($type == 'Global') {
+        if($type == 'Global' || $type == 'MailBody') {
+            $content = array();
             $response = json_decode($response, true);
             if(!$response['error']) {
-                $content['data'] = $response['choices'][0]['message']['content'];
+                $initialContent = $response['choices'][0]['message']['content'];
+                // To handle new lines in the json
+                $initialContent = preg_replace('/\r|\n/','\n',trim($initialContent));
+                // Replace 2 or more new lines with single line
+                $initialContent = preg_replace('/[\n]{2,}/', '\n', $initialContent);
+                $initialContent = nl2br($initialContent);
+                // Replace multiple br tags with one tag
+                $initialContent = preg_replace('#(<br */?>\s*)+#i', '<br />', $initialContent);
+                $responseBody = trim($initialContent, '"');
+                $content['data'] = $responseBody;
             } else {
-                $content['error'] = (string)$response['error']['message'];
+                $content['error'] = $response['error']['message'];
             }
         }
         return $content;

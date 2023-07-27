@@ -826,20 +826,6 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		});
 	},
 
-	gptMailSubject: function() {
-		composeEmailContainer = jQuery("#composeEmailContainer");
-		mailComposeGPTIcon = composeEmailContainer.find(".mail-subject-gpt");
-		mailComposeSubject = composeEmailContainer.find("#subject");
-		mailComposeGPTIcon.hide();
-		mailComposeSubject.keyup( function(e) {
-			if(mailComposeSubject.val()){
-				mailComposeGPTIcon.show();
-			} else {
-				mailComposeGPTIcon.hide();
-			}
-		});
-	},
-
 	registerEvents : function(){
 		var thisInstance = this;
 		var container = this.getMassEmailForm();
@@ -929,7 +915,6 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 					jQuery('#emailTemplateWarning').addClass('hide');
 				}
 			});
-			// this.gptMailSubject();
 		}
 	}
 });

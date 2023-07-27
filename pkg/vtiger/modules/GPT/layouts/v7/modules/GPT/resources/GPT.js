@@ -26,6 +26,7 @@ var Vtiger_GPT_Js = {
 				'module' : 'GPT',
 				'view' : 'AskGPT',
 				'mode' : 'AskGPTView',
+				'type' : 'Global',
 			}
 			app.helper.showProgress();
 			app.request.post({"data":params}).then(function(err,data) {
@@ -46,6 +47,7 @@ var Vtiger_GPT_Js = {
 		var gptModal = jQuery('.globalgptcontainer');
 		gptModal.off("click", "#getGlobalGPTResponse");
 		gptModal.on("click", "#getGlobalGPTResponse", function(e) {
+			e.preventDefault();
 			var query = gptModal.find("#AskGPTInput").val();
 			var params = {
 				'module' : 'GPT',
@@ -58,6 +60,7 @@ var Vtiger_GPT_Js = {
 			app.request.post({"data":params}).then(function(err,data) {
 				app.helper.hideProgress();
 				if(err == null) {
+					gptModal.find('.cancelLink').trigger('click');
 					jQuery('.globalgptcontainer').remove();
 					var ele = jQuery('<div class="modal popupModal"></div>');
 					ele.append(data);
@@ -72,10 +75,18 @@ var Vtiger_GPT_Js = {
 					var fullResponse = jQuery(data);
 					var ckValue = fullResponse.find('#gptResponseField').val();
 					ckEditorInstance.loadContentsInCkeditor(ckValue);
+					thisInstance.postCloseModal();
 				} else {
 					app.helper.showErrorNotification({message : err.message});
 				}
 			});
+		});
+	},
+
+	postCloseModal: function() {
+		var responseModal = jQuery('.gptResponseContainer');
+		responseModal.on("click", "#gptmodalCancelLink", function(e) {
+			location.reload();
 		});
 	},
 

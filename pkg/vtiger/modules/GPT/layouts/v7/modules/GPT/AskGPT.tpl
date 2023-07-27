@@ -8,7 +8,11 @@
 ************************************************************************************}
 
 {strip}
-    <div class="globalgptcontainer">
+    {if $TYPE eq 'Global'}
+        <div class="globalgptcontainer">
+    {else}
+        <div class="mailgptcontainer">
+    {/if}
         <div class="modal-md modal-dialog modelContainer">
             <div class="modal-header">
                 <div class="clearfix">
@@ -17,21 +21,30 @@
                             <span aria-hidden="true" class='fa fa-close'></span>
                         </button>
                     </div>
-                    <h4 class="pull-left" id="globalgptHeaderLabel">
+                    <h4 class="pull-left" id="gptHeaderLabel">
                         {vtranslate('LBL_ASK_GPT', $MODULE)}
                     </h4>
                 </div>
             </div>
             <div class="modal-content">
-                <form id="globalgptEditForm" autocomplete="off">
+                <form id="gptEditForm" autocomplete="off">
                     <div class="modal-body">
                         <div class="form-group">
-                            <div class="gpt-chat-container" style="border: 1px solid black; height: 32px;">
-                                <textarea rows="5" id="AskGPTInput" class="inputElement textAreaElement col-lg-12 " data-rule-required="true" aria-required="true" placeholder="{vtranslate('LBL_GPT_PLACEHOLDER', $MODULE)}" style="resize: none; max-width:95%; border: none;"></textarea>
-                                <button id="getGlobalGPTResponse" style="border: none; background: none;">
-                                    <i class="fa fa-paper-plane" style=" margin-top: 50%;"></i>
-                                </button>
-                            </div>
+                            {if $TYPE eq 'Global'}
+                                <div class="gpt-global-container" style="border: 1px solid black; height: 32px;">
+                                    <textarea rows="5" id="AskGPTInput" class="inputElement textAreaElement col-lg-12 " data-rule-required="true" aria-required="true" placeholder="{vtranslate('LBL_GPT_PLACEHOLDER', $MODULE)}" style="resize: none; max-width:95%; border: none;"></textarea>
+                                    <button id="getGlobalGPTResponse" style="border: none; background: none;">
+                                        <i class="fa fa-paper-plane" style=" margin-top: 50%;"></i>
+                                    </button>
+                                </div>
+                            {elseif $TYPE eq 'MailBody'}
+                                <div class="gpt-mail-container" style="border: 1px solid black; height: 32px;">
+                                    <textarea rows="5" id="AskGPTInputMail" class="inputElement textAreaElement col-lg-12 " data-rule-required="true" aria-required="true" placeholder="{vtranslate('LBL_GPT_PLACEHOLDER', $MODULE)}" style="resize: none; max-width:95%; border: none;"></textarea>
+                                    <button id="getMailGPTResponse" style="border: none; background: none;">
+                                        <i class="fa fa-paper-plane" style=" margin-top: 50%;"></i>
+                                    </button>
+                                </div>
+                            {/if}
                         </div>
                     </div>
                     <div class="textAlignCenter" style="background-color: lightblue;padding-top: 10px; padding-bottom: 10px; font-weight: 500;">
@@ -39,7 +52,7 @@
                     </div>
                     <div class="modal-footer ">
                         <center>
-                            <a href="#" class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+                            <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                         </center>
                     </div>
                 </form>
