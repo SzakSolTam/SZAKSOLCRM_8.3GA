@@ -1498,6 +1498,7 @@ ul.unstyled {
   width: 80%;
   display: inline-block;
   max-width: 300px;
+  max-height: 150px;
 }
 .floatThead-table {
   background: #fff;
