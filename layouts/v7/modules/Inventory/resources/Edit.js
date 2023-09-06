@@ -1575,6 +1575,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 parentRow.find('.productTaxTotal').addClass('hide')
             }
 		}
+		app.event.trigger("post.selectItem.click", recordData);
 		if(referenceModule == 'Products'){
 			this.loadSubProducts(parentRow);
 		}
