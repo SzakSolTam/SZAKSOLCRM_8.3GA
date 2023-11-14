@@ -1423,6 +1423,16 @@ class ReportRun extends CRMEntity {
 								$selectFieldTableName = $emailTableName;
 							}
 							$fieldvalue = $selectFieldTableName . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($value), $datatype);
+
+							if ($selectedfields[4] == 'C' && trim($value) == 0) {
+
+								$fieldvalue = '(' . $fieldvalue . ' OR ' . $selectFieldTableName . '.' . $selectedfields[1] . ' IS NULL)';
+							}
+  
+							if ($selectedfields[4] == 'V' && $comparator == 'n') {
+
+							$fieldvalue = '(' . $fieldvalue . ' OR ' . $selectFieldTableName . '.' . $selectedfields[1] . ' IS NULL)';
+							}
 						}
 						$advfiltergroupsql .= $fieldvalue;
 						if (!empty($columncondition)) {

@@ -1150,6 +1150,10 @@ class QueryGenerator {
 				$sql[] = "IS NULL";
 			}
 
+			if($field->getFieldDataType() == 'boolean' && $operator == 'e' && $value == 0) {
+				$sql[] = "IS NULL";
+			}
+
 			if( ($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday'
 							&& $this->isRelativeSearchOperators($operator)))){
 				$value = "'$value'";
