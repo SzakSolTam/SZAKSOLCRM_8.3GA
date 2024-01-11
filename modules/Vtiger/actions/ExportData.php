@@ -55,6 +55,12 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 		}
 		$translatedHeaders = $this->getHeaders();
 		$entries = array();
+		/**
+		 * Declaring $arr2 as array key value pair 
+		 * getting selected_currency from request 
+		 * and passing over sanitizeValues where values are being set  
+		 */
+		$arr2 = array($selectedCurrency => $request->get('selected_currency'));
 		for ($j = 0; $j < $db->num_rows($result); $j++) {
 			$entries[] = $this->sanitizeValues($db->fetchByAssoc($result, $j));
 		}
@@ -267,7 +273,10 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 	 * this function takes in an array of values for an user and sanitizes it for export
 	 * @param array $arr - the array of values
 	 */
-	function sanitizeValues($arr){
+	function sanitizeValues($arr,$arr2){
+		/**
+		 * getting $arr2 as a value here
+		 */
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleid = $currentUser->get('roleid');
@@ -342,7 +351,17 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 				}
 			} elseif($uitype == 72 || $uitype == 71) {
                 $value = CurrencyField::convertToUserFormat($value, null, true, true);
-			} elseif($uitype == 7 && $fieldInfo->get('typeofdata') == 'N~O' || $uitype == 9){
+			}/**
+				 * Under UI type 74 : multi currency and currency list
+				 * $arr2 assigned value passed as an arguement
+				 * if selected currency is user currency 
+				 * setting user currency with user preference from current user model , else it will be record currency 
+				 *  */
+			elseif($uitype == 74 || $uitype == 117) {
+				if($arr2[$selectedCurrency] == 'UserCurrency') {
+					$value= $currentUser->get('currency_name');
+				} 
+			}elseif($uitype == 7 && $fieldInfo->get('typeofdata') == 'N~O' || $uitype == 9){
 				$value = decimalFormat($value);
 			} elseif($type == 'date') {
 				if ($value && $value != '0000-00-00') {
