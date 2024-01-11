@@ -273,10 +273,10 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 	 * this function takes in an array of values for an user and sanitizes it for export
 	 * @param array $arr - the array of values
 	 */
+	 /**
+	  * passing $arr2 as an arguement here
+	  */
 	function sanitizeValues($arr,$arr2){
-		/**
-		 * getting $arr2 as a value here
-		 */
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleid = $currentUser->get('roleid');
