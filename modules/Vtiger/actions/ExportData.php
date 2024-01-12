@@ -53,10 +53,6 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 			$handler->ExportData($request);
 			return;
 		}
-		/**
-		 * Declaring $arr2 as array key value pair 
-		 * getting selected_currency from request 
-		 * and passing over sanitizeValues where values are being set */
 		$translatedHeaders = $this->getHeaders();
 		$entries = array();
 		/**
