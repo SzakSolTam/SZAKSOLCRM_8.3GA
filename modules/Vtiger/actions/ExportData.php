@@ -57,9 +57,13 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 		 * Declaring $arr2 as array key value pair 
 		 * getting selected_currency from request 
 		 * and passing over sanitizeValues where values are being set */
-	   $arr2 = array($selectedCurrency => $request->get('selected_currency'));
 		$translatedHeaders = $this->getHeaders();
 		$entries = array();
+		/**
+		 * Declaring $arr2 as array key value pair 
+		 * getting selected_currency from request 
+		 * and passing over sanitizeValues where values are being set */
+		$arr2 = array($selectedCurrency => $request->get('selected_currency'));
 		for ($j = 0; $j < $db->num_rows($result); $j++) {
 			$entries[] = $this->sanitizeValues($db->fetchByAssoc($result, $j),$arr2);
 		}
