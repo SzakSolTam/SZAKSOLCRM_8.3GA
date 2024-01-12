@@ -2,7 +2,7 @@
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
+ * The Original Code is: vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
@@ -45,40 +45,36 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 
 		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleFieldInstances($moduleName);
-
 		$this->focus = CRMEntity::getInstance($moduleName);
 
 		$query = $this->getExportQuery($request);
 		$result = $db->pquery($query, array());
 
-
 		$redirectedModules = array('Users', 'Calendar');
-
 		if ($request->getModule() != $moduleName && in_array($moduleName, $redirectedModules) && !$this->moduleCall) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Action', 'ExportData', $moduleName);
 			$handler = new $handlerClass();
 			$handler->ExportData($request);
 			return;
 		}
-
 		$translatedHeaders = $this->getHeaders();
 		$entries = array();
 		/**
 		 * Declaring $arr2 as array key value pair 
 		 * getting selected_currency from request 
-		 * and passing over sanitizeValues where values are being set 
-		 * Kaushik P 
-		 */
+		 * and passing over sanitizeValues where values are being set */
 		$arr2 = array($selectedCurrency => $request->get('selected_currency'));
 		for ($j = 0; $j < $db->num_rows($result); $j++) {
-			$entries[] = $this->sanitizeValues($db->fetchByAssoc($result, $j), $arr2);
+			$entries[] = $this->sanitizeValues($db->fetchByAssoc($result, $j),$arr2);
 		}
+
 		$this->output($request, $translatedHeaders, $entries);
 	}
 
 	public function getHeaders()
 	{
 		$headers = array();
+		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			$accessiblePresenceValue = array(0, 2);
 			foreach ($this->accessibleFields as $fieldName) {
@@ -164,8 +160,8 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		}
 
 		/**
-		 *  For Documents if we select any document folder and mass deleted it should delete documents related to that 
-		 *  particular folder only
+		 * For Documents if we select any document folder and mass deleted it should delete documents related to that 
+		 * particular folder only
 		 */
 		if ($moduleName == 'Documents') {
 			$folderValue = $request->get('folder_value');
@@ -252,10 +248,9 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$type = $request->get('export_type');
 		if (empty($type)) {
 			return 'text/csv';
-		} else {
-			return 'text/ics';
 		}
 	}
+
 	/**
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
@@ -292,17 +287,12 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 * this function takes in an array of values for an user and sanitizes it for export
 	 * @param array $arr - the array of values
 	 */
-	function sanitizeValues($arr, $arr2)
+	 //getting $arr2 as a value here
+	function sanitizeValues($arr,$arr2)
 	{
-		/**
-		 * getting $arr2 as a value here
-		 * Kaushik P
-		 */
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$roleid = $currentUser->get('roleid');
-
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {
@@ -316,7 +306,6 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 				}
 			}
 		}
-
 		$moduleName = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {
@@ -377,19 +366,17 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 				}
 			} elseif ($uitype == 72 || $uitype == 71) {
 				$value = CurrencyField::convertToUserFormat($value, null, true, true);
-			}
+			} 
 			/**
-			 * Under UI type 74 : multi currency and currency list
-			 * $arr2 assigned value passed as an arguement
-			 * if selected currency is user currency 
-			 * setting user currency with user preference from current user model , else it will be record currency 
-			 * Kaushik P 
-			 *  */elseif ($uitype == 74 || $uitype == 117) {
-
-				if ($arr2[$selectedCurrency] == 'UserCurrency') {
-					$value = $currentUser->get('currency_name');
-				}
-			} elseif ($uitype == 7 && $fieldInfo->get('typeofdata') == 'N~O' || $uitype == 9) {
+			* Under UI type 74 : multi currency and currency list
+			* $arr2 assigned value passed as an arguement
+			* if selected currency is user currency 
+			* setting user currency with user preference from current user model , else it will be record currency *  */
+			elseif ($uitype == 74 || $uitype == 117) {
+			   if ($arr2[$selectedCurrency] == 'UserCurrency') {
+				   $value = $currentUser->get('currency_name');
+			   }
+		   }elseif ($uitype == 7 && $fieldInfo->get('typeofdata') == 'N~O' || $uitype == 9) {
 				$value = decimalFormat($value);
 			} elseif ($type == 'date') {
 				if ($value && $value != '0000-00-00') {
@@ -404,8 +391,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 					$value = $value . ' ' . $arr[$timeField];
 				}
 				if (trim($value) && $value != '0000-00-00 00:00:00') {
-					$test = new Vtiger_Datetime_UIType();
-					$value = $test->getDisplayValue($value);
+					$value = Vtiger_Datetime_UIType::getDisplayDateTimeValue($value);
 				}
 			}
 			if ($moduleName == 'Documents' && $fieldname == 'description') {
