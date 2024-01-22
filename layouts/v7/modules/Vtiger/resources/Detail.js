@@ -1177,7 +1177,7 @@ Vtiger.Class("Vtiger_Detail_Js",{
 
 		// for reference fields, actual value will be ID but we need to show related name of that ID
 		if(fieldType === 'reference'){
-			if(value !== 0){
+			if(value > 0){
 				jQuery('input[name="'+fieldName+'"]',editElement).prop('value',jQuery.trim(detailViewValue.text()));
 				var referenceElement = jQuery('input[name="'+fieldName+'"]',editElement);
 				if(!referenceElement.attr('disabled')) {
