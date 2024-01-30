@@ -1821,7 +1821,7 @@ function getValidDBInsertDateValue($value) {
 		$insert_date = $value;
 	}
 
-	if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $insert_date) == 0) {
+	if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $insert_date)) {
 		return '';
 	}
 
