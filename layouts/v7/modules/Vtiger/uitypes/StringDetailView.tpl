@@ -42,5 +42,7 @@
 {else if  $FIELD_MODEL->get('name') eq 'signature'}
 	{decode_html($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD))}
 {else}
-    {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
+    {assign var="fieldValue" value=$FIELD_MODEL->get('fieldvalue')}
+    {assign var="decodedValue" value=$fieldValue|html_entity_decode}
+    {decode_html($FIELD_MODEL->getDisplayValue($decodedValue, $RECORD->getId(), $RECORD))}
 {/if}
