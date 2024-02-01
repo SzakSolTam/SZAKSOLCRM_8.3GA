@@ -83,6 +83,13 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model {
 	}
 	
 	public function getDisplayValue($value, $record=false, $recordInstance = false) {
+		// decode html name desc from the sanitized value 
+		if($this->getName() == "name"){
+			return decode_html($value);
+		}
+		if($this->getName() == "description"){
+			return decode_html($value);
+		}
 		if ($this->getName() === 'enabled') {
 			$moduleName = 'Settings:Webforms';
 			if ($value) {

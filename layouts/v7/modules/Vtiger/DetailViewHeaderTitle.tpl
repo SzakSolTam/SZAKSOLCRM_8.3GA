@@ -20,7 +20,7 @@
 			<div class="recordBasicInfo">
 				<div class="info-row">
 					<h4>
-						<span class="recordLabel pushDown" title="{$RECORD->getName()}">
+						<span class="recordLabel pushDown" title="{decode_html($RECORD->getName())}">
 							{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 								{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
 								{if $FIELD_MODEL->getPermissions()}
