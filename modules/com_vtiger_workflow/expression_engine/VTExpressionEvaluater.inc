@@ -15,6 +15,9 @@ function __vt_add($arr){
 	if(sizeof($arr)==1){
 		return $arr[0];
 	}else{
+		if (!is_numeric($arr[0]) || !is_numeric($arr[1])) {
+            return "Invalid input";
+        }
 		if(strlen(substr(strrchr($arr[0], "."), 1))>strlen(substr(strrchr($arr[1], "."), 1))){
 			$maxDigit = strlen(substr(strrchr($arr[0], "."), 1));
 		} else {
