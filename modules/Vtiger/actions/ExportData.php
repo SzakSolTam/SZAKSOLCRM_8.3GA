@@ -31,6 +31,8 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 	private $moduleInstance;
 	private $focus;
 
+	public $selectedCurrency;
+
 	/**
 	 * Function exports the data based on the mode
 	 * @param Vtiger_Request $request
