@@ -344,22 +344,26 @@ class VTFieldExpressionEvaluater{
 	function exec($expr){
 		if($expr instanceof VTExpressionSymbol){
 			return $this->env($expr);
-		}else if($expr instanceof VTExpressionTreeNode){
+		} else if($expr instanceof VTExpressionTreeNode){
 			$op = $expr->getName();
-			if($op->value=='if'){
+			if($op->value == 'if'){
 				$params = $expr->getParams();
 				$cond = $this->exec($params[0]);
 				if($cond){
 					return $this->exec($params[1]);
-				}else{
+				} else {
 					return $this->exec($params[2]);
 				}
-			}else{
+			} else {
 				$params = array_map(array($this, 'exec'), $expr->getParams());
-				$func = $this->operations[$op->value];
-				return $func($params);
+				$func = isset($this->operations[$op->value]) ? $this->operations[$op->value] : null;
+				if ($func !== null) {
+					return $func($params);
+				} else {
+					return null;
+				}
 			}
-		}else{
+		} else {
 			return $expr;
 		}
 	}

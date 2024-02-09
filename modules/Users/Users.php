@@ -1042,12 +1042,12 @@ class Users extends CRMEntity {
 		if(!isset($ownerid) || $ownerid=='')
 			$ownerid = $current_user->id;
 
-		$save_file = 'true';
+		$save_file =  true;
 		//only images are allowed for these modules
 		if($module == 'Users') {
 			$save_file = validateImageFile($file_details);
 		}
-		if ($save_file == 'false') {
+		if (!$save_file) {
 			return;
 		}
 
@@ -1067,7 +1067,7 @@ class Users extends CRMEntity {
         $encryptFileName = Vtiger_Util_Helper::getEncryptedFileName($binFile);
 		$upload_status = move_uploaded_file($filetmp_name,$upload_file_path.$current_id."_".$encryptFileName);
 
-		if($save_file == 'true') {
+		if($save_file) {
 
 			$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
 			$params1 = array($current_id, $current_user->id, $ownerid, $module." Image", $this->column_fields['description'], $this->db->formatString("vtiger_crmentity","createdtime",$date_var), $this->db->formatDate($date_var, true));

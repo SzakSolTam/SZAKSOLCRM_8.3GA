@@ -132,7 +132,7 @@ class Vtiger_Language_Handler {
 			$qualifiedName = 'languages.'.$language.'.'.$module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = $jsLanguageStrings = array();
-			if (!self::$fileExists[$file]) {
+			if (!isset(self::$fileExists[$file])) {
 				self::$fileExists[$file] = file_exists($file) ? 'yes' : 'no';
 			}
 			if (self::$fileExists[$file] == 'yes') {
@@ -147,7 +147,7 @@ class Vtiger_Language_Handler {
         $file = Vtiger_Loader::resolveNameToPath($qualifiedCustomName);
 
         $languageStrings = $jsLanguageStrings = array();
-		if (!self::$fileExists[$file]) {
+		if (!isset(self::$fileExists[$file])) {
 			self::$fileExists[$file] = file_exists($file) ? 'yes' : 'no';
 		}
 		if (self::$fileExists[$file] == 'yes') {            

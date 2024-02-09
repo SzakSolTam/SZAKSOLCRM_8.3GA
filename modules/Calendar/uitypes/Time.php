@@ -59,5 +59,40 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType {
 		$value = $dateTimeField->getDisplayTime();
 		return $value;
 	}
+        
+        /**
+	 * Function to get the ModtrackerDisplay Value, for the current field type with given DB Insert Value
+	 * @param <Object> $fieldName
+	 * @param <Object> $value
+	 * @param <Object> $recordModel
+	 * @return $value
+	 */
+	public static function getModTrackerDisplayValue($fieldName,$value,$recordModel) {
+		$userModel = Users_Privileges_Model::getCurrentUserModel();
+		if(empty($value)){
+			return '';
+		}
+		if($recordModel){
+			$startDate = $recordModel->get('date_start');
+			$endDate = $recordModel->get('due_date');
+			if($fieldName == 'time_start') {
+				//Added this check to show start time according to start date of calendar record
+				//to avoid day light saving issue for -(UTC London) => UTC+1:00
+				$dateTime = new DateTimeField($startDate.' '.$value);
+				$value = $dateTime->getDisplayTime();
+			}
+			if($fieldName == 'time_end'){
+				//Added this check to show end time according to end date of calendar record
+				//to avoid day light saving issue for -(UTC London) => UTC+1:00
+				$dateTime = new DateTimeField($endDate.' '.$value);
+				$value = $dateTime->getDisplayTime();
+
+			}
+		}
+		if($userModel->get('hour_format') == '12'){
+			return Vtiger_Time_UIType::getTimeValueInAMorPM($value);
+		}
+		return $value;
+	}
 
 }

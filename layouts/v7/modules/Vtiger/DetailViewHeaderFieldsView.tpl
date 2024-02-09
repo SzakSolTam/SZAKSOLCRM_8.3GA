@@ -21,7 +21,7 @@
                     <span class="{$FIELD_NAME} value" title="{vtranslate($FIELD_MODEL->get('label'),$MODULE)} : {strip_tags($DISPLAY_VALUE)}">
                         {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path:$MODULE_NAME FIELD_MODEL=$FIELD_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
                     </span>
-                    {if $FIELD_MODEL->isEditable() eq 'true' && $LIST_PREVIEW neq 'true' && $IS_AJAX_ENABLED eq 'true'}
+                    {if $FIELD_MODEL->isEditable() eq 'true' AND (isset($LIST_PREVIEW) AND $LIST_PREVIEW neq 'true') && $IS_AJAX_ENABLED eq 'true'}
                         <span class="hide edit">
                             {if $FIELD_DATA_TYPE eq 'multipicklist'}
                                 <input type="hidden" class="fieldBasicData" data-name='{$FIELD_MODEL->get('name')}[]' data-type="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' data-value="{$FIELD_MODEL->get('fieldvalue')}" />

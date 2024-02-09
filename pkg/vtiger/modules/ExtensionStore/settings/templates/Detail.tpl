@@ -7,7 +7,7 @@
 {strip}
 	<div class="container-fluid detailViewInfo extensionDetails" style='margin-top:0px;'>
 		{if !($ERROR)}
-            <input type="hidden" name="mode" value="{$REQ.mode}" />
+            <input type="hidden" name="mode" value="{$REQ->get('mode')}" />
 			<input type="hidden" name="extensionId" value="{$EXTENSION_ID}" />
 			<input type="hidden" name="targetModule" value="{$EXTENSION_DETAIL->get('name')}" />
 			<input type="hidden" name="moduleAction" value="{$MODULE_ACTION}" />

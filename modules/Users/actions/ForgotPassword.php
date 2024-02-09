@@ -9,9 +9,9 @@
  *************************************************************************************/
 chdir(dirname(__FILE__)."/../../../");
 
+include_once "vendor/autoload.php";
 include_once "include/utils/VtlibUtils.php";
 include_once "include/utils/CommonUtils.php";
-include_once "includes/Loader.php";
 include_once 'includes/runtime/BaseModel.php';
 include_once 'includes/runtime/Viewer.php';
 include_once "includes/http/Request.php";

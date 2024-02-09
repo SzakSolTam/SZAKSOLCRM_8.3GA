@@ -1029,30 +1029,55 @@ class QueryGenerator {
 			if(!$this->isStringType($field->getFieldDataType())) {
 				$value = trim($value);
 			}
-			if ($operator == 'empty' || $operator == 'y') {
-				$sql[] = sprintf("IS NULL OR %s = ''", $this->getSQLColumn($field->getFieldName(), $field));
-				continue;
-			}
-			if($operator == 'ny'){
-				$sql[] = sprintf("IS NOT NULL AND %s != ''", $this->getSQLColumn($field->getFieldName(), $field));
-				continue;
-			}
-			if ($operator == 'k') {
+			// If value is empty and comparator is equals then we have to check IS NULL (same as "is empty" condition)
+                        if ($operator == 'empty' || $operator == 'y') {
+                            $sqlFieldDataType = $field->getFieldDataType();
+                            if($sqlFieldDataType == 'date' || $sqlFieldDataType == 'birthday'){
+                                    $sqlFormat = sprintf("IS NULL OR %s = '0000-00-00'", $this->getSQLColumn($field->getFieldName(), $field));
+                            } else if($sqlFieldDataType == 'datetime'){
+                                    $sqlFormat = sprintf("IS NULL OR %s = '0000-00-00 00:00:00'", $this->getSQLColumn($field->getFieldName(), $field));
+                            } else {
+                                    $sqlFormat = sprintf("IS NULL OR %s = ''", $this->getSQLColumn($field->getFieldName(), $field));
+                            }
+                            $sql[] = $sqlFormat;
+                            continue;
+                        }
+			if ($operator == 'ny') {
+                            $sqlFieldDataType = $field->getFieldDataType();
+                            if ($sqlFieldDataType == 'date' || $sqlFieldDataType == 'birthday') {
+                                $sqlFormat = sprintf("IS NOT NULL AND %s != '0000-00-00'", $this->getSQLColumn($field->getFieldName(), $field));
+                            } else if ($sqlFieldDataType == 'datetime') {
+                                $sqlFormat = sprintf("IS NOT NULL AND %s != '0000-00-00 00:00:00'", $this->getSQLColumn($field->getFieldName(), $field));
+                            } else {
+                                $sqlFormat = sprintf("IS NOT NULL AND %s != ''", $this->getSQLColumn($field->getFieldName(), $field));
+                            }
+                            $sql[] = $sqlFormat;
+                            continue;
+                        }
+                        if ($operator == 'k') {
 				$sql[] = sprintf("IS NULL OR %s NOT LIKE '%%%s%%'", $this->getSQLColumn($field->getFieldName(), $field), $value);
 				continue;
 			}
-			if((strtolower(trim($value)) == 'null') ||
-					(trim($value) == '' && !$this->isStringType($field->getFieldDataType())) &&
-							($operator == 'e' || $operator == 'n')) {
-				if($operator == 'e'){
-					$sql[] = "IS NULL";
-					$sql[] = "= ''";
-					continue;
-				} else {
-					$sql[] = "IS NOT NULL";
-					$sql[] = "!= ''";
-					continue;
-				}
+			$trimmedValue = is_array($value) ? NULL : trim($value);
+                        if((strtolower($trimmedValue) == 'null') ||
+                                ($trimmedValue == '' && !$this->isStringType($field->getFieldDataType())) &&
+                                ($operator == 'e' || $operator == 'n')) {
+                            if($operator == 'e'){
+                                $sql[] = "IS NULL";
+                                $sqlFieldDataType = $field->getFieldDataType();
+                                if($sqlFieldDataType == 'date' || $sqlFieldDataType == 'birthday'){
+                                        $sql[] = "= '0000-00-00'";
+                                } else if($sqlFieldDataType == 'datetime'){
+                                        $sql[] = "= '0000-00-00 00:00:00'";
+                                } else {
+                                        $sql[] = "= ''";
+                                }
+                                continue;
+                            } else {
+                                $sql[] = "IS NOT NULL";
+                                $sql[] = "!= ''";
+                                continue;
+                            }
 			} elseif($field->getFieldDataType() == 'boolean') {
 				$value = strtolower($value);
 				if ($value == 'yes') {
@@ -1096,11 +1121,11 @@ class QueryGenerator {
 			}
 
 			if($field->getFieldName() == 'birthday' && !$this->isRelativeSearchOperators(
-					$operator)) {
-				$value = "DATE_FORMAT(".$db->quote($value).", '%m%d')";
-			} else {
-				$value = $db->sql_escape_string($value);
-			}
+                                $operator)) {
+                            $value = "DATE_FORMAT(".$db->quote($value).", '%m%d')";
+                        } else {
+                            $value = is_array($value) ? NULL : $db->sql_escape_string($value);
+                        }
 
 			if(trim($value) == '' && ($operator == 's' || $operator == 'ew' || $operator == 'c')
 					&& ($this->isStringType($field->getFieldDataType()) ||
@@ -1150,14 +1175,32 @@ class QueryGenerator {
 				$sql[] = "IS NULL";
 			}
 
-			if( ($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday'
-							&& $this->isRelativeSearchOperators($operator)))){
-				$value = "'$value'";
-			}
+                        /**
+                         * While searching in decimal type columns, then value will be stored like 100.1234 (as float value).
+                         * When user search for 100 then also it should show up 100.1234 for which we are altering comparator and 
+                         * value here. If we search 'equal' or 'not equal' we will change to 'like' or 'not like'
+                         * NOTE : Same thing handled in ReportRun->generateAdvFilterSql() api
+                         */
+                        if($this->isFloatType($field->getFieldDataType()) && !empty($value)
+                                && in_array($operator, array('e', 'n') )){
+                            $sqlOperator = ($operator == 'e') ? ' LIKE ' : ' NOT LIKE ';
+                                if ((float) $value == round((float)$value)) {
+                                // if given value is witn out any decimals (Ex:- 1234), then we search with '1234.%'
+                                $value = $value.'.';
+                            }
+                            $value = $value."%";
+                        }
 
-			if(($this->isNumericType($field->getFieldDataType())) && empty($value)) {				
-				$value = '0';
-			}
+                        if( ($field->getFieldDataType() != 'birthday' || ($field->getFieldDataType() == 'birthday'
+                                        && $this->isRelativeSearchOperators($operator)))){
+                            if($field->getFieldDataType() !== 'integer'){
+                                $value = "'$value'";
+                            }
+                        }
+
+                        if($this->isNumericType($field->getFieldDataType()) && empty($value)) {
+                            $value = '0';
+                        }
 			$sql[] = "$sqlOperator $value";
 		}
 		return $sql;
@@ -1185,6 +1228,14 @@ class QueryGenerator {
 	protected function isNumericType($type) {
 		return ($type == 'integer' || $type == 'double' || $type == 'currency');
 	}
+        
+        /**
+        * Function to identify given type is a floating(decimal) type or not. Column types like decimal will store 
+        * information as floating values. All those column related field types comes under this
+        */
+        protected function isFloatType($type) {
+           return ($type == 'double' || $type == 'currency' || $type == 'multicurrency');
+        }
 
 	protected function isStringType($type) {
 		return ($type == 'string' || $type == 'text' || $type == 'email' || $type == 'reference');

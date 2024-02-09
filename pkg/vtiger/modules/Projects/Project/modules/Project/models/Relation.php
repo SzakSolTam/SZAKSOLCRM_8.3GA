@@ -21,6 +21,7 @@ class Project_Relation_Model extends Vtiger_Relation_Model{
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
         	$sourceModuleFocus->delete_related_module($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+			$sourceModuleFocus->trackUnLinkedInfo($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
 		return true;
 	}
 }

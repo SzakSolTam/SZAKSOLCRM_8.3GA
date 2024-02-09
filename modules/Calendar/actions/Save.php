@@ -159,6 +159,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 				if(!is_array($fieldValue)) {
 					$fieldValue = trim($fieldValue);
 				}
+                                $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
 				$recordModel->set($fieldName, $fieldValue);
 			}
 		}

@@ -57,7 +57,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$userName = $currentUserModel->getName();
 
 		// To eliminate the empty value of an array
-		$toEmailInfo = array_filter($this->get('toemailinfo'));
+		$toEmailInfo = $this->get('toemailinfo') ? array_filter($this->get('toemailinfo')) : array();
 		$emailsInfo = array();
 		foreach ($toEmailInfo as $id => $emails) {
 			foreach($emails as $key => $value){
@@ -374,15 +374,16 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	 * Function to save details of document and email
 	 */
 	public function saveDocumentDetails() {
+            $documentIds = json_decode($this->get('documentids'), true);
+            if(!empty($documentIds)) {
 		$db = PearDatabase::getInstance();
 		$record = $this->getId();
-
-		$documentIds = array_unique($this->get('documentids'));
-
+                $documentIds = array_unique($documentIds);
 		$count = php7_count($documentIds);
 		for ($i=0; $i<$count; $i++) {
 			$db->pquery("INSERT INTO vtiger_senotesrel(crmid, notesid) VALUES(?, ?)", array($record, $documentIds[$i]));
 		}
+            }
 	}
 
 	/**

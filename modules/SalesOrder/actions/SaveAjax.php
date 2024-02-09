@@ -66,6 +66,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}
+                                        $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
 					$recordModel->set($fieldName, $fieldValue);
 				}
 				$recordModel->set($fieldName, $fieldValue);
@@ -84,9 +85,6 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 					$fieldValue = $fieldModel->getDefaultFieldValue();
 				}
 				$fieldDataType = $fieldModel->getFieldDataType();
-                if($fieldValue){
-                    $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue,$fieldModel);
-                }
 				if ($fieldDataType == 'time' && $fieldValue !== null) {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
@@ -94,6 +92,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}
+                                        $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
 					$recordModel->set($fieldName, $fieldValue);
 				}
 			} 

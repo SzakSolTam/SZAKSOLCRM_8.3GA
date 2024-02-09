@@ -72,6 +72,9 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
         }
 
         if(!empty($searchParams)) {
+            if(empty($searchParams[0][1])){
+                $searchParams[0][]=array('currency_id','c',$currencyId);
+            }
             $transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParams, $listViewModel->getModule());
             $listViewModel->set('search_params',$transformedSearchParams);
         }

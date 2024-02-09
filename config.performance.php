@@ -9,8 +9,8 @@
  ************************************************************************************/
 /* Performance paramters can be configured to fine tune vtiger CRM runtime */
 $PERFORMANCE_CONFIG = Array(
-	// Enable log4php debugging only if requried 
-	'LOG4PHP_DEBUG' => false,
+	// Enable Vtiger Log Level for debugging only if requried 
+	'LOGLEVEl_DEBUG' => false,
 
 	// Should the caller information be captured in SQL Logging?
 	// It adds little overhead for performance but will be useful to debug

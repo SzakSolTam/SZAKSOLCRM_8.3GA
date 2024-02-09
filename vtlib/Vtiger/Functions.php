@@ -15,6 +15,7 @@
 class Vtiger_Functions {
 
 	const LINK_TO_ANCHOR_TEXT_SYMBOL = '#';
+        static $supportedImageFormats = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'vnd.adobe.photoshop', 'tiff', 'svg+xml', 'x-eps', 'x-dwg', 'vnd.dwg', 'webp', 'x-ms-bmp', 'ico', 'vnd.microsoft.icon', 'x-icon');
 
 	static function userIsAdministrator($user) {
 		return (isset($user->is_admin) && $user->is_admin == 'on');
@@ -622,76 +623,95 @@ class Vtiger_Functions {
 		return $filepath;
 	}
 
-	static function validateImageMetadata($data, $short=true) {
-		if (is_array($data)) {
-			foreach ($data as $key => $value) {
-				$ok = self::validateImageMetadata($value);
-				if (!$ok) return false;
-			}
-		} else {
-			if (stripos($data, $short ? "<?" : "<?php") !== false) { // suspicious dynamic content
-				return false;
-			}
-		}
-		return true;
-	}
+    static function validateImageMetadata($data, $short = true) {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $ok = self::validateImageMetadata($value, $short);
+                if (!$ok)
+                    return false;
+            }
+        } else {
+            if (stripos($data, $short ? "<?" : "<?php") !== false) { // suspicious dynamic content 
+                return false;
+            }
+        }
+        return true;
+    }
 
-	static function validateImage($file_details) {
-		global $app_strings, $log;
-		$allowedImageFormats = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp');
+    static function validateImage($file_details) {
+        global $app_strings;
+        $allowedImageFormats = Vtiger_Functions::$supportedImageFormats;
 
-		$mimeTypesList = array_merge($allowedImageFormats, array('x-ms-bmp'));//bmp another format
-		$file_type_details = explode("/", $file_details['type']);
-		$filetype = $file_type_details['1'];
-		if ($filetype) {
-			$filetype = strtolower($filetype);
-		}
+        // Determine mime-types based on file-content for generic type (Outlook add-on).
+        if ($file_details['type'] == 'application/octet-stream' && function_exists('mime_content_type')) {
+            $file_details['type'] = mime_content_type($file_details['tmp_name']);
+        }
 
-		$saveimage = 'true';
-		if (!in_array($filetype, $allowedImageFormats)) {
-                        $log->debug('file type not matched allowed formats');
-			$saveimage = 'false';
-		}
+        $mimeTypesList = array_merge($allowedImageFormats, array('x-ms-bmp')); //bmp another format
+        $file_type_details = explode("/", $file_details['type']);
+        $filetype = $file_type_details['1'];
+        if ($filetype) {
+            $filetype = strtolower($filetype);
+        }
 
-		//mime type check
-		$mimeType = self::mime_content_type($file_details['tmp_name']);
-		$mimeTypeContents = explode('/', $mimeType);
-		if (!$file_details['size'] || strtolower($mimeTypeContents[0]) !== 'image' || !in_array($mimeTypeContents[1], $mimeTypesList)) {
-                    $log->debug('Failed because of size or image not supported types');
-			$saveimage = 'false';
-		}
+        $saveimage = true;
+        if (!in_array($filetype, $allowedImageFormats)) {
+            $saveimage = false;
+        }
 
-		//metadata check
-		$shortTag = strtolower(ini_get('short_open_tag'));
-		$shortTagSupported = ($shortTag == '1' || $shortTag == 'on') ? TRUE : FALSE;
-		if ($saveimage == 'true') {
-                    $tmpFileName = $file_details['tmp_name'];
-                    if($file_details['type'] == 'image/jpeg' || $file_details['type'] == 'image/tiff') {
-                        $exifdata = @exif_read_data($file_details['tmp_name']);
-                        if($exifdata && !self::validateImageMetadata($exifdata, $shortTagSupported)) {
-                            $log->debug('Image metadata validation failed');
-                            $saveimage = 'false';
-                        }
-                        //remove sensitive information(like,GPS or camera information) from the image
-                        if(($saveimage == 'true' ) && ($file_details['type'] == 'image/jpeg' ) && extension_loaded('gd') && function_exists('gd_info')) {
-                            $img = imagecreatefromjpeg($tmpFileName);
-                            imagejpeg ($img, $tmpFileName);
-                        }
-                    }
-		}
+        //mime type check
+        if ($saveimage) {
+            $mimeType = mime_content_type($file_details['tmp_name']);
+            $mimeTypeContents = explode('/', $mimeType);
+            if (!$file_details['size'] || strtolower($mimeTypeContents[0]) !== 'image' || !in_array($mimeTypeContents[1], $mimeTypesList)) {
+                $saveimage = false;
+            }
+        }
 
-		// Check for php code injection
-		if ($saveimage == 'true') {
-                    $imageContents = file_get_contents($file_details['tmp_name']);
-                    if (stripos($imageContents, $shortTagSupported ? "<?" : "<?php") !== false) { // suspicious dynamic content.
-                        $log->debug('Php injection suspected');
-                        $saveimage = 'false';
-                    }
-		}
-		return $saveimage;
-	}
+        //metadata check
+        $shortTagSupported = ini_get('short_open_tag') ? true : false;
+        if ($saveimage) {
+            $tmpFileName = $file_details['tmp_name'];
 
-	static function getMergedDescription($description, $id, $parent_type, $removeTags = false) {
+            if ($file_details['type'] == 'image/jpeg' || $file_details['type'] == 'image/tiff') {
+                $exifdata = @exif_read_data($file_details['tmp_name']);
+                if ($exifdata && !self::validateImageMetadata($exifdata, $shortTagSupported)) {
+                    $saveimage = false;
+                }
+                //131225968::remove sensitive information(like,GPS or camera information) from the image
+                if ($saveimage && ($file_details['type'] == 'image/jpeg' ) && extension_loaded('gd') && function_exists('gd_info')) {
+                    $img = imagecreatefromjpeg($tmpFileName);
+                    imagejpeg($img, $tmpFileName);
+                }
+            }
+        }
+
+        if ($saveimage) {
+            $imageContents = file_get_contents($tmpFileName);
+            if (stripos($imageContents, $shortTagSupported ? "<?" : "<?php") !== false) { // suspicious dynamic content.
+                $saveimage = false;
+            }
+        }
+
+        if (($filetype == 'svg+xml' || $mimeTypeContents[1] == 'svg+xml') && $saveimage) {
+            //remove malicious html attributes with its value from the contents.
+            $imageContents = purifyHtmlEventAttributes($imageContents, true);
+            $filePointer = fopen("$tmpFileName", "w");
+            fwrite($filePointer, $imageContents);
+            fclose($filePointer);
+        }
+
+        if ($saveimage) {
+            /*
+             * File functions like  filegroup(), fileowner(), filesize(), filetype(), fileperms() and few others,caches file information, we need to clear the cache so it will not return the cache value if we perform/call same function after updating the file
+             */
+            clearstatcache();
+        }
+
+        return $saveimage;
+    }
+
+    static function getMergedDescription($description, $id, $parent_type, $removeTags = false) {
 		global $current_user;
 		$token_data_pair = explode('$', $description);
 		$emailTemplate = new EmailTemplate($parent_type, $description, $id, $current_user);

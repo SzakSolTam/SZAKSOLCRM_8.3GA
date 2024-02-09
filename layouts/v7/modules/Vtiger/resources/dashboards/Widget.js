@@ -304,8 +304,7 @@ Vtiger.Class('Vtiger_Widget_Js',{
     },
     
     openUrl : function(url) {
-        var win = window.open(url, '_blank');
-        win.focus();
+		window.open(url, '_blank');
     }
 });
 

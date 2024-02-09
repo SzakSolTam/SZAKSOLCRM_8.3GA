@@ -32,7 +32,7 @@
 						{/foreach}
 					</table>
 				</div>
-				<input type="hidden" class="triggerEventName" value="{$REQ.triggerEventName}"/>
+				<input type="hidden" class="triggerEventName" value="{$REQ->get('triggerEventName')}"/>
 			</div>
 		</div>
 	</div>

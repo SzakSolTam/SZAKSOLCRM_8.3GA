@@ -1872,29 +1872,33 @@ function _phpset_memorylimit_MB($newvalue) {
  * @return String - Sanitized file name
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions) {
+    if (!$badFileExtensions) {
+        $badFileExtensions = vglobal('upload_badext');
+    }
+    $fileName = preg_replace('/[\s#%&?]+/', '_', $fileName); //replace space,#,%,&,? with _ in filename
+    $fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
-	$fileName = preg_replace('/\s+/', '_', $fileName);//replace space with _ in filename
-	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
+    $fileNameParts = explode(".", $fileName);
+    $countOfFileNameParts = php7_count($fileNameParts);
+    $badExtensionFound = false;
 
-	$fileNameParts = explode(".", $fileName);
-	$countOfFileNameParts = php7_count($fileNameParts);
-	$badExtensionFound = false;
+    for ($i = 0; $i < $countOfFileNameParts; $i++) {
+        $partOfFileName = $fileNameParts[$i];
+        if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
+            $badExtensionFound = true;
+            $fileNameParts[$i] = $partOfFileName . 'file';
+        }
+    }
 
-	for ($i=0;$i<$countOfFileNameParts;++$i) {
-		$partOfFileName = $fileNameParts[$i];
-		if(in_array(strtolower($partOfFileName), $badFileExtensions)) {
-			$badExtensionFound = true;
-			$fileNameParts[$i] = $partOfFileName . 'file';
-	}
-	}
+    $newFileName = implode('.', $fileNameParts);
+    if ($badExtensionFound) {
+        $newFileName .= ".txt";
+    }
+    
+    $newFileName = ltrim(basename(' ' . $newFileName)); //allowed filename like UTF-8 characters
 
-	$newFileName = implode(".", $fileNameParts);
-
-	if ($badExtensionFound) {
-		$newFileName .= ".txt";
-		}
-	return $newFileName;
-		}
+    return $newFileName;
+}
 
 /** Function to get the tab meta information for a given id
   * @param $tabId -- tab id :: Type integer
@@ -2174,7 +2178,7 @@ function getSelectAllQuery($input,$module) {
 		$query = $oCustomView->getModifiedCvListQuery($viewid,$listquery,$module);
 		$where = '';
 		if($input['query'] == 'true') {
-			list($where, $ustring) = split("#@@#",getWhereCondition($module, $input));
+			list($where, $ustring) = explode('#@@#', getWhereCondition($module, $input));
 			if(isset($where) && $where != '') {
 				$query .= " AND " .$where;
 			}

@@ -34,7 +34,7 @@
                             {continue}
                          {/if}
                          {if $FIELD_MODEL->isEditable() eq true}
-                             {if $FIELD_MODEL->get('uitype') eq "19"}
+                             {if $FIELD_MODEL->get('uitype') eq "19" || $FIELD_MODEL->get('label') eq 'Signature'}
                                  {if $COUNTER eq '1'}
                                      <td></td><td></td></tr><tr>
                                      {assign var=COUNTER value=0}

@@ -130,6 +130,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		if(is_array($to)) {
 			$to = implode(',',$to);
 		}
+                $documentIds  = ((!empty($documentIds) && is_array($documentIds)) ? $documentIds:(!empty($documentIds))) ? (array)$documentIds : array();
 
 		$content = $request->getRaw('description');
 		$processedContent = Emails_Mailer_Model::getProcessedContent($content); // To remove script tags
@@ -143,7 +144,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		$recordModel->set('bccmail', $request->get('bcc'));
 		$recordModel->set('assigned_user_id', $currentUserModel->getId());
 		$recordModel->set('email_flag', $flag);
-		$recordModel->set('documentids', $documentIds);
+		$recordModel->set('documentids', json_encode($documentIds));
 		$recordModel->set('signature',$signature);
 
 		$recordModel->set('toemailinfo', $toMailInfo);
@@ -195,11 +196,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					 * Ex: for PDF: if filename - abc_md5(abc).pdf then raw filename - abc.pdf
 					 * For Normal documents: rawFileName is not exist in the attachments info. So it fallback to normal filename
 					 */
-					$rawFileName = $existingAttachInfo['storedname'];
-					if (!$rawFileName) {
-						$rawFileName = $existingAttachInfo['attachment'];
-					}
-					$file_name = $existingAttachInfo['attachment'];
+					$rawFileName = $existingAttachInfo['attachment'];
+					$file_name = $existingAttachInfo['storedname'];
 					$path = $existingAttachInfo['path'];
 					$fileId = $existingAttachInfo['fileid'];
 
@@ -209,7 +207,6 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 						$oldFileName = $existingAttachInfo['fileid'].'_'.$file_name;
 					}
 					$oldFilePath = $path.'/'.$oldFileName;
-
 					$binFile = sanitizeUploadFileName($rawFileName, $upload_badext);
 
 					$current_id = $adb->getUniqueID("vtiger_crmentity");
@@ -220,7 +217,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 
 					//get the file path inwhich folder we want to upload the file
 					$upload_file_path = decideFilePath();
-					$newFilePath = $upload_file_path . $current_id . "_" . $binFile;
+					$encryptFileName = Vtiger_Util_Helper::getEncryptedFileName($binFile);
+					$newFilePath = $upload_file_path . $current_id . "_" . $encryptFileName;
 
 					copy($oldFilePath, $newFilePath);
 
@@ -228,9 +226,14 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					$params1 = array($current_id, $current_user->getId(), $ownerId, $moduleName . " Attachment", $recordModel->get('description'), $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql1, $params1);
 
-					$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
-					$params2 = array($current_id, $filename, $recordModel->get('description'), $filetype, $upload_file_path);
-					$result = $adb->pquery($sql2, $params2);
+					// Inserting $encrypedFilename into the sql query 
+					$sql2 = "INSERT INTO vtiger_attachments(attachmentsid, name, description, type, path, storedname) values(?, ?, ?, ?, ?, ?)";
+					$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path, $encryptFileName);
+					$adb->pquery($sql2, $params2);
+					// NOTE: Missing storedname columns in below code
+					// $sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
+					// $params2 = array($current_id, $filename, $recordModel->get('description'), $filetype, $upload_file_path);
+					// $result = $adb->pquery($sql2, $params2);
 
 					$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
 					$adb->pquery($sql3, array($recordModel->getId(), $current_id));

@@ -12,6 +12,7 @@
   *      @link http://kcfinder.sunhater.com
   */
 
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../include/utils/VtlibUtils.php';
 require_once __DIR__ . '/../../vtlib/Vtiger/Functions.php';
 

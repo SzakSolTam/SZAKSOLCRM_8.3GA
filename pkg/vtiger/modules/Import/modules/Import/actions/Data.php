@@ -390,13 +390,11 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 						$entityInfo = null;
 					} else {
 						try {
-							// to save Source of Record while Creating
-							$fieldData['source'] = $this->recordSource;
-							$entityInfo = $this->importRecord($fieldData, 'create');
-							if ($entityInfo) {
-								$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
-								$createdRecords[] = $entityIdComponents[1];
-							}
+                                                    $entityInfo = $this->importRecord($fieldData, 'create');
+                                                    if ($entityInfo) {
+                                                            $entityIdComponents = vtws_getIdComponents($entityInfo['id']);
+                                                            $createdRecords[] = $entityIdComponents[1];
+                                                    }
 						} catch (Exception $e) {
 
 						}
@@ -767,6 +765,8 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 				$_REQUEST['cur_'.$this->lineitem_currency_id.'_check'] = 1;
 			}
 			$fieldData['currency_id'] = $this->lineitem_currency_id;
+                        // to save Source of Record while Creating
+                        $fieldData['source'] = $this->recordSource;
 		}
 		if ($fieldData != null && $checkMandatoryFieldValues) {
 			foreach ($moduleFields as $fieldName => $fieldInstance) {

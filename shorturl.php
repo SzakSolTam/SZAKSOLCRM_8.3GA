@@ -8,12 +8,13 @@
  * All Rights Reserved.
  *************************************************************************************/
 
+include_once dirname(__FILE__) . '/vendor/autoload.php';
+
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once 'include/Webservices/Relation.php';
 
 include_once 'vtlib/Vtiger/Module.php';
-include_once dirname(__FILE__) . '/includes/Loader.php';
 
 vimport ('includes.runtime.EntryPoint');
 

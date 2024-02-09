@@ -1603,8 +1603,10 @@ foreach($entityModules as $moduleModel) {
 	$crmInstance = CRMEntity::getInstance($moduleModel->getName());
 	$tabId = $moduleModel->getId();
 	$defaultRelatedFields = $crmInstance->list_fields_name;
-	$updateQuery = 'UPDATE vtiger_field SET summaryfield=1  where tabid=? and fieldname IN ('.generateQuestionMarks($defaultRelatedFields).')';
-	Migration_Index_View::ExecuteQuery($updateQuery,  array_merge(array($tabId), array_values($defaultRelatedFields)));
+        if($defaultRelatedFields) {
+            $updateQuery = 'UPDATE vtiger_field SET summaryfield=1  where tabid=? and fieldname IN ('.generateQuestionMarks($defaultRelatedFields).')';
+            Migration_Index_View::ExecuteQuery($updateQuery,  array_merge(array($tabId), array_values($defaultRelatedFields)));
+        }
 }
 
 Migration_Index_View::ExecuteQuery('UPDATE vtiger_currencies SET currency_name = ? where currency_name = ? and currency_code = ?',

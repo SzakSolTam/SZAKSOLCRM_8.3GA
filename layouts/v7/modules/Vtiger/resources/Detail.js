@@ -2533,8 +2533,8 @@ Vtiger.Class("Vtiger_Detail_Js",{
 	registerRelatedRowClickEvent: function() {
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.on('click','.relatedListEntryValues a',function(e){
-			e.preventDefault();
-		});
+			e.stopPropagation();
+        });
 		detailContentsHolder.on('click','.listViewEntries',function(e){
 				var selection = window.getSelection().toString();
 			if(selection.length == 0) { 

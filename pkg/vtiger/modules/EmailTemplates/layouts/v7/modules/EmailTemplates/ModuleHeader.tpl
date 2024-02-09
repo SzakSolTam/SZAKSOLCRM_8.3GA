@@ -17,16 +17,16 @@
 				</a>
 				<p class="current-filter-name filter-name pull-left cursorPointer">&nbsp;&nbsp;
 					<span class="fa fa-angle-right pull-left" aria-hidden="true"></span> 
-					{if $REQ.view eq 'List'}
+					{if $REQ->get('view') eq 'List'}
 						{vtranslate('LBL_FILTER', $MODULE)}
 					{/if}
 					&nbsp;
-					{if $REQ.view eq 'Detail'}
+					{if $REQ->get('view') eq 'Detail'}
 						<a title="{$RECORD->get('templatename')}">&nbsp;{$RECORD->get('templatename')}&nbsp;</a>
 					{/if}
-					{if $RECORD and $REQ.view eq 'Edit'}
+					{if $RECORD and $REQ->get('view') eq 'Edit'}
 						<a title="{$RECORD->get('templatename')}">&nbsp;{vtranslate('LBL_EDITING', $MODULE)} : {$RECORD->get('templatename')} &nbsp;</a>
-					{else if $REQ.view eq 'Edit'}
+					{else if $REQ->get('view') eq 'Edit'}
 						<a>&nbsp;{vtranslate('LBL_ADDING_NEW', $MODULE)}&nbsp;</a>
 					{/if}
 				</p>

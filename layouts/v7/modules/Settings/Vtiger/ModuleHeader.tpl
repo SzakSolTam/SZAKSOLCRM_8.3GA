@@ -19,7 +19,7 @@
 					</a>
 					&nbsp;<span class="fa fa-angle-right pull-left {if $VIEW eq 'Index' && $MODULE eq 'Vtiger'} hide {/if}" aria-hidden="true" style="padding-top: 12px;padding-left: 5px; padding-right: 5px;"></span>
 				{/if}
-				{if $MODULE neq 'Vtiger' or $REQ.view neq 'Index'}
+				{if $MODULE neq 'Vtiger' or $REQ->get('view') neq 'Index'}
 					{if $ACTIVE_BLOCK['block']}
 						<span class="current-filter-name filter-name pull-left">
 							{vtranslate($ACTIVE_BLOCK['block'], $QUALIFIED_MODULE)}&nbsp;
@@ -35,13 +35,13 @@
 								{assign var=URL value=$MODULE_MODEL->getDefaultUrl()}
 							{/if}
 							{if $URL|strpos:'parent' eq ''}
-								{assign var=URL value=$URL|cat:'&parent='|cat:$REQ.parent}
+								{assign var=URL value=$URL|cat:'&parent='|cat:$REQ->get('parent')}
 							{/if}
 						{/if}
 						<span class="current-filter-name settingModuleName filter-name pull-left">
-							{if $REQ.view eq 'Calendar'}
-								{if $REQ.mode eq 'Edit'}
-									<a href="{"index.php?module="|cat:$REQ.module|cat:'&parent='|cat:$REQ.parent|cat:'&view='|cat:$REQ.view}">
+							{if $REQ->get('view') eq 'Calendar'}
+								{if $REQ->get('view') eq 'Edit'}
+									<a href="{"index.php?module="|cat:$REQ->get('module')|cat:'&parent='|cat:$REQ->get('parent')|cat:'&view='|cat:$REQ->get('view')}">
 										{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}
 									</a>&nbsp;
                                                                         <a href="">
@@ -51,22 +51,22 @@
 								{else}
                                                                     <a href="">{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$USER_MODEL->getName()}</a>
 								{/if}
-							{else if $REQ.view neq 'List' and $REQ.module eq 'Users'}
-								{if $REQ.view eq 'PreferenceEdit'}
-									<a href="{"index.php?module="|cat:$REQ.module|cat:'&parent='|cat:$REQ.parent|cat:'&view=PreferenceDetail&record='|cat:$REQ.record}">
+							{else if $REQ->get('view') neq 'List' and $REQ->get('module') eq 'Users'}
+								{if $REQ->get('view') eq 'PreferenceEdit'}
+									<a href="{"index.php?module="|cat:$REQ->get('module')|cat:'&parent='|cat:$REQ->get('parent')|cat:'&view=PreferenceDetail&record='|cat:$REQ->get('record')}">
 										{vtranslate($ACTIVE_BLOCK['block'], $QUALIFIED_MODULE)}&nbsp;
 									</a>
                                                                         <a href="">
                                                                             <span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
                                                                             {vtranslate('LBL_EDITING', $MODULE)} :&nbsp;{$USER_MODEL->getName()}
                                                                         </a>
-								{else if $REQ.view eq 'Edit' or $REQ.view eq 'Detail'}
+								{else if $REQ->get('view') eq 'Edit' or $REQ->get('view') eq 'Detail'}
 									<a href="{$URL}">
-									{if $REQ.extensionModule}{$REQ.extensionModule}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}&nbsp;
+									{if $REQ->get('extensionModule')}{$REQ->get('extensionModule')}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}&nbsp;
 									</a>
                                                                         <a href="">
                                                                             <span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
-                                                                            {if $REQ.view eq 'Edit'}
+                                                                            {if $REQ->get('view') eq 'Edit'}
                                                                                     {if $RECORD}
                                                                                             {vtranslate('LBL_EDITING', $MODULE)} :&nbsp;{$RECORD->getName()}
                                                                                     {else}
@@ -79,10 +79,10 @@
 								{else}
                                                                     <a href="">{$USER_MODEL->getName()}</a>
 								{/if}
-							{else if $URL and $URL|strpos:$REQ.view eq ''}
+							{else if $URL and $URL|strpos:$REQ->get('view') eq ''}
 								<a href="{$URL}">
-								{if $REQ.extensionModule}
-									{$REQ.extensionModule}
+								{if $REQ->get('extensionModule')}
+									{$REQ->get('extensionModule')}
 								{else}
 									{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}
 								{/if}
@@ -90,20 +90,20 @@
                                                                 <a href="">
                                                                     <span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
                                                                     {if $RECORD}
-                                                                            {if $REQ.view eq 'Edit'}
+                                                                            {if $REQ->get('view') eq 'Edit'}
                                                                                     {vtranslate('LBL_EDITING', $MODULE)} :&nbsp;
                                                                             {/if}
                                                                             {$RECORD->getName()}
                                                                     {/if}
                                                                 </a>
 							{else}
-								&nbsp;{if $REQ.extensionModule}{$REQ.extensionModule}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}
+								&nbsp;{if $REQ->get('extensionModule')}{$REQ->get('extensionModule')}{else}{vtranslate({$PAGETITLE}, $QUALIFIED_MODULE)}{/if}
 							{/if}
 						</span>
 					{else}
-						{if $REQ.view eq 'TaxIndex'}
+						{if $REQ->get('view') eq 'TaxIndex'}
 							{assign var=SELECTED_MODULE value='LBL_TAX_MANAGEMENT'}
-						{elseif $REQ.view eq 'TermsAndConditionsEdit'}
+						{elseif $REQ->get('view') eq 'TermsAndConditionsEdit'}
 							{assign var=SELECTED_MODULE value='LBL_TERMS_AND_CONDITIONS'}
 						{else}
 							{assign var=SELECTED_MODULE value=$ACTIVE_BLOCK['menu']}

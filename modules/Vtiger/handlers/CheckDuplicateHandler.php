@@ -139,6 +139,7 @@ class CheckDuplicateHandler extends VTEventHandler {
 
 						$fieldValue = $uniqueFieldsData[$fieldName];
 						if (isset($fieldValue)) {
+                                                        if(is_array($fieldValue)) $fieldValue = empty($fieldValue) ? "" : $fieldValue;
 							array_push($conditions, "$fieldTableName.$fieldColumnName = ?");
 						} else {
 							$fieldValue = '';
@@ -148,7 +149,7 @@ class CheckDuplicateHandler extends VTEventHandler {
 
 						if ($fieldModel->get('uitype') == 72) {
 							array_push($conditions, "$fieldTableName.currency_id = ?");
-							$currencyIdDetails = split('curname', $_REQUEST['base_currency']);
+							$currencyIdDetails = explode('curname', $_REQUEST['base_currency']);
 							$params[] = $currencyIdDetails[1];
 						}
 					}

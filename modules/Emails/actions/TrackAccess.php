@@ -16,7 +16,7 @@ header('Cache-Control: private', false);
 //Opensource fix for tracking email access count
 chdir(dirname(__FILE__). '/../../../');
 
-require_once 'includes/Loader.php';
+require_once 'vendor/autoload.php';
 require_once 'include/utils/utils.php';
 
 vimport('includes.http.Request');

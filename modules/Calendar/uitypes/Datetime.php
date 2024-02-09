@@ -13,8 +13,15 @@ class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType {
 	public function getDisplayValue($value, $record=false, $recordInstance=false) {
 		//Since date_start and due_date fields of calendar can have time appended or removed
 		if($this->hasTimeComponent($value)) {
-			return self::getDisplayDateTimeValue($value);
-		}else{
+                        $fieldInstance = $this->get('field')->getWebserviceFieldObject();
+                        $moduleName = $this->get('field')->getModule()->getName();
+			$fieldName = $fieldInstance->getFieldName();
+                        if($fieldName == 'date_start' || $fieldName == 'due_date') {
+                            return self::getDisplayDateTimeValue($value);
+                        } else {
+                            return parent::getDisplayValue($value);
+                        }
+		} else {
 			return $this->getDisplayDateValue($value);
 		}
 	}

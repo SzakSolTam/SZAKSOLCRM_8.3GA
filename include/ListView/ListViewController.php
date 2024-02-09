@@ -228,6 +228,7 @@ class ListViewController {
 		}
 
 		$moduleInstance = Vtiger_Module_Model::getInstance("PBXManager");
+                $outgoingCallPermission = false;
 		if($moduleInstance && $moduleInstance->isActive()) {
 			$outgoingCallPermission = PBXManager_Server_Model::checkPermissionForOutgoingCall();
 			$clickToCallLabel = vtranslate("LBL_CLICK_TO_CALL");
@@ -300,7 +301,6 @@ class ListViewController {
 					} else{
 						$value = textlength_check($value);
 					}
-					$value = $fileicon.$value;
 				} elseif($module == 'Documents' && $fieldName == 'filesize') {
 					$downloadType = $db->query_result($result,$i,'filelocationtype');
 					if($downloadType == 'I') {

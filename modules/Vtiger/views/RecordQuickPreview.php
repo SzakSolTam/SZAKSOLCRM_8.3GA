@@ -72,6 +72,7 @@ class Vtiger_RecordQuickPreview_View extends Vtiger_Index_View {
 		}
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
+                $viewer->assign('RECORD_ID', $recordId);
 		$viewer->view('ListViewQuickPreview.tpl', $moduleName);
 	}
 

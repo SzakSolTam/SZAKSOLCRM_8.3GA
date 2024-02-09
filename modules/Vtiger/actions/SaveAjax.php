@@ -38,9 +38,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 						$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId()); 
 					}
 					if ($fieldModel->getFieldDataType() == 'currency') {
-						$displayValue = Vtiger_Currency_UIType::transformDisplayValue($fieldValue);
+						$displayValue = Vtiger_Currency_UIType::transformDisplayValue(Vtiger_Currency_UIType::convertToDBFormat($fieldValue));
 					}
-					if(!empty($picklistColorMap)) {
+                                        
+					if(!empty($picklistColorMap) && ($fieldModel->getFieldDataType() == 'picklist' || $fieldModel->getFieldDataType() == 'multipicklist')) {
 						$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue, 'colormap' => $picklistColorMap);
 					} else {
 						$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
@@ -111,6 +112,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}
+                                        $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
 					$recordModel->set($fieldName, $fieldValue);
 				}
 				$recordModel->set($fieldName, $fieldValue);
@@ -132,9 +134,6 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 				} else {
 					$fieldValue = $fieldModel->getDefaultFieldValue();
 				}
-                if($fieldValue){
-                    $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue,$fieldModel);
-                }
 				$fieldDataType = $fieldModel->getFieldDataType();
 				if ($fieldDataType == 'time' && $fieldValue !== null) {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
@@ -144,6 +143,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}
+                                        $fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
 					$recordModel->set($fieldName, $fieldValue);
 				}
 			} 

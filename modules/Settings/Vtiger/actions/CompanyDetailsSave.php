@@ -32,44 +32,31 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		$status = false;
 		if ($request->get('organizationname')) {
 			$saveLogo = $status = true;
-			$logoName = false;
+			$binFileName = false;
 			if(!empty($_FILES['logo']['name'])) {
 				$logoDetails = $_FILES['logo'];
-				$fileType = explode('/', $logoDetails['type']);
-				$fileType = $fileType[1];
-
-				if (!$logoDetails['size'] || !in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-					$saveLogo = false;
+				$saveLogo = Vtiger_Functions::validateImage($logoDetails);
+                                global $upload_badext;// from config.inc.php
+				$binFileName = sanitizeUploadFileName($logoDetails['name'], $upload_badext);
+				if ($saveLogo && pathinfo($binFileName, PATHINFO_EXTENSION) != 'txt') {
+					$moduleModel->saveLogo($binFileName);
+				}else{
+					throw new Exception(vtranslate('LBL_INVALID_IMAGE'),103);
 				}
-
-				//mime type check
-				$mimeType = mime_content_type($logoDetails['tmp_name']);
-				$mimeTypeContents = explode('/', $mimeType);
-				if (!$logoDetails['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-					$saveLogo = false;
-				}
-
-				// Check for php code injection
-				$imageContents = file_get_contents($logoDetails["tmp_name"]);
-				if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
-					$saveLogo = false;
-				}
-				if ($saveLogo) {
-					$logoName = ltrim(basename(' '.Vtiger_Util_Helper::sanitizeUploadFileName($logoDetails['name'], vglobal('upload_badext'))));
-					$moduleModel->saveLogo($logoName);
-				}
-			}else{
+			} else {
 				$saveLogo = true;
 			}
 			$fields = $moduleModel->getFields();
 			foreach ($fields as $fieldName => $fieldType) {
 				$fieldValue = $request->get($fieldName);
 				if ($fieldName === 'logoname') {
-					if (!empty($logoDetails['name']) && $logoName) {
-						$fieldValue = decode_html(ltrim(basename(" " . $logoName)));
+					if (!empty($logoDetails['name']) && $binFileName) {
+						$fieldValue = decode_html(ltrim(basename(" " . $binFileName)));
 					} else {
 						$fieldValue = decode_html($moduleModel->get($fieldName));
 					}
+				} else {
+					$fieldValue = strip_tags(decode_html($fieldValue));
 				}
 				// In OnBoard company detail page we will not be sending all the details
 				if($request->has($fieldName) || ($fieldName == "logoname")) {
@@ -89,7 +76,7 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		}
 		return;
 	}
-
+	
 	public function validateRequest(Vtiger_Request $request) {
 		$request->validateWriteAccess();
 	}

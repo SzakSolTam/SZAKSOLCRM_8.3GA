@@ -55,7 +55,10 @@
                                 </form>
                             </div>
 {*                        </div>*}
-                    </div></div></div>
+                    </div></div>
+			<div class="searchResults">
+			</div>
+		     </div>
                                 <div class="modal-overlay-footer clearfix padding0px border0">
                                 <div class="row clearfix"> 
                                     <div class="col-lg-5 col-md-5 col-sm-5">&nbsp;</div> 
@@ -84,8 +87,6 @@
                     <div>&nbsp;</div>
                 </div>
                   <div class="col-lg-2 col-md-1 hidden-xs hidden-sm">&nbsp;</div>
-        <div class="searchResults">
-        </div>
 </div></div>
 {/strip}
 

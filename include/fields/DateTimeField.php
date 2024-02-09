@@ -109,8 +109,11 @@ class DateTimeField {
      */
     public static function __convertToDBFormat($date, $format)
     {
-        $dbDate = '';
-        if (empty($format)) {
+	$dbDate = '';
+	if (4 === strpos($date, '-')) {
+	    // adjust format based on date value (could happen during edit-save)
+	    $format = "yyyy-mm-dd";
+	} else if (empty($format)) {
             if (false === strpos($date, '-')) {
                 if(false === strpos($date, '.')){
                     $format = 'dd/mm/yyyy';
@@ -119,8 +122,8 @@ class DateTimeField {
                 }
             } else {
                 $format = 'dd-mm-yyyy';
-            }
-        }
+	    }
+	}
         switch ($format) {
             case 'dd.mm.yyyy':
                 list($d, $m, $y) = explode('.', $date);

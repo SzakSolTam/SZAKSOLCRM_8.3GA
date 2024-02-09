@@ -429,6 +429,9 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$CC = Zend_Json::decode(html_entity_decode($recordModel->get('ccmail')));
 		$BCC = Zend_Json::decode(html_entity_decode($recordModel->get('bccmail')));
 
+		// Under Condition CC & BCC fields are empty .. 
+		$CC = is_array($CC) ? $CC : array();
+		$BCC = is_array($BCC) ? $BCC : array();
 		$parentIds = explode('|',$recordModel->get('parent_id'));
 
 		$toMailInfo = $toMailNamesList = array();

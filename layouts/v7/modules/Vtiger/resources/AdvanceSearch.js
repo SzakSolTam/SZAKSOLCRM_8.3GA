@@ -129,6 +129,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var thisInstance = this;
 		this.getAdvanceSearch().then(
 			function(data){
+		    jQuery('#advanceSearchButton').prop('disabled',false);
+		    jQuery('#advanceSave').prop('disabled',false);
+		    jQuery('#advanceIntiateSave').prop('disabled',false);
                 thisInstance.showAdvanceSearch(data).then(function(){
                     thisInstance.setContainer(jQuery('#advanceSearchContainer'));
                     vtUtils.showSelect2ElementView(thisInstance.getContainer().find('select.select2'));
@@ -328,8 +331,10 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		//To perform validation registration only once
 		if(!this.filterValidationRegistered){
 			this.filterValidationRegistered = true;
-			controlForm.validationEngine({
-				'onValidationComplete' : validationDone
+			controlForm.vtValidate({
+                            success : function(){
+                                thisInstance.formValidationDeferred.resolve();
+                            }
 			});
 		}
 		//This will trigger the validation

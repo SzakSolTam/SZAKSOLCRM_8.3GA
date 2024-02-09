@@ -16,32 +16,21 @@ class Settings_Vtiger_UpdateCompanyLogo_Action extends Settings_Vtiger_Basic_Act
 		$moduleModel = Settings_Vtiger_CompanyDetails_Model::getInstance();
 
 		$saveLogo = $securityError = false;
-		$logoDetails = $_FILES['logo'];
-		$fileType = explode('/', $logoDetails['type']);
-		$fileType = $fileType[1];
-
-		$logoContent = file_get_contents($logoDetails['tmp_name']);
-		if (preg_match('(<\?php?(.*?))', $logoContent) != 0) {
-			$securityError = true;
-		}
-
-		if (!$securityError) {
-			if ($logoDetails['size'] && in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-				$saveLogo = true;
-			}
-
-			if ($saveLogo) {
-				$logoName = ltrim(basename(' '.Vtiger_Util_Helper::sanitizeUploadFileName($logoDetails['name'], vglobal('upload_badext'))));
-				$moduleModel->saveLogo();
-				$moduleModel->set('logoname', $logoName);
-				$moduleModel->save();
-			}
-		}
+                $logoDetails = $_FILES['logo'];
+                $saveLogo = Vtiger_Functions::validateImage($logoDetails);
+                if ($saveLogo) {
+                        $sanitizedFileName = ltrim(basename(' '.Vtiger_Util_Helper::sanitizeUploadFileName($logoDetails['name'], vglobal('upload_badext'))));
+                        if(pathinfo($sanitizedFileName, PATHINFO_EXTENSION) != 'txt'){
+                                $moduleModel->saveLogo($sanitizedFileName);
+                                $moduleModel->set('logoname', $sanitizedFileName);
+                                $moduleModel->save();
+                        }else {
+                                $saveLogo = false;
+                        }
+                }
 
 		$reloadUrl = $moduleModel->getIndexViewUrl();
-		if ($securityError) {
-			$reloadUrl .= '&error=LBL_IMAGE_CORRUPTED';
-		} else if (!$saveLogo) {
+		if (!$saveLogo) {
 			$reloadUrl .= '&error=LBL_INVALID_IMAGE';
 		}
 		header('Location: ' . $reloadUrl);

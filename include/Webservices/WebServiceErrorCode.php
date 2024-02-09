@@ -43,6 +43,7 @@
         public static $FAILED_TO_CREATE = "FAILED_TO_CREATE";
 		public static $INACTIVECURRENCY = "CURRENCY_INACTIVE";
                 public static $PASSWORDNOTSTRONG = "PASSWORD_NOT_STRONG";
+                public static $FAILED_TO_UPDATE = "FAILED_TO_UPDATE";
 	}
 	
 ?>

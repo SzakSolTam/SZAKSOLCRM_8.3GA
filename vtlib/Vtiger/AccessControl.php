@@ -16,7 +16,7 @@ class Vtiger_AccessControl {
 		'current_user_groups', 'subordinate_roles', 'parent_roles', 'subordinate_roles_users', 'user_info'
 	);
 
-	protected function __consturct() {
+	protected function __construct() {
 		$this->privileges = array();
 	}
 

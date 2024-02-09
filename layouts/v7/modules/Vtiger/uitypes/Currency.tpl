@@ -41,7 +41,7 @@
           <input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" value="on">
           <input type="hidden" id="requstedUnitPrice" name="{$BASE_CURRENCY_NAME}" value="">
 	</div>
-    {if $REQ.view eq 'Edit'}
+    {if $REQ->get('view') eq 'Edit'}
     <div class="clearfix">
         <a id="moreCurrencies" class="span cursorPointer">{vtranslate('LBL_MORE_CURRENCIES', $MODULE)}>></a>
         <span id="moreCurrenciesContainer" class="hide"></span>

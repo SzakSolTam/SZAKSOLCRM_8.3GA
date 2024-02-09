@@ -733,7 +733,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
 			$subQtysList = array();
 			$subProducts = $requestData["subproduct_ids$i"];
-			$subProducts = split(',', rtrim($subProducts, ','));
+			$subProducts = explode(',', rtrim($subProducts, ','));
 
 			foreach ($subProducts as $subProductInfo) {
 				 list($subProductId, $subProductQty) = explode(':', $subProductInfo);

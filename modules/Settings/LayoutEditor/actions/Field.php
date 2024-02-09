@@ -37,7 +37,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			if (isset($defaultValue)) {
 				if ($defaultValue && $fieldInfo['type'] == 'date') {
 					$defaultValue = DateTimeField::convertToUserFormat($defaultValue);
-				} else if (!$defaultValue) {
+				} else if ($defaultValue) {
 					$defaultValue = $fieldModel->getDisplayValue($defaultValue);
 				} else if (is_array($defaultValue)) {
 					foreach ($defaultValue as $key => $value) {
@@ -97,9 +97,23 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
             $fieldInstance->set('masseditable', $massEditable);
         }
 
-		$defaultValue = decode_html($request->get('fieldDefaultValue'));
-		$fieldInstance->set('defaultvalue', $defaultValue);
-		$response = new Vtiger_Response();
+        $defaultValue = $fieldInstance->get('defaultvalue');
+        if(!is_null($request->get('fieldDefaultValue', null))) {
+
+            if(is_array($request->get('fieldDefaultValue'))) {
+                $defaultValue=decode_html(implode(' |##| ',$request->get('fieldDefaultValue')));
+            } else {
+                $defaultValue = decode_html($request->get('fieldDefaultValue'));
+            }
+            if(preg_match('/AM|PM/',$defaultValue) && ($fieldInstance->get('uitype') =='14'))
+            {
+                $defaultValue=Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
+            }
+
+            $fieldInstance->set('defaultvalue', $defaultValue);
+        }
+	$response = new Vtiger_Response();
+        
         try{
             $fieldInstance->save();
 			$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);

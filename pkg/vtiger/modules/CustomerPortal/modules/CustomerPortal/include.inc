@@ -10,7 +10,7 @@
 
 chdir(dirname(__FILE__).'/../../');
 
-include_once 'includes/Loader.php';
+require_once 'vendor/autoload.php';
 include_once 'includes/runtime/Globals.php';
 include_once 'include/Webservices/Relation.php';
 require_once 'include/utils/utils.php';

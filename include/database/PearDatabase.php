@@ -113,7 +113,6 @@ class PearDatabase{
 
     function println($msg)
     {
-		require_once('include/logging.php');
 		$log1 = Logger::getLogger('VT');
 		if(is_array($msg)) {
 		    $log1->info("PearDatabse ->".print_r($msg,true));

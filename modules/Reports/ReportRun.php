@@ -377,8 +377,8 @@ class ReportRun extends CRMEntity {
 		while ($columnslistrow = $adb->fetch_array($result)) {
 			$fieldname = "";
 			$fieldcolname = $columnslistrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(":", $fieldcolname);
-			list($module, $field) = split("_", $module_field, 2);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
+			list($module, $field) = explode('_', $module_field, 2);
             $selectedModuleFields[$module][] = $fieldname;
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
@@ -486,7 +486,7 @@ class ReportRun extends CRMEntity {
 		global $adb;
 		$header_label = $selectedfields[2] = addslashes($selectedfields[2]); // Header label to be displayed in the reports table
 
-		list($module, $field) = split("_", $selectedfields[2]);
+		list($module, $field) = explode('_', $selectedfields[2]);
 		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 		$emailTableName = "vtiger_activity";
 		if ($module != $this->primarymodule) {
@@ -527,7 +527,7 @@ class ReportRun extends CRMEntity {
 				$this->queryPlanner->addTable($selectedfields[0] .'tmp'. $module);
 			}
 		} else if ($selectedfields[4] == 'C') {
-			$field_label_data = split("_", $selectedfields[2]);
+			$field_label_data = explode('_', $selectedfields[2]);
 			$module = $field_label_data[0];
 			if ($module != $this->primarymodule) {
 				$columnSQL = "case when (" . $selectedfields[0] . "." . $selectedfields[1] . "='1')then 'yes' else case when (vtiger_crmentity$module.crmid !='') then 'no' else '-' end end AS '" . decode_html($selectedfields[2]) . "'";
@@ -905,7 +905,7 @@ class ReportRun extends CRMEntity {
 				$this->queryPlanner->addTable($secondary->table_name);
 			}
 		}
-		$field = split('#', $field);
+		$field = explode('#', $field);
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = getTabId($module);
@@ -1375,16 +1375,24 @@ class ReportRun extends CRMEntity {
 						} else if ($comparator == 'ny') {
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '' AND " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
-							else
+							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70' ||$fieldInfo['uitype'] == '55')){
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL)";
+							}
+							else {
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
+							     }	
 						}elseif ($comparator == 'y' || ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == ''))) {
 							if ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 								$selectedfields[0] = 'vtiger_inventoryproductreltmp' . $moduleName;
 							}
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '' OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
-							else
+							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70' ||$fieldInfo['uitype'] == '55')) {
+							    $fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL)";
+							}
+							else {
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
+							    }
 						} elseif ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 							$selectedfields[0] = $selectedfields[0]. 'tmp';
 							if ($selectedfields[1] == 'productid') {
@@ -1974,7 +1982,7 @@ class ReportRun extends CRMEntity {
 		$inventoryModules = getInventoryModules();
 		while ($reportsortrow = $adb->fetch_array($result)) {
 			$fieldcolname = $reportsortrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(":", $fieldcolname);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			$sortorder = $reportsortrow["sortorder"];
 
 			if ($sortorder == "Ascending") {
@@ -2016,7 +2024,7 @@ class ReportRun extends CRMEntity {
 					$sqlvalue = $module_field . ' ' . $sortorder;
 				}
 				$grouplist[$fieldcolname] = $sqlvalue;
-				$temp = split("_", $selectedfields[2], 2);
+				$temp = explode('_', $selectedfields[2], 2);
 				$module = $temp[0];
 				if (in_array($module, $inventoryModules) && $fieldname == 'serviceid') {
 					$grouplist[$fieldcolname] = $sqlvalue;
@@ -3062,7 +3070,7 @@ class ReportRun extends CRMEntity {
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
-			$sec_modules = split(":", $this->secondarymodule);
+			$sec_modules = explode(':', $this->secondarymodule);
 			for ($i = 0; $i < php7_count($sec_modules); $i++) {
 				$modules_selected[] = $sec_modules[$i];
 			}
@@ -3549,7 +3557,227 @@ class ReportRun extends CRMEntity {
 				}
 			}
 			return $totalpdf;
-		} elseif ($outputformat == "TOTALHTML") {
+            /**
+             * Setting ouputformat == 'CSV' 
+             * for multiple handling of sum, avg, min , max for csv format type  
+             */
+		} elseif ($outputformat == 'CSV') {
+			$escapedchars = array('_SUM', '_AVG', '_MIN', '_MAX');
+			$totalpdf = array();
+			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
+			if (isset($this->totallist)) {
+				if ($sSQL != '') {
+					$result = $adb->pquery($sSQL, array());
+					$y = $adb->num_fields($result);
+					$custom_field_values = $adb->fetch_array($result);
+
+					static $mod_query_details = array();
+					foreach ($this->totallist as $key => $value) {
+						$fieldlist = explode(':', $key);
+						$key = $fieldlist[1] . '_' . $fieldlist[2];
+						if (!isset($mod_query_details[$this->reportid][$key]['modulename']) && !isset($mod_query_details[$this->reportid][$key]['uitype'])) {
+							$mod_query = $adb->pquery('SELECT DISTINCT(tabid) AS tabid, uitype AS uitype FROM vtiger_field WHERE tablename = ? AND columnname=?', array($fieldlist[1], $fieldlist[2]));
+							$moduleName = getTabModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$mod_query_details[$this->reportid][$key]['translatedmodulename'] = getTranslatedString($moduleName, $moduleName);
+							$mod_query_details[$this->reportid][$key]['modulename'] = $moduleName;
+							$mod_query_details[$this->reportid][$key]['uitype'] = $adb->query_result($mod_query, 0, 'uitype');
+						}
+
+						if ($adb->num_rows($mod_query) > 0) {
+							$module_name = $mod_query_details[$this->reportid][$key]['modulename'];
+							$translatedModuleLabel = $mod_query_details[$this->reportid][$key]['translatedmodulename'];
+							$fieldlabel = trim(str_replace($escapedchars, ' ', $fieldlist[3]));
+							$fieldlabel = str_replace('_', ' ', $fieldlabel);
+							if ($module_name) {
+								$field = $translatedModuleLabel . ' ' . getTranslatedString($fieldlabel, $module_name);
+							} else {
+								$field = getTranslatedString($fieldlabel);
+							}
+						}
+						// Since there are duplicate entries for this table
+						if ($fieldlist[1] == 'vtiger_inventoryproductrel') {
+							$module_name = $this->primarymodule;
+						}
+						$uitype_arr[str_replace($escapedchars, ' ', $module_name . '_' . $fieldlist[3])] = $mod_query_details[$this->reportid][$key]['uitype'];
+						$totclmnflds[str_replace($escapedchars, ' ', $module_name . '_' . $fieldlist[3])] = $field;
+					}
+
+					$sumcount = 0;
+					$avgcount = 0;
+					$mincount = 0;
+					$maxcount = 0;
+					for ($i = 0; $i < $y; $i++) {
+						$fld = $adb->field_name($result, $i);
+						if (strpos($fld->name, '_SUM') !== false) {
+							$sumcount++;
+						} else if (strpos($fld->name, '_AVG') !== false) {
+							$avgcount++;
+						} else if (strpos($fld->name, '_MIN') !== false) {
+							$mincount++;
+						} else if (strpos($fld->name, '_MAX') !== false) {
+							$maxcount++;
+						}
+						$keyhdr[decode_html($fld->name)] = $custom_field_values[$i];
+					}
+
+					$rowcount = 0;
+					foreach ($totclmnflds as $key => $value) {
+						$col_header = trim(str_replace($modules, ' ', $value));
+						$fld_name_1 = $this->primarymodule . '_' . trim($value);
+						$fld_name_2 = $this->secondarymodule . '_' . trim($value);
+						if (
+							$uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 || $uitype_arr[$key] == 74 ||
+							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)
+						) {
+							$col_header .= ' (' . $app_strings['LBL_IN'] . ' ' . $current_user->currency_symbol . ')';
+							$convert_price = true;
+						} else {
+							$convert_price = false;
+						}
+						$value = trim($key);
+						$totalpdf[$rowcount]['Field Names'] = $col_header;
+						$originalkey = $value . '_SUM';
+						$arraykey = $this->replaceSpecialChar($value) . '_SUM';
+						if (isset($keyhdr[$arraykey])) {
+							if ($convert_price) {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, false, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							} else {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							}
+							$totalpdf[$rowcount][$originalkey] = $conv_value;
+						} else if ($sumcount) {
+							$totalpdf[$rowcount][$originalkey] = '';
+						}
+
+						$originalkey = $value . '_AVG';
+						$arraykey = $this->replaceSpecialChar($value) . '_AVG';
+						if (isset($keyhdr[$arraykey])) {
+							if ($convert_price) {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, false, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							} else {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							}
+							$totalpdf[$rowcount][$originalkey] = $conv_value;
+						} else if ($avgcount) {
+							$totalpdf[$rowcount][$originalkey] = '';
+						}
+
+						$originalkey = $value . '_MIN';
+						$arraykey = $this->replaceSpecialChar($value) . '_MIN';
+						if (isset($keyhdr[$arraykey])) {
+							if ($convert_price) {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, false, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							} else {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							}
+							$totalpdf[$rowcount][$originalkey] = $conv_value;
+						} else if ($mincount) {
+							$totalpdf[$rowcount][$originalkey] = '';
+						}
+
+						$originalkey = $value . '_MAX';
+						$arraykey = $this->replaceSpecialChar($value) . '_MAX';
+						if (isset($keyhdr[$arraykey])) {
+							if ($convert_price) {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, false, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey]);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							} else {
+								if ($operation == 'CsvExport') {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true, true);
+									if ($uitype_arr[$key] == 74) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								} else {
+									$conv_value = CurrencyField::convertToUserFormat($keyhdr[$arraykey], null, true);
+									if (in_array($uitype_arr[$key], array(71, 72, 74))) {
+										$conv_value = CurrencyField::appendCurrencySymbol($conv_value, $userCurrencySymbol);
+									}
+								}
+							}
+							$totalpdf[$rowcount][$originalkey] = $conv_value;
+						} else if ($maxcount) {
+							$totalpdf[$rowcount][$originalkey] = '';
+						}
+						$rowcount++;
+					}
+					$totalpdf[$rowcount]['sumcount'] = $sumcount;
+					$totalpdf[$rowcount]['avgcount'] = $avgcount;
+					$totalpdf[$rowcount]['mincount'] = $mincount;
+					$totalpdf[$rowcount]['maxcount'] = $maxcount;
+				}
+			}
+			return $totalpdf;
+
+		}elseif ($outputformat == "TOTALHTML") {
 			$escapedchars = Array('_SUM', '_AVG', '_MIN', '_MAX');
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
 
@@ -3695,7 +3923,7 @@ class ReportRun extends CRMEntity {
 				$groupslist = $this->getGroupingList($this->reportid);
 				foreach ($groupslist as $reportFieldName => $reportFieldValue) {
 					$nameParts = explode(":", $reportFieldName);
-					list($groupFieldModuleName, $groupFieldName) = split("_", $nameParts[2], 2);
+					list($groupFieldModuleName, $groupFieldName) = explode('_', $nameParts[2], 2);
 					$groupByFieldNames[] = vtranslate(str_replace('_', ' ', $groupFieldName), $groupFieldModuleName);
 				}
 				if (php7_count($groupByFieldNames) > 0) {
@@ -3973,7 +4201,7 @@ class ReportRun extends CRMEntity {
 				if (CheckColumnPermission($field_tablename, $field_columnname, $premod) != "false") {
 					$field_permitted = true;
 				} else {
-					$mod = split(":", $secmod);
+					$mod = explode(':', $secmod);
 					foreach ($mod as $key) {
 						if (CheckColumnPermission($field_tablename, $field_columnname, $key) != "false") {
 							$field_permitted = true;
@@ -3982,7 +4210,7 @@ class ReportRun extends CRMEntity {
 				}
 
 				//Calculation fields of "Events" module should show in Calendar related report
-				$secondaryModules = split(":", $secmod);
+				$secondaryModules = explode(':', $secmod);
 				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && CheckColumnPermission($field_tablename, $field_columnname, "Events") != "false") {
 					$field_permitted = true;
 				}
@@ -4027,7 +4255,7 @@ class ReportRun extends CRMEntity {
 		} else {
 			$field_tablename = $fieldlist[0];
 			$field_columnname = $fieldlist[1];
-			list($module, $fieldName) = split('_', $fieldlist[2], 2);
+			list($module, $fieldName) = explode('_', $fieldlist[2], 2);
 		}
 
 		$field = $field_tablename . "." . $field_columnname;
@@ -4452,6 +4680,47 @@ class ReportRun extends CRMEntity {
 			}
 		}
 		fclose($fp);
+		/**
+		 * Adding $totalcsv to generate report getting data from fromat = "CSV"
+		 */
+		$totalcsv = $this->GenerateReport("CSV", $filterlist, false, false, false, 'CsvExport');
+		if (!empty($totalcsv)) {
+
+			$fp = fopen($fileName, 'a+');
+			fputcsv($fp, array());
+
+			$size = sizeof($totalcsv);
+
+			$headerCount = $totalcsv[$size - 1];
+
+			$headers = array('Field Names' => 'Field Names');
+
+			if ($headerCount['sumcount'] > 0)
+				$headers = array_merge($headers, array('SUM' => 'SUM'));
+			if ($headerCount['avgcount'] > 0)
+				$headers = array_merge($headers, array('AVG' => 'AVG'));
+			if ($headerCount['mincount'] > 0)
+				$headers = array_merge($headers, array('MIN' => 'MIN'));
+			if ($headerCount['maxcount'] > 0)
+				$headers = array_merge($headers, array('MAX' => 'MAX'));
+
+			unset($totalcsv[$size - 1]);
+
+			$colTotHdrs = array('0' => $headers);
+
+
+			foreach ($colTotHdrs as $key => $hdr) {
+				$hdr_values = $hdr;
+				fputcsv($fp, $hdr_values);
+			}
+
+			foreach ($totalcsv as $key => $value) {
+				$csv_values = array_map('decode_html', $value);
+				fputcsv($fp, $csv_values);
+			}
+			ob_clean();
+			fclose($fp);
+		}
 	}
 
 	function getGroupByTimeList($reportId) {
@@ -4466,7 +4735,7 @@ class ReportRun extends CRMEntity {
 		$num_rows = $adb->num_rows($groupByTimeRes);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$sortColName = $adb->query_result($groupByTimeRes, $i, 'sortcolname');
-			list($tablename, $colname, $module_field, $fieldname, $single) = split(':', $sortColName);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $sortColName);
 			$groupField = $module_field;
 			$groupCriteria = $adb->query_result($groupByTimeRes, $i, 'dategroupbycriteria');
 			if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {

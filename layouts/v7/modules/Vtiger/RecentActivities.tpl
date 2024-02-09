@@ -79,6 +79,23 @@
                                             </h5>
                                         </div>
                                         {foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
+                                            
+                                            {assign var=FIELD_NAME value=$FIELDMODEL->getFieldInstance()->getName()}
+                                            {assign var=FIELD_DATA_TYPE value=$FIELDMODEL->getFieldInstance()->getFieldDataType()}
+                                            {assign var=PRE_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))}
+                                            {assign var=POST_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))}
+                                            
+                                            {if in_array($FIELD_NAME,array('time_start','time_end')) && in_array($MODULE_NAME,array('Events','Calendar'))}
+                                                {assign var=CALENDAR_RECORD_MODEL value =Vtiger_Record_Model::getInstanceById($RECORD_ID)}
+                                                {assign var=TIME_PRE_DISPLAY_VALUE value={Calendar_Time_UIType::getModTrackerDisplayValue($FIELD_NAME,$FIELDMODEL->get('prevalue'),$CALENDAR_RECORD_MODEL)}}
+                                                {assign var=TIME_POST_DISPLAY_VALUE value={Calendar_Time_UIType::getModTrackerDisplayValue($FIELD_NAME,$FIELDMODEL->get('postvalue'),$CALENDAR_RECORD_MODEL)}}
+                                                {assign var=PRE_DISPLAY_VALUE value=$TIME_PRE_DISPLAY_VALUE}
+                                                {assign var=POST_DISPLAY_VALUE value=$TIME_POST_DISPLAY_VALUE}
+                                            {/if}
+                                            
+                                            {assign var=PRE_DISPLAY_TITLE value=$TIME_PRE_DISPLAY_VALUE}
+                                            
+                                            
                                             {if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
                                                 <div class='font-x-small updateInfoContainer textOverflowEllipsis'>
                                                     <div class='update-name'><span class="field-name">{vtranslate($FIELDMODEL->getName(),$MODULE_NAME)}</span>
@@ -86,17 +103,17 @@
                                                             <span> &nbsp;{vtranslate('LBL_CHANGED')}</span>
                                                         </div>
                                                         <div class='update-from'><span class="field-name">{vtranslate('LBL_FROM')}</span>&nbsp;
-                                                            <em style="white-space:pre-line;" title="{strip_tags({Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))})}">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</em>
+                                                            <em style="white-space:pre-line;" title="{strip_tags({Vtiger_Util_Helper::toVtiger6SafeHTML($PRE_DISPLAY_TITLE)})}">{Vtiger_Util_Helper::toVtiger6SafeHTML($PRE_DISPLAY_VALUE)}</em>
                                                         </div>
                                                     {else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-                                                        &nbsp;(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> ) {vtranslate('LBL_IS_REMOVED')}</div>
+                                                        &nbsp;(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($PRE_DISPLAY_VALUE)})</del> ) {vtranslate('LBL_IS_REMOVED')}</div>
                                                     {else if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
                                                     &nbsp;{vtranslate('LBL_UPDATED')}</div>
                                                 {else}
                                                 &nbsp;{vtranslate('LBL_CHANGED')}</div>
                                             {/if}
                                             {if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-                                                <div class="update-to"><span class="field-name">{vtranslate('LBL_TO')}</span>&nbsp;<em style="white-space:pre-line;">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue'))))}</em>
+                                                <div class="update-to"><span class="field-name">{vtranslate('LBL_TO')}</span>&nbsp;<em style="white-space:pre-line;">{Vtiger_Util_Helper::toVtiger6SafeHTML($POST_DISPLAY_VALUE)}</em>
                                                 </div>
                                             {/if}
                                             </div>

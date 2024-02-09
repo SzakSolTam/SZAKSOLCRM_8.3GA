@@ -439,7 +439,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$recordModel = Vtiger_Record_Model::getInstanceById($parentRecordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE',$recordModel->get('source'));
-        $recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel,$moduleName);
 
         $totalCount = ModTracker_Record_Model::getTotalRecordCount($parentRecordId);
         $pageLimit = $pagingModel->getPageLimit();

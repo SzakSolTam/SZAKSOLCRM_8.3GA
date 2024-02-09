@@ -153,9 +153,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model {
 			return "LBL_INVALID_EMAILID";
 		} else if(array_key_exists('HELPDESK_SUPPORT_NAME',$updatedFields) && preg_match ('/[\'";?><]/', $updatedFields['HELPDESK_SUPPORT_NAME'])) {
 			return "LBL_INVALID_SUPPORT_NAME";
-		} else if((array_key_exists('upload_maxsize',$updatedFields) && !filter_var(ltrim($updatedFields['upload_maxsize'],'0'), FILTER_VALIDATE_INT))
-				|| (array_key_exists('list_max_entries_per_page',$updatedFields) &&  !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT))
-				|| (array_key_exists('listview_max_textlength',$updatedFields) && !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT))) {
+                } else if((array_key_exists('upload_maxsize',$updatedFields) &&  filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>5))) === false) || (array_key_exists('list_max_entries_per_page',$updatedFields) &&  filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>100))) === false) || (array_key_exists('listview_max_textlength',$updatedFields) && filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT , array("options" => array("min_range"=>1, "max_range"=>100))) === false)){
 			return "LBL_INVALID_NUMBER";
 		}
 		return true;

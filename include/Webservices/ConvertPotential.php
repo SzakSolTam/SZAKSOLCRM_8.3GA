@@ -12,7 +12,7 @@ require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/Create.php';
 require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/DescribeObject.php';
-require_once 'includes/Loader.php';
+require_once 'vendor/autoload.php';
 vimport('includes.runtime.Globals');
 vimport('includes.runtime.BaseModel');
 
