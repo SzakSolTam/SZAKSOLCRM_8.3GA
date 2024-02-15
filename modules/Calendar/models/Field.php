@@ -38,6 +38,11 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 													'params' => array('date_start'));
 									array_push($validator, $funcName);
 									break;
+
+			case 'subject': 		$funcName = array('name' => 'subjectFieldValidator');
+									array_push($validator, $funcName);
+									break;
+									
 			default				:	$validator = parent::getValidator();
 									break;
 		}
