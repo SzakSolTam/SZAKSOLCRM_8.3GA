@@ -57,7 +57,9 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$userName = $currentUserModel->getName();
 
 		// To eliminate the empty value of an array
-		$toEmailInfo = $this->get('toemailinfo') ? array_filter($this->get('toemailinfo')) : array();
+		$toEmailInfo = $this->get('toemailinfo');
+		// Converting of mailinfo value to array before passing $id & getting the parent module
+		$toEmailInfo = is_array($toEmailInfo) ? $toEmailInfo : json_decode($toEmailInfo, true);
 		$emailsInfo = array();
 		foreach ($toEmailInfo as $id => $emails) {
 			foreach($emails as $key => $value){
@@ -100,8 +102,6 @@ class Emails_Record_Model extends Vtiger_Record_Model {
                 if(trim($selectedEmail)){
                     array_push($emails, $selectedEmail);
                 }
-      //      }
-      //  }
         
 			$inReplyToMessageId = ''; 
 			$generatedMessageId = '';
