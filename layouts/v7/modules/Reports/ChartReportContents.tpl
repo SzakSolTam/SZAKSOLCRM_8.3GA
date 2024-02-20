@@ -14,8 +14,8 @@
 <br>
 <div class="dashboardWidgetContent">
     <input type="hidden" class="yAxisFieldType" value="{$YAXIS_FIELD_TYPE}" />
-    <div class='border1px filterConditionContainer' style="padding:30px;">
-        <div id='chartcontent' name='chartcontent' style="min-height:400px;" data-mode='Reports'></div>
+    <div class='border1px filterConditionContainer' style="padding: 0px 100px 100px 30px;">
+    <div id='chartcontent' name='chartcontent' style="min-height:500px;" data-mode='Reports'></div>
         <br>
         {if $CLICK_THROUGH neq 'true'}
             <div class='row-fluid alert-info'>
