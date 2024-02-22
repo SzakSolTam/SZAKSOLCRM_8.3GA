@@ -505,6 +505,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		if(!$this->isEditEnabled()
 				|| !$this->isViewable()
 				|| !in_array(((int)$this->get('displaytype')), array(self::DISPLAYTYPE_ALL, self::DISPLAYTYPE_LINEITEM))
+				|| $this->getName() == 'date_start' || $this->getName() == 'time_start' || $this->getName() == 'createdtime' || $this->getName() == 'modifiedtime'
 				|| $this->isReadOnly() == true
 				|| $this->get('uitype') ==  self::UITYPE_RECORD_NO) {
 
