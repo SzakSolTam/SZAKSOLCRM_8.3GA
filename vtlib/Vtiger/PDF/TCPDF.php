@@ -37,7 +37,7 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 		$blocks = explode("\n",$sa);
 		$wmax = $w - (2 * $this->cMargin);
 
-		$lines = 0;
+		$lines = 1;
 		$spacesize = $this->GetCharWidth(32);
 		foreach ($blocks as $block) {
 			if (!empty($block)) {
@@ -60,7 +60,7 @@ class Vtiger_PDF_TCPDF extends TCPDF {
 			$lines++;
 		}
 
-		return ($lines * ($this->FontSize * $this->cell_height_ratio)) + 2;
+		return ($lines * ($this->FontSize * $this->cell_height_ratio));
 	}
 
 	function SetFont($family, $style='', $size=0, $fontfile='', $subset = 'default', $out = true) {
