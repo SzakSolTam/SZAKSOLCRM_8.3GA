@@ -18,6 +18,18 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action {
 	
 	public function process(Vtiger_Request $request) {
 		$response = new Vtiger_Response();
+		/**
+		 * NOTE: CONDITION CHECK TO INCLUDE MANDATORY FIELDS ON MASS EDIT PER MODULE.
+		 */
+		$moduleName = $request->getModule();
+		$new = Vtiger_Module_Model::getInstance($moduleName);
+
+		$mandatoryfields = $new->getMandatoryFieldModels();
+		foreach($mandatoryfields as $field){
+			if(empty($request->get($field->get("name")))){
+				throw new Exception(vtranslate($field->get("label")), 403);
+			}
+		}
 		try {
 			vglobal('VTIGER_TIMESTAMP_NO_CHANGE_MODE', $request->get('_timeStampNoChangeMode',false));
 			$moduleName = $request->getModule();
