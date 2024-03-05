@@ -300,10 +300,22 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 				$insertParams = array($currentUserModel->getId(), $moduleModel->getId(), $cvId);
 				$db->pquery($insertSql, $insertParams);
 			}
+			$sql = 'UPDATE vtiger_customview SET setdefault=0 WHERE cvid!=? and entitytype=?';
+			$params = array($cvId,$moduleName);
+			$db->pquery($sql, $params);
+			$_SESSION['lvs'][$module]["viewname"] = $cvId;
 		} else {
-			$deleteSql = 'DELETE FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ? AND default_cvid = ?';
-			$deleteParams = array($currentUserModel->getId(), $moduleModel->getId(), $cvId);
-			$db->pquery($deleteSql, $deleteParams);
+			$fetchsql = 'SELECT cvid from vtiger_customview WHERE viewname="All" and entitytype=? ';
+			$fetchparams = array($moduleName);
+			$fetchresult = $db->pquery($fetchsql, $fetchparams);
+			$viewid = $db->query_result($fetchresult, 0, 'cvid');
+			$updateSql = 'UPDATE vtiger_user_module_preferences SET default_cvid = ? WHERE userid = ? AND tabid = ?';
+			$updateParams = array($viewid,$currentUserModel->getId(), $moduleModel->getId());
+			$db->pquery($updateSql, $updateParams);
+			$sql = 'UPDATE vtiger_customview SET setdefault=1 WHERE viewname="All" and entitytype=?';
+			$params = array($moduleName);
+			$db->pquery($sql, $params);
+			$_SESSION['lvs'][$module]["viewname"] =$viewid;
 		}
 
 		$selectedColumnsList = $this->get('columnslist');
