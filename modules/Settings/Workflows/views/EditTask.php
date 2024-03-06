@@ -74,6 +74,25 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View {
 			}
 		}
         if ($taskType === 'VTUpdateFieldsTask') {
+			$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
+			if (is_array($fieldMapping)) {
+				foreach ($fieldMapping as $key => $mappingInfo) {
+				if($mappingInfo['valuetype'] == 'rawtext' && Vtiger_Functions::isDateValue($mappingInfo['value'])) {
+                	$mappingInfo['value'] = DateTimeField::convertToUserFormat($mappingInfo['value']);
+                    $fieldMapping[$key] = $mappingInfo;
+                } else if ($mappingInfo['valuetype'] == 'rawtext' && Vtiger_Functions::isTimeValue($mappingInfo['value'])){
+					$userModel = Users_Record_Model::getCurrentUserModel();
+					$hourFormat = $userModel->get('hour_format');
+		    		if($hourFormat == '24') {
+						$mappingInfo['value'] = date('H:i', strtotime($mappingInfo['value']));
+		    		} else {
+						$mappingInfo['value'] = date('g:i A', strtotime($mappingInfo['value']));
+					}
+					$fieldMapping[$key] = $mappingInfo;
+				}
+			}
+			$taskObject->field_value_mapping = json_encode($fieldMapping, JSON_HEX_APOS);
+		}
 			if($moduleModel->getName() =="Documents"){
                 $restrictFields=array('folderid','filename','filelocationtype'); 
                 $viewer->assign('RESTRICTFIELDS',$restrictFields); 

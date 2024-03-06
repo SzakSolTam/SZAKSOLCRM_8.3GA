@@ -147,12 +147,13 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             clonedPopupUi.find('.fieldValueContainer div').prepend(clonedDateElement);
          } else if (fieldValueElement.hasClass('time')) {
             clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
+            var timeFormat = fieldValueElement.data('time-format');
             if (valueType == 'rawtext') {
                var value = fieldValueElement.val();
             } else {
                value = '';
             }
-            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement"  value="' + value + '" data-input="true" >'
+            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement"  value="' + value + '" data-format="' + timeFormat + '" data-input="true" >'
             clonedPopupUi.find('.fieldValueContainer div').prepend(clonedTimeElement);
          } else if (fieldValueElement.hasClass('boolean')) {
             clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
