@@ -301,8 +301,7 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 				var adjustedHeight = this.getContainer().height() - 50;
 				app.helper.showVerticalScroll(widgetContent, {'height': adjustedHeight});
 			}
-			widgetContent.css({minHeight: this.getContainer() - 50});
-			widgetContent.css({overflowX:'auto', overflowY:'hidden'});
+			widgetContent.css({height: widgetContent.height() - 100});
 		}
 	},
 	

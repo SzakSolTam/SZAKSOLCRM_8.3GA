@@ -148,7 +148,7 @@ Vtiger.Class('Vtiger_Widget_Js',{
 			//this.positionNoDataMsg();
 		}
         var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
-        widgetContent.css({minHeight: this.getContainer().height() - 50});
+        widgetContent.css({height: widgetContent.height()-40});
 	},
 
 	postRefreshWidget : function() {
