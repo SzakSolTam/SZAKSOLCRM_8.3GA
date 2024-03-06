@@ -385,18 +385,11 @@ Vtiger_Currency_Field_Js('Workflows_Currency_Field_Js',{},{
 Vtiger_Time_Field_Js('Workflows_Time_Field_Js',{},{
 
     /**
-	 * Function to get the user time format
-	 */
-    getTimeFormat : function(){
-        return this.get('time-format');
-    },
-
-    /**
 	 * Function to get the ui
 	 * @return - input text field
 	 */
     getUi : function() {
-        var html = '<input type="text" class="getPopupUi time inputElement" name="'+ this.getName() + '"  data-time-format="'+ this.getTimeFormat() + '"  value="'+  this.getValue() + '" />'+
+        var html = '<input type="text" class="getPopupUi time inputElement" name="'+ this.getName() + '"  value="'+  this.getValue() + '" />'+
         '<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
         var element = jQuery(html);
         return this.addValidationToElement(element);

@@ -1288,28 +1288,6 @@ class Vtiger_Functions {
 	}
 
 	/**
-	 * Function to check if a string is a valid time value or not
-	 * @param string $value string to check if that is a time value or not
-	 * @return boolean Returns true if $value is time else returns false
-	 */
-	static function isTimeValue($value) {
-    $value = trim($value);
-    $patterns = array(
-        '/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',     
-        '/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i',
-		'/^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
-    );
-
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $value)) {
-            return true;
-        }
-    }
-
-    return false; 
-}
-
-	/**
 	 * Function to get name and email value from a string of format <b>Your Name<youremail@company.com></b>
 	 * @param String $string Name and email value in required format.
 	 * @return Array Returns array of name and email in format <b><br>Array(<br>&#09;name => Your Name,<br>&#09;email => youemail@company.com<br>)</b>
