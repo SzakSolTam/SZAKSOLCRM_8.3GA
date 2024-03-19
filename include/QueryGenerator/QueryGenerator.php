@@ -881,7 +881,7 @@ class QueryGenerator {
 						$field->getColumnName().",'%m%d') ".$valueSql;
 					} else {
 						$fieldSql .= "$fieldGlue ".$field->getTableName().'.'.
-						$field->getColumnName().' '.$valueSql;
+						$field->getColumnName().' COLLATE utf8_bin '.' '.$valueSql;
 					}
 				}
 				if(($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') && ($field->getFieldDataType() == 'owner' || $field->getFieldDataType() == 'picklist') ) {
