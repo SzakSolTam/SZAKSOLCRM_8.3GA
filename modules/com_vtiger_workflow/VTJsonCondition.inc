@@ -249,6 +249,23 @@ class VTJsonCondition {
 			case "greater than or equal to":
 				return $fieldValue >= $value;
 			case "is":
+				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
+					file_put_contents('mylog.log', print_r($fieldValue, true), FILE_APPEND);
+                    if(empty($fieldValue) && empty($value)) {
+                        return true;
+                    } else if(!empty($fieldValue)) {
+                        $fieldValue = explode(' |##| ', $fieldValue);
+                        if(is_array($fieldValue)) {
+                            $conditionMatched = false;
+                            $valueExplodedArr = explode(',',$value);
+                            if($fieldValue === $valueExplodedArr ) {
+                                $conditionMatched = true;
+							}
+						}
+                        return $conditionMatched;
+                    }
+					return false;
+                }
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
 					if ($value == 'true') {
@@ -263,6 +280,23 @@ class VTJsonCondition {
 					return $fieldValue == $value;
 				}
 			case "is not":
+				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
+					file_put_contents('mylog.log', print_r(empty($fieldValue), true), FILE_APPEND);
+                    if(empty($fieldValue)) {
+                        return true;
+                    } else if(!empty($fieldValue)) {
+                        $fieldValue = explode(' |##| ', $fieldValue);
+                        if(is_array($fieldValue)) {
+                            $conditionMatched = false;
+                            $valueExplodedArr = explode(',',$value);
+                            if($fieldValue !== $valueExplodedArr ) {
+                                $conditionMatched = true;
+							}
+						}
+                        return $conditionMatched;
+                    }
+					return false;
+                }
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
 					if ($value == 'true') {
@@ -506,6 +540,23 @@ class VTJsonCondition {
 				}
 				return false;
 			case 'has changed to' :
+				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
+					file_put_contents('mylog.log', print_r($fieldValue, true), FILE_APPEND);
+                    if(empty($fieldValue) && empty($value)) {
+                        return true;
+                    } else if(!empty($fieldValue)) {
+                        $fieldValue = explode(' |##| ', $fieldValue);
+                        if(is_array($fieldValue)) {
+                            $conditionMatched = false;
+                            $valueExplodedArr = explode(',',$value);
+                            if($fieldValue === $valueExplodedArr ) {
+                                $conditionMatched = true;
+							}
+						}
+                        return $conditionMatched;
+                    }
+					return false;
+                }
 				$entityDelta = new VTEntityDelta();
 				$idParts = vtws_getIdComponents($entityData->getId());
 				return $entityDelta->hasChanged($entityData->getModuleName(), $idParts[1], $cond['fieldname'], $value);
