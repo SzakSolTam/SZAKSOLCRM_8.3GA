@@ -12,6 +12,11 @@ interface VTExpressionEnv{
 }
 
 function __vt_add($arr){
+	foreach ($arr as $value) {
+        if (!is_numeric($value)) {
+            return 0;
+        }
+    }
 	if(sizeof($arr)==1){
 		return $arr[0];
 	}else{
