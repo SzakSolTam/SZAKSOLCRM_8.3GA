@@ -250,7 +250,6 @@ class VTJsonCondition {
 				return $fieldValue >= $value;
 			case "is":
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
-					file_put_contents('mylog.log', print_r($fieldValue, true), FILE_APPEND);
                     if(empty($fieldValue) && empty($value)) {
                         return true;
                     } else if(!empty($fieldValue)) {
@@ -281,7 +280,6 @@ class VTJsonCondition {
 				}
 			case "is not":
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
-					file_put_contents('mylog.log', print_r(empty($fieldValue), true), FILE_APPEND);
                     if(empty($fieldValue)) {
                         return true;
                     } else if(!empty($fieldValue)) {
@@ -541,7 +539,6 @@ class VTJsonCondition {
 				return false;
 			case 'has changed to' :
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
-					file_put_contents('mylog.log', print_r($fieldValue, true), FILE_APPEND);
                     if(empty($fieldValue) && empty($value)) {
                         return true;
                     } else if(!empty($fieldValue)) {
