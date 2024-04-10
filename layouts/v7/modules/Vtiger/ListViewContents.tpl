@@ -217,7 +217,7 @@
 												</span>
 											{/foreach}
 										{else}
-											{$LISTVIEW_ENTRY_VALUE}
+											{decode_html($LISTVIEW_ENTRY_VALUE)}
 										{/if}
 									{/if}
 								</span>
