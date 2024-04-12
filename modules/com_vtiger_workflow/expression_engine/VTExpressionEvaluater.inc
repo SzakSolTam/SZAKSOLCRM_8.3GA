@@ -302,6 +302,10 @@ function __vt_power($elements) {
 	return 0;
 }
 
+function __vt_getEntityId($arr) {
+	return $arr[0];   // returns the EntityID passed into the function
+}
+
 /** END * */
 class VTFieldExpressionEvaluater{
 	function __construct($expr){
@@ -328,7 +332,8 @@ class VTFieldExpressionEvaluater{
 				'get_date' => '__vt_get_date',
 				'add_time' => '__vt_add_time',
 				'sub_time' => '__vt_sub_time',
-				'power'	   => '__vt_power'
+				'power'	   => '__vt_power',
+				'getEntityId' => '__vt_getEntityId'
 		);
 
 		$this->operations = array_merge($this->functions, $this->operators);
@@ -338,6 +343,7 @@ class VTFieldExpressionEvaluater{
 
 	function evaluate($env){
 		$this->env = $env;
+		$this->entityID = $env->getId();
 		return $this->exec($this->expr);
 	}
 
@@ -345,7 +351,7 @@ class VTFieldExpressionEvaluater{
 		if($expr instanceof VTExpressionSymbol){
 			return $this->env($expr);
 		} else if($expr instanceof VTExpressionTreeNode){
-			$op = $expr->getName();
+			$op = $expr->getName();   // get the Function name
 			if($op->value == 'if'){
 				$params = $expr->getParams();
 				$cond = $this->exec($params[0]);
@@ -358,6 +364,9 @@ class VTFieldExpressionEvaluater{
 				$params = array_map(array($this, 'exec'), $expr->getParams());
 				$func = isset($this->operations[$op->value]) ? $this->operations[$op->value] : null;
 				if ($func !== null) {
+					if ($func == '__vt_getEntityId') {
+						$params = array($this->entityID);   // substitute the param with the EntityId 
+					}
 					return $func($params);
 				} else {
 					return null;
