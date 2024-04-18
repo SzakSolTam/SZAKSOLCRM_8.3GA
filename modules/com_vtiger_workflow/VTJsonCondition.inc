@@ -249,6 +249,7 @@ class VTJsonCondition {
 			case "greater than or equal to":
 				return $fieldValue >= $value;
 			case "is":
+				// Checking for multipicklist since it have array of values.
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
                     if(empty($fieldValue) && empty($value)) {
                         return true;
@@ -257,7 +258,8 @@ class VTJsonCondition {
                         if(is_array($fieldValue)) {
                             $conditionMatched = false;
                             $valueExplodedArr = explode(',',$value);
-                            if($fieldValue === $valueExplodedArr ) {
+							//Comparing based on the values since two arrays have same values but order might change
+                            if(empty(array_diff($valueExplodedArr,$fieldValue)) && empty(array_diff($fieldValue,$valueExplodedArr)) ) {
                                 $conditionMatched = true;
 							}
 						}
@@ -279,15 +281,22 @@ class VTJsonCondition {
 					return $fieldValue == $value;
 				}
 			case "is not":
+				// Checking for multipicklist since it have array of values.
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
-                    if(empty($fieldValue)) {
+					//checking and returning true becuase the field value being null match the condition is not when the condition value is null.
+                    if(empty($fieldValue) && !empty($value)) {
                         return true;
-                    } else if(!empty($fieldValue)) {
+                    } 
+					//checking and returning false because the field value being null does not match the condition is not for the condition value null.
+					else if(empty($fieldValue) && empty($value)) {
+						return false;
+					} else if(!empty($fieldValue)) {
                         $fieldValue = explode(' |##| ', $fieldValue);
                         if(is_array($fieldValue)) {
                             $conditionMatched = false;
                             $valueExplodedArr = explode(',',$value);
-                            if($fieldValue !== $valueExplodedArr ) {
+							//Comparing based on the values since two arrays have same values but order might change
+                            if(!empty(array_diff($valueExplodedArr,$fieldValue)) || !empty(array_diff($fieldValue,$valueExplodedArr)) ) {
                                 $conditionMatched = true;
 							}
 						}
@@ -538,6 +547,7 @@ class VTJsonCondition {
 				}
 				return false;
 			case 'has changed to' :
+			// Checking for multipicklist since it have array of values.
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
                     if(empty($fieldValue) && empty($value)) {
                         return true;
@@ -546,7 +556,8 @@ class VTJsonCondition {
                         if(is_array($fieldValue)) {
                             $conditionMatched = false;
                             $valueExplodedArr = explode(',',$value);
-                            if($fieldValue === $valueExplodedArr ) {
+							//Comparing based on the values since two arrays have same values but order might change
+                            if(empty(array_diff($valueExplodedArr,$fieldValue)) && empty(array_diff($fieldValue,$valueExplodedArr)) ) {
                                 $conditionMatched = true;
 							}
 						}
