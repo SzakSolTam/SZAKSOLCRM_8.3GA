@@ -283,7 +283,7 @@ class VTJsonCondition {
 			case "is not":
 				// Checking for multipicklist since it have array of values.
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'multipicklist'){
-					//checking and returning true becuase the field value being null match the condition is not when the condition value is null.
+					//checking and returning true becuase the field value being null match the condition is not when the condition value is not null.
                     if(empty($fieldValue) && !empty($value)) {
                         return true;
                     } 
