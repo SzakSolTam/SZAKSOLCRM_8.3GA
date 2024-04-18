@@ -182,7 +182,14 @@ class Vtiger_Util_Helper {
 			 */
 			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
-			}
+			} else if ($currentUser->get('date_format') === 'dd/mm/yyyy'){
+				// strtotime expects m/d/y format - adjusting the format to make it friendly to its convention
+                $dateArray = explode('/', $dateInUserFormat);
+                $temp = $dateArray[0];
+                $dateArray[0] = $dateArray[1];
+                $dateArray[1] = $temp;
+                $dateInUserFormat = implode('/', $dateArray);
+            }
 
 			$date = strtotime($dateInUserFormat);
 			$formatedDate = vtranslate('LBL_'.date('D', $date)) . ' ' . date('d', $date) . ' ' . vtranslate('LBL_'.date('M', $date));
@@ -262,13 +269,16 @@ class Vtiger_Util_Helper {
 			$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
 		}
 
-		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
-
-		$displayTime = $hours .':'. $minutes;
-		if ($currentUser->get('hour_format') === '12') {
-			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
+		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
+		if($meridiem && $currentUser->get('hour_format') === '12' ){
+			$displayTime = $timeInUserFormat.' '.$meridiem;
+		} else {
+			list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+			$displayTime = $hours .':'. $minutes;
+			if ($currentUser->get('hour_format') === '12') {
+				$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
+	}
 
 		/**
 		 * To support strtotime() for 'mm-dd-yyyy' format the separator should be '/'
@@ -277,6 +287,13 @@ class Vtiger_Util_Helper {
 		 */
 		if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 			$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
+		} else if ($currentUser->get('date_format') === 'dd/mm/yyyy'){
+			// strtotime expects the format m/d/y making changes to its convenient
+			$dateArray = explode('/', $dateInUserFormat);
+			$temp = $dateArray[0];
+			$dateArray[0] = $dateArray[1];
+			$dateArray[1] = $temp;
+			$dateInUserFormat = implode('/', $dateArray);
 		}
 
 		$date = strtotime($dateInUserFormat);

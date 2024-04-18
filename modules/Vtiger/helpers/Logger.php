@@ -32,7 +32,7 @@ class Logger {
         if (!self::$initialized) {
             global $PERFORMANCE_CONFIG;
             // Check if the performance config is set and debug logging is enabled
-            if (isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) && $PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) {
+            if (isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOGLEVEL_DEBUG']) && $PERFORMANCE_CONFIG['LOGLEVEL_DEBUG']) {
                 // Set the default log level to 100 and the log file path
                 self::$logLevel = 100;
                 self::$filePath = "logs/vtigercrm.log";

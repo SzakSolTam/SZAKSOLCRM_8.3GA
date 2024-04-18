@@ -43,6 +43,6 @@ $languageStrings = array(
 	'Canceled'	=>	"Отменен",
         'LBL_NO_DATE_VALUE_MSG' => 'или Задачи проекта не имеют начала и / или окончания',
 
-  'Canceled ' => 'Отменен',
+  'Canceled' => 'Отменен',
 
 );

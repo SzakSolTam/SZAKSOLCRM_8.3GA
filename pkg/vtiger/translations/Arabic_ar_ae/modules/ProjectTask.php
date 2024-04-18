@@ -45,6 +45,6 @@ $languageStrings = array(
 	'In Progress' => 'في التقدم',
 	'Completed' => 'الانتهاء',
 	'Deferred' => 'تأجيل',
-	'Canceled ' => 'ألغيت',
+	'Canceled' => 'ألغيت',
         'LBL_NO_DATE_VALUE_MSG' => 'أو مهام المشروع لا يكون البدء و / أو تاريخ الانتهاء',
 );

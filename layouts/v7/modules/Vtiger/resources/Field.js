@@ -420,6 +420,9 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js',{},{
 				if (picklistColor) {
 					className = '.picklistColor_'+fieldName+'_'+option.replace(' ', '_');
 					html += className+'{background-color: '+picklistColor+' !important;}';
+
+					className = className + '.select2-highlighted';
+					html += className+'{white: #ffffff !important; background-color: #337ab7 !important;}';
 				}
 			}
 			html +='<\style>';

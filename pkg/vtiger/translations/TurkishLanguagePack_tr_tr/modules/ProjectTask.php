@@ -43,6 +43,6 @@ $languageStrings = array(
 	'Canceled'	=>	"Iptal edildi",
         'LBL_NO_DATE_VALUE_MSG' => 'veya Proje Görevleri Başlat ve / veya Bitiş Tarihi yok',
 
-  'Canceled ' => 'İptal',
+  'Canceled' => 'İptal',
 
 );

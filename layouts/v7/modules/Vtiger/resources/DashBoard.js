@@ -724,8 +724,8 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 										var tabEle = '<li class="dashboardTab" data-tabid="'+tabid+'" data-tabname="'+tabname+'">';
 										tabEle += '<a data-toggle="tab" href="#tab_'+tabid+'">\n\
 														<div>\n\
-															<span class="name textOverflowEllipsis" value="'+tabname+'" style="width:10%">\n\
-															<strong>'+tabname+'</strong>\n\
+															<span class="name textOverflowEllipsis" style="width:10%">\n\
+															<strong></strong>\n\
 															</span>\n\
 															<span class="editTabName hide"><input type="text" name="tabName"></span>\n\
 															<i class="fa fa-close deleteTab"></i>\n\

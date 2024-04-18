@@ -44,5 +44,17 @@ class Documents_Field_Model extends Vtiger_Field_Model {
         }
         return false;
     }
+
+	//The AjaxEditable for the RTE field is not allowed
+	public function isAjaxEditable() {
+		$result = parent::isAjaxEditable();
+		if($result && $this->get('uitype') == 19) {
+			return false;
+		} else if(!$result) {
+			return false;
+		} else {
+			return true;
+		}
+	}
     
 }
