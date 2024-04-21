@@ -35,7 +35,7 @@ class Settings_Webforms_EditRecordStructure_Model extends Vtiger_EditRecordStruc
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isEditable()) {
 						if ($recordModel->get($fieldName) != '') {
-							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+							$fieldModel->set('fieldvalue', decode_html($recordModel->get($fieldName)));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
 							if (!empty($defaultValue) && !$recordId)

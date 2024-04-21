@@ -1,2 +1,4 @@
 vendor/*
 !vendor/.htaccess
+.vscode/settings.json
+.vscode/vtigercrm.code-workspace
