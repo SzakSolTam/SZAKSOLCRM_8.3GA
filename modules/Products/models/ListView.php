@@ -90,11 +90,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		//For Products popup in Price Book Related list
-		if(($sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList')
-				&& ($sourceModule !== 'Products' && $sourceField !== 'productsList')) {
+		if($sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList') {
 			$listQuery .= " LIMIT $startIndex,".($pageLimit+1);
-		} else {
-			$listQuery .= " LIMIT $startIndex,".($pageLimit+1); // select limit was only updating for other modules, the limit was not set , cause of 0th index adding +1.
 		}
 
 		$listResult = $db->pquery($listQuery, array());
