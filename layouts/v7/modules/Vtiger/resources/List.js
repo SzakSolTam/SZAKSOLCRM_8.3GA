@@ -1363,6 +1363,7 @@ Vtiger.Class("Vtiger_List_Js", {
     	
     	var autoIncludeFieldsInMassEditCallback = function() {
 			var fieldName = $(this).attr('name');
+			if (!fieldName) return;
 			fieldName = fieldName.replace(/\[\]$/, ''); //remove trailing [] for cases like multiselect
 			
 			$(this).closest('tr').find("input[id=include_in_mass_edit_" + fieldName + "]").prop( "checked", true );

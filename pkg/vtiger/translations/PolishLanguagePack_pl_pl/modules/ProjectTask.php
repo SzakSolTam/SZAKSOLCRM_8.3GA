@@ -46,6 +46,6 @@ $languageStrings = array(
 	'In Progress' => 'W toku',
 	'Completed' => 'Zakończony',
 	'Deferred' => 'Odroczona',
-	'Canceled ' => 'Odwołany',
+	'Canceled' => 'Odwołany',
         'LBL_NO_DATE_VALUE_MSG' => 'lub Zadania projektowe nie mają rozpoczęcia i / lub zakończenia Data',
 );

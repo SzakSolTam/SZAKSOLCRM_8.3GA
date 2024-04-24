@@ -88,11 +88,21 @@ class Vtiger_Utils {
 	}
 
 	/** 
-	 * Function to check the file access is made within web root directory. 
+	 * Function to check the file access is made within web root directory.
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccess($filepath, $dieOnFail=true) {
+		return checkFileAccessIn($filepath, null, $dieOnFail);
+	}
+
+	/** 
+	 * Function to check the file access is made within web root directory (with optional sub-directories)
+	 * @param String File path to check
+	 * @param Array Relative paths within web root directory.
+	 * @param Boolean False to avoid die() if check fails
+	 */
+	static function checkFileAccessIn($filepath, array $relpaths = null, $dieOnFail=true) {
 		global $root_directory;
 
 		// Set the base directory to compare with
@@ -111,20 +121,39 @@ class Vtiger_Utils {
 		$realfilepath = str_replace('\\', '/', $realfilepath);
 		$rootdirpath  = str_replace('\\', '/', $rootdirpath);
 
-		if(stripos($realfilepath, $rootdirpath) !== 0) {
-                    if($dieOnFail) {
-                        $a = debug_backtrace();
-                        $backtrace = 'Traced on '.date('Y-m-d H:i:s')."\n";
-                        $backtrace .= "FileAccess - \n";
-                        foreach ($a as $b) {
-                              $backtrace .=  $b['file'] . '::' . $b['function'] . '::' . $b['line'] . '<br>'.PHP_EOL;
-                        }
-                        Vtiger_Utils::writeLogFile('fileMissing.log', $backtrace);
-                        die('Sorry! Attempt to access restricted file.');
-                    }
-			return false;
+		/** Assume not matching. */
+		$ok = false;
+
+		if(stripos($realfilepath, $rootdirpath) === 0) {
+			/** Safe path. */
+			if (is_null($relpaths) || empty($relpaths)) {
+				/** No specific path to check. */
+				$ok = true;
+			} else if (is_array($relpaths)) {
+				/* Check relfilepath against accepted ones. */
+				$relfilepath = str_replace(rtrim($rootdirpath, "/"). "/", "", $realfilepath);
+				foreach ($relpaths as $relpathok) {
+					if (strpos($relfilepath, $relpathok) === 0) {
+						/** found a match - break early. */
+						$ok = true;
+						break;
+					}
+				}
+			}
 		}
-		return true;
+
+		if (!$ok && $dieOnFail) {
+			$a = debug_backtrace();
+			$backtrace = 'Traced on '.date('Y-m-d H:i:s')."\n";
+			$backtrace .= "FileAccess - \n";
+			foreach ($a as $b) {
+					$backtrace .=  $b['file'] . '::' . $b['function'] . '::' . $b['line'] . '<br>'.PHP_EOL;
+			}
+			Vtiger_Utils::writeLogFile('fileMissing.log', $backtrace);
+			die('Sorry! Attempt to access restricted file.');
+		}
+
+		return $ok;
 	}
 
 	/**

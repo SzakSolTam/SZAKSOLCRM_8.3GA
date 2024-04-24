@@ -219,14 +219,21 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 	} elseif ($fieldType == 'double' && $operation != 'ExcelExport') {
         if($current_user->truncate_trailing_zeros == true)
             $fieldvalue = decimalFormat($fieldvalue);
-    }
+	} else {
+		// special fields
+		if ( ($report->primarymodule == "Emails" && $dbField->name == "Date_Sent") || $dbField->name == "Emails_Date_Sent") {
+			$fieldvalue = DateTimeField::convertToUserFormat($fieldvalue);
+		}
+	}
+
     if($fieldType == 'currency' && $value == "" && $operation != 'ExcelExport'){
         $currencyField = new CurrencyField($value);
         $fieldvalue = $currencyField->getDisplayValue();
         return $fieldvalue;
     } else if($fieldvalue == "" && $operation != 'ExcelExport') {
         return "";
-    }
+	}
+
 	$fieldvalue = str_replace("<", "&lt;", $fieldvalue);
 	$fieldvalue = str_replace(">", "&gt;", $fieldvalue);
 	$fieldvalue = decode_html($fieldvalue);

@@ -97,7 +97,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
             $fieldInstance->set('masseditable', $massEditable);
         }
 
-        $defaultValue = $fieldInstance->get('defaultvalue');
+        $defaultValue = decode_html($fieldInstance->get('defaultvalue'));
         if(!is_null($request->get('fieldDefaultValue', null))) {
 
             if(is_array($request->get('fieldDefaultValue'))) {
@@ -108,6 +108,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
             if(preg_match('/AM|PM/',$defaultValue) && ($fieldInstance->get('uitype') =='14'))
             {
                 $defaultValue=Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
+            }
+            // Converting the date value to DB format (yyyy-mm-dd)
+            if ($defaultValue && $fieldInstance->get('uitype')=='5') {
+                $defaultValue = Vtiger_Date_UIType::getDBInsertedValue($defaultValue);
             }
 
             $fieldInstance->set('defaultvalue', $defaultValue);
@@ -125,13 +129,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			if (isset($defaultValue)) {
 				if ($defaultValue && $fieldInfo['type'] == 'date') {
 					$defaultValue = DateTimeField::convertToUserFormat($defaultValue);
-				} else if (!$defaultValue) {
-					$defaultValue = $fieldInstance->getDisplayValue($defaultValue);
 				} else if (is_array($defaultValue)) {
 					foreach ($defaultValue as $key => $value) {
 						$defaultValue[$key] = $fieldInstance->getDisplayValue($value);
 					}
 					$defaultValue = Zend_Json::encode($defaultValue);
+				} else if ($defaultValue) {
+					$defaultValue = $fieldInstance->getDisplayValue($defaultValue);
 				}
 			}
 			$fieldInfo['fieldDefaultValue'] = $defaultValue;
@@ -200,6 +204,21 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			foreach($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
+                //The default value is set to response after reactivating the field.
+                $defaultValue = $fieldModel->getDefaultFieldValue();
+                if (isset($defaultValue)) {
+                    if ($defaultValue && $fieldInfo['type'] == 'date') {
+                        $defaultValue = DateTimeField::convertToUserFormat($defaultValue);
+                    } else if (!$defaultValue) {
+                        $defaultValue = $fieldInstance->getDisplayValue($defaultValue);
+                    } else if (is_array($defaultValue)) {
+                        foreach ($defaultValue as $key => $value) {
+                            $defaultValue[$key] = $fieldInstance->getDisplayValue($value);
+                        }
+                        $defaultValue = Zend_Json::encode($defaultValue);
+                    }
+            }
+            $fieldInfo['fieldDefaultValue'] = $defaultValue;
 				$responseData[] = array_merge(array('id'=>$fieldModel->getId(), 'blockid'=>$fieldModel->get('block')->id, 'customField'=>$fieldModel->isCustomField()),$fieldInfo);
 			}
             $response->setResult($responseData);

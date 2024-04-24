@@ -969,7 +969,7 @@ function getInventoryProductTaxValue($id, $productId, $taxName, $lineItemId = 0)
  *	@param string $taxname - shipping and handling taxname
  *	@return float $taxpercentage - shipping and handling taxpercentage which is associated with the given entity
  */
-function getInventorySHTaxPercent($id, $taxname)
+function getInventorySHTaxPercent($id, $taxname, $taxnum=null)
 {
 	global $log, $adb;
 	$log->debug("Entering into function getInventorySHTaxPercent($id, $taxname)");
@@ -977,6 +977,22 @@ function getInventorySHTaxPercent($id, $taxname)
     $taxname = $taxname;
 	$res = $adb->pquery("select $taxname from vtiger_inventoryshippingrel where id= ?", array($id));
 	$taxpercentage = $adb->query_result($res,0,$taxname);
+
+	// If shipping details is not found then try to get the values from the vtiger_inventorychargesrel 
+	// where the actual shipping and handling tax info of particular record stored.
+	if($adb->num_rows($res) < 1){
+		$j=$taxnum+1;
+		// parse through the json detail and extract the value of specific tax.
+		$charges_result = $adb->pquery(
+            "SELECT JSON_UNQUOTE(JSON_EXTRACT(charges, CONCAT('$.\"1\".taxes.\"', ? ,'\"'))) as charges 
+             FROM vtiger_inventorychargesrel 
+             WHERE recordid = ?", 
+            array($taxnum + 1, $id)
+        );
+		$rowData = $adb->fetch_array($charges_result);
+		$charges = Zend_Json::decode(html_entity_decode($rowData['charges']));
+		$taxpercentage = $charges;
+	}
 
 	if($taxpercentage == '')
 		$taxpercentage = 0;

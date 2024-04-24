@@ -69,6 +69,12 @@ class Project_Module_Model extends Vtiger_Module_Model {
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationId) {
 		$relatedModuleName = $relatedModule->getName();
 		$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationId);
+		if($relatedModuleName == 'Calendar'){
+			/*
+			 * To restrict Email activitytype in relatedlistview.
+			*/
+			$query.="AND vtiger_activity.activitytype <> 'Emails'"; 
+		}
 		return $query;
 	}
 
