@@ -197,8 +197,8 @@ if($adb->num_rows($result) >= 1)
 			if(php7_count($to_addr) >=1)
 			{
 				send_email($to_addr,$from,$subject,$contents,$mail_server,$mail_server_username,$mail_server_password);
-				$upd_query = "UPDATE vtiger_activity_reminder SET reminder_sent = ?";
-				$upd_params = array(1);
+				$upd_query = "UPDATE vtiger_activity_reminder SET reminder_sent = ? WHERE activity_id = ?";
+				$upd_params = array('1',$activity_id);
 
 				if($recur_id!=0)
 				{

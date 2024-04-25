@@ -102,7 +102,7 @@ PriceBooks_Detail_Js("Products_Detail_Js", {
                 'html': true,
                 'container':'body',
                 'placement': 'top',
-            }).data('bs.popover').tip().addClass('productBundlePopover');
+            }).data('bs.popover').tip().addClass('productBundlePopover').css({'left':'0px', 'margin-left': '60px'}); /* 60px to overcome sidebar-offset + container-padding */
             element.one('shown.bs.popover',function(){
                 app.helper.showVerticalScroll(jQuery('.productBundlePopover .popover-content'));
             });

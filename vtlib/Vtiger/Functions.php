@@ -1293,22 +1293,22 @@ class Vtiger_Functions {
 	 * @return boolean Returns true if $value is time else returns false
 	 */
 	static function isTimeValue($value) {
-    $value = trim($value);
-    $patterns = array(
-        '/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',     
-        '/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i',
-		'/^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
-    );
-
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $value)) {
-            return true;
-        }
-    }
-
-    return false; 
-}
-
+		$value = trim($value);
+		$patterns = array(
+			'/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',     
+			'/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i',
+			'/^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
+		);
+	
+		foreach ($patterns as $pattern) {
+			if (preg_match($pattern, $value)) {
+				return true;
+			}
+		}
+	
+		return false; 
+	}
+	
 	/**
 	 * Function to get name and email value from a string of format <b>Your Name<youremail@company.com></b>
 	 * @param String $string Name and email value in required format.

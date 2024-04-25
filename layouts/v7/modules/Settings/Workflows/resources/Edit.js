@@ -153,7 +153,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             } else {
                value = '';
             }
-            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement"  value="' + value + '" data-format="' + timeFormat + '" data-input="true" >'
+            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement" value="' + value + '" data-format="' + timeFormat + '" data-input="true" >'
             clonedPopupUi.find('.fieldValueContainer div').prepend(clonedTimeElement);
          } else if (fieldValueElement.hasClass('boolean')) {
             clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -604,7 +604,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    isEmptyFieldSelected: function (fieldSelect) {
       var selectedOption = fieldSelect.find('option:selected');
       //assumption that empty field will be having value none
-      if (selectedOption.val() == 'none') {
+      if (selectedOption.val() == 'none' || selectedOption.val() === '') {
          return true;
       }
       return false;

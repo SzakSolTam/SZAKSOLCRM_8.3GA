@@ -25,13 +25,7 @@
 	<script type="text/javascript" src="libraries/jquery/pnotify/jquery.pnotify.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery.hoverIntent.minified.js"></script>
 
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-alert.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tooltip.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-collapse.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-modal.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-dropdown.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-popover.js"></script>
+	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap/js/bootbox.min.js"></script>
 	<script type="text/javascript" src="resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="resources/app.js"></script>

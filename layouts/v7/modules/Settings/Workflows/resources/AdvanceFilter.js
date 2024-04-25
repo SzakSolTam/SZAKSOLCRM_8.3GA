@@ -296,7 +296,7 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js',{},{
         var dateSpecificConditions = this.get('dateSpecificConditions');
         if(comparatorSelectedOptionVal.length > 0) {
             if(comparatorSelectedOptionVal == 'between' || comparatorSelectedOptionVal == 'custom'){
-                var html = '<div class="date"><input class="dateField inputElement" style="width:auto;" data-calendar-type="range" name="'+ this.getName() +'" data-date-format="'+ this.getDateFormat() +'" type="text" ReadOnly="true" value="'+  this.getValue() + '"></div>';
+                var html = '<div class="date"><input class="dateField inputElement" style="width:auto;" data-calendar-type="range" name="'+ this.getName() +'" data-date-format="'+ this.getDateFormat() +'" type="text" value="'+  this.getValue() + '"></div>';
                 var element = jQuery(html);
                 return this.addValidationToElement(element);
             } else if(this._specialDateComparator(comparatorSelectedOptionVal)) {
@@ -390,13 +390,13 @@ Vtiger_Time_Field_Js('Workflows_Time_Field_Js',{},{
     getTimeFormat : function(){
         return this.get('time-format');
     },
-
+    
     /**
 	 * Function to get the ui
 	 * @return - input text field
 	 */
     getUi : function() {
-        var html = '<input type="text" class="getPopupUi time inputElement" name="'+ this.getName() + '"  data-time-format="'+ this.getTimeFormat() + '"  value="'+  this.getValue() + '" />'+
+        var html = '<input type="text" class="getPopupUi time inputElement" name="'+ this.getName() +'" data-time-format="'+ this.getTimeFormat() + '" value="'+  this.getValue() + '" />'+
         '<input type="hidden" name="valuetype" value="'+this.get('workflow_valuetype')+'" />';
         var element = jQuery(html);
         return this.addValidationToElement(element);

@@ -504,15 +504,19 @@ Vtiger.Class('Settings_LayoutEditor_Js', {
 					data.find('input[name="quickcreate"]').prop('checked', true).attr('readonly', 'readonly');
 					data.find('input[name="quickcreate"]').removeClass('cursorPointer').addClass('cursorPointerNotAllowed');
 				}
-				data.find('input[name="presence"]').attr('checked', true).attr('readonly', 'readonly');
-				data.find('#fieldPresence').bootstrapSwitch('toggleReadonly', true);
+				if(data.find('#fieldPresence').attr('optionDisabled') != 'true'){
+					data.find('input[name="presence"]').attr('checked', true).attr('readonly', 'readonly');
+					data.find('#fieldPresence').bootstrapSwitch('toggleReadonly', true);
+				}
 			} else {
 				if (data.find('input[name="isquickcreatesupported"]').val()) {
 					data.find('input[name="quickcreate"]').removeAttr('readonly');
 					data.find('input[name="quickcreate"]').removeClass('cursorPointerNotAllowed').addClass('cursorPointer');
 				}
-				data.find('input[name="presence"]').removeAttr('readonly');
-				data.find('#fieldPresence').bootstrapSwitch('toggleReadonly');
+				if(data.find('#fieldPresence').attr('optionDisabled') != 'true'){
+					data.find('input[name="presence"]').removeAttr('readonly');
+					data.find('#fieldPresence').bootstrapSwitch('toggleReadonly');
+				}
 			}
 		})
 		data.find('input[type="checkbox"]').on('click', function (e) {

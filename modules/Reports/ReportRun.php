@@ -1788,6 +1788,7 @@ class ReportRun extends CRMEntity {
 		$nextweek1 = date("Y-m-d", strtotime("+1 week $prvDay"));
 
 		$next7days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 6, date("Y")));
+		$next14days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 13, date("Y")));
 		$next30days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 29, date("Y")));
 		$next60days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 59, date("Y")));
 		$next90days = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + 89, date("Y")));
@@ -1877,6 +1878,11 @@ class ReportRun extends CRMEntity {
 
 			$datevalue[0] = $today;
 			$datevalue[1] = $next7days;
+		} 
+		elseif ($type == "next14days") {
+			
+			$datevalue[0] = $today;
+			$datevalue[1] = $next14days;
 		} elseif ($type == "next30days") {
 
 			$datevalue[0] = $today;

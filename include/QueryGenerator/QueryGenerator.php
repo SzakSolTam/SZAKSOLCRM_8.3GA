@@ -1191,7 +1191,7 @@ class QueryGenerator {
                             $value = $value."%";
                         }
 
-                        if( ($field->getFieldDataType() != 'birthday' || ($field->getFieldDataType() == 'birthday'
+                        if( ($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday'
                                         && $this->isRelativeSearchOperators($operator)))){
                             if($field->getFieldDataType() !== 'integer'){
                                 $value = "'$value'";

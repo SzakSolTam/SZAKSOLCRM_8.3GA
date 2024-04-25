@@ -183,7 +183,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		} else if (strtolower($fieldType) == 'time') {
 			$defaultValue = Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
 		} else if (strtolower($fieldType) == 'currency') {
-			$defaultValue = CurrencyField::convertToDBFormat($defaultValue, null, true);
+			//The argument for $skipformatting parameter is passed false to get the value in DB format($).
+			$defaultValue = CurrencyField::convertToDBFormat($defaultValue, null, false);
 		} else if (strtolower($fieldType) == 'decimal') {
 			$defaultValue = CurrencyField::convertToDBFormat($defaultValue, null, true);
 		}

@@ -126,6 +126,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 				});
 			} else {
 				app.helper.showAlertBox({'message':app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION')});
+				app.helper.hideProgress();
 			}
 		});
 	},
@@ -1230,7 +1231,7 @@ Vtiger.Class('Vtiger_Index_Js', {
 		var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
 		if(quickCreateNode.length <= 0) {
 			var notificationOptions = {
-				'title' : app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED')
+				'message' : app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED')
 			}
 			app.helper.showAlertNotification(notificationOptions);
 		}

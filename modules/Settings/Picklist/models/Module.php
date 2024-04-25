@@ -499,7 +499,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
 		$colums = $db->getColumnNames("vtiger_$fieldName");
-		if(in_array('color',$colums)) {
+		if(is_array($columns) && in_array('color',$colums)) {
 			$query = 'SELECT '.$primaryKey.',color,'.$fieldName.' FROM vtiger_'.$fieldName;
 			$result = $db->pquery($query, array());
 			$pickListColorMap = array();

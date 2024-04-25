@@ -44,6 +44,13 @@ class MailManager_Folder_View extends MailManager_Abstract_View {
 						$dateArray[0] = $dateArray[1];
 						$dateArray[1] = $temp;
 						$q = implode('-', $dateArray);
+					} else if ($dateFormat == 'dd/mm/yyyy'){
+						// re-align to m/d/y format for strtotime
+						$dateArray = explode('/', $q);
+						$temp = $dateArray[0];
+						$dateArray[0] = $dateArray[1];
+						$dateArray[1] = $temp;
+						$q = implode('/', $dateArray);
 					}
 					$query = date('d M Y',strtotime($q));
 					$q = ''.$type.' "'.vtlib_purify($query).'"';
