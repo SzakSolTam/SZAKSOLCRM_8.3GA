@@ -220,9 +220,10 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 				$status = $mailer->Send(true);
 			}
 			if(!$status) {
-				$status = $mailer->getError();
-				//If mailer error, then update emailflag as saved
-				if($status){
+				// Before inspecting for mailer error do a explict check on its configuration.
+				$err = $mailer->_serverConfigured ? $mailer->getError() : vtranslate("LBL_MAIL_SERVER_DESCRIPTION", "Settings:Vtiger");
+				// If mailer error, then update emailflag as saved
+				if($err){
 					$this->updateEmailFlag();
 				}
 			} else {

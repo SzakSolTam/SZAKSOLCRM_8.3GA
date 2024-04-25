@@ -133,7 +133,7 @@
                               </label>
                               <div class="col-sm-2 controls" id='schtime'>
                                   <div class="input-group time" >
-                                      <input type='text' data-format='24' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-rule-required="true" class="timepicker-default inputElement"/>
+                                      <input type='text' data-format='{$CURRENT_USER->get('hour_format')}' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-rule-required="true" class="timepicker-default inputElement"/>
                                       <span  class="input-group-addon">
                                           <i  class="fa fa-clock-o"></i>
                                       </span>
@@ -145,7 +145,17 @@
                                 <label class='col-sm-2 control-label'>{vtranslate('LBL_NEXT_TRIGGER_TIME', $QUALIFIED_MODULE)}</label>
                                 <div class='col-sm-4 controls'>
                                     {if $WORKFLOW_MODEL_OBJ->schtypeid neq 4}
-                                        {DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+			                            {assign var="userModel" value=Users_Privileges_Model::getCurrentUserModel()}
+                                        {if $userModel->get('hour_format') == '12'}
+                                            {assign var="fieldvalue" value=DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+                                            {assign var="time_parts" value=explode(" ", $fieldvalue)}
+                                            {assign var="time" value=$time_parts[1]}
+                                            {assign var="value" value=Vtiger_Time_UIType::getTimeValueInAMorPM($time)}
+                                            {assign var="fieldvalue" value=$time_parts[0]|cat:' '|cat:$value}
+                                            {$fieldvalue}
+                                        {else}
+                                            {DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+                                        {/if}
                                         <span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
                                     {/if}
                                 </div>

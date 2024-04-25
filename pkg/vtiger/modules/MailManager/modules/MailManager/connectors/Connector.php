@@ -390,10 +390,12 @@ class MailManager_Connector_Connector {
 			}
 
 			foreach($records as $result) {
-				array_unshift($mails, MailManager_Message_Model::parseOverview($result,$mbox));
+				$message = MailManager_Message_Model::parseOverview($result,$mbox);
+				array_unshift($mails, $message);
+				array_unshift($mailnos, $message->msgNo());
 			}
 			$folder->setMails($mails);
-			$folder->setMailIds($nos);
+			$folder->setMailIds($mailnos);
 			$folder->setPaging($reverse_end, $reverse_start, $maxLimit, $nmsgs, $start);  //-1 as it starts from 0
 		}
 	}

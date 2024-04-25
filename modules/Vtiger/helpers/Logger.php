@@ -32,7 +32,7 @@ class Logger {
         if (!self::$initialized) {
             global $PERFORMANCE_CONFIG;
             // Check if the performance config is set and debug logging is enabled
-            if (isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) && $PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) {
+            if (isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOGLEVEL_DEBUG']) && $PERFORMANCE_CONFIG['LOGLEVEL_DEBUG']) {
                 // Set the default log level to 100 and the log file path
                 self::$logLevel = 100;
                 self::$filePath = "logs/vtigercrm.log";
@@ -50,7 +50,7 @@ class Logger {
         
         // Check if log level is set (logger is initialized)
         if (self::$logLevel) {
-            $log = new MonologLogger($channel);
+            $log = new MonologLoggerEx($channel);
             $handler = new StreamHandler(self::$filePath, self::$logLevel);
 
             // Set a custom formatter if customFormatter is true
@@ -76,6 +76,13 @@ class Logger {
     public function warn($message) {}
     public function error($message) {}
 
+}
+
+// Define extended version of Monolog Logger to support functions
+class MonologLoggerEx extends MonologLogger {
+    function fatal($message, $context = array()) {
+        $this->error($message, $context);
+    }
 }
 
 // Define a custom log formatter

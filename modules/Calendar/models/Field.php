@@ -55,6 +55,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 			return 'reminder';
 		} else if($this->getName() == 'recurringtype') {
 			return 'recurrence';
+		} else if($this->get('uitype') == '9'){
+			return 'percentage';
 		}
 		$webserviceField = $this->getWebserviceFieldObject();
 		return $webserviceField->getFieldDataType();

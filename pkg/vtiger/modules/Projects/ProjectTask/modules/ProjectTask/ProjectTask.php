@@ -41,12 +41,12 @@ class ProjectTask extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Task Name'=> Array('projecttask', 'projecttaskname'),
-		'Start Date'=> Array('projecttask', 'startdate'),
-		'End Date'=> Array('projecttask', 'enddate'),
-		'Type'=>Array('projecttask','projecttasktype'),
-		'Progress'=>Array('projecttask','projecttaskprogress'),
-		'Assigned To' => Array('crmentity','smownerid')
+		'Project Task Name'=> Array('projecttask' => 'projecttaskname'),
+		'Start Date'=> Array('projecttask' => 'startdate'),
+		'End Date'=> Array('projecttask' => 'enddate'),
+		'Type'=>Array('projecttask' => 'projecttasktype'),
+		'Progress'=>Array('projecttask' => 'projecttaskprogress'),
+		'Assigned To' => Array('crmentity' => 'smownerid')
 
 	);
 	var $list_fields_name = Array(

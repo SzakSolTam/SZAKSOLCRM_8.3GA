@@ -420,6 +420,9 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js',{},{
 				if (picklistColor) {
 					className = '.picklistColor_'+fieldName+'_'+option.replace(' ', '_');
 					html += className+'{background-color: '+picklistColor+' !important;}';
+
+					className = className + '.select2-highlighted';
+					html += className+'{white: #ffffff !important; background-color: #337ab7 !important;}';
 				}
 			}
 			html +='<\style>';
@@ -450,7 +453,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 	 * @return - checkbox element
 	 */
 	getUi : function() {
-		var	html = '<input type="hidden" name="'+this.getName() +'" value="0"/><input class="inputElement" type="checkbox" name="'+ this.getName() +'" ';
+		var	html = '<input type="hidden" name="'+this.getName() +'"/><input class="inputElement" type="checkbox" name="'+ this.getName() +'" ';
 		if(this.isChecked()) {
 			html += 'checked';
 		}
@@ -561,7 +564,7 @@ Vtiger_Field_Js('Vtiger_Time_Field_Js',{},{
 	 */
 	getUi : function() {
 		var html = '<div class="">'+'<div class="input-group time">'+
-						'<input class="timepicker-default form-control inputElement" type="text" data-format="'+ this.getTimeFormat() +'" name="'+ this.getName() +'" value="'+ this.getValue() + '" />'+
+						'<input class="timepicker-default form-control inputElement" type="text" data-rule-time="true" data-format="'+ this.getTimeFormat() +'" name="'+ this.getName() +'" value="'+ this.getValue() + '" />'+
 						'<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'+
 					'</div>'+'</div>';
 		var element = jQuery(html);

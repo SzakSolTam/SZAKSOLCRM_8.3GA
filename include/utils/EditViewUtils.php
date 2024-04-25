@@ -539,7 +539,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		$shtax_percent = 0;
 		//if condition is added to call this function when we create PO/SO/Quotes/Invoice from Product module
 		if (in_array($module, $inventoryModules)) {
-			$shtax_percent = getInventorySHTaxPercent($focus->id,$shtax_name);
+			$shtax_percent = getInventorySHTaxPercent($focus->id,$shtax_name,$shtax_count);
 		}
 		$shtaxamount = $shCharge*$shtax_percent/100;
 		$shtaxtotal = $shtaxtotal + $shtaxamount;
