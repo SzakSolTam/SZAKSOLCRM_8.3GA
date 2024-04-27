@@ -18,7 +18,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		if(!$parentId) {
 			list($parentId, $status) = explode('@', reset(array_filter(explode('|', $this->get('parent_id')))));
 		}
-		return 'index.php?module=Emails&view=Detail'.'&record='.$this->getId();
+		return 'Javascript:Vtiger_Index_Js.showEmailPreview("'.$this->getId().'","'.$parentId.'")';
 	}
 
 	/**
