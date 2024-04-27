@@ -1265,7 +1265,8 @@ class Vtiger_Functions {
 	 */
 	static function isDateValue($value) {
             $value = trim($value);
-            $delim = array('/','.');
+			//delimiters for the date formats with separator including '/','.' and '\/'(with an escape character for the slash).
+            $delim = array('\/','/','.');
             foreach ($delim as $delimiter){
                     $x = strpos($value, $delimiter);
                     if($x === false) continue;

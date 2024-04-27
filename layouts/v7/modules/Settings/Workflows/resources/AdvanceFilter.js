@@ -179,10 +179,19 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
                             if((fieldType == 'date' || fieldType == 'datetime') && valueSelectElement.length > 0) {
                                 var value = valueSelectElement.val();
                                 var dateFormat = app.getDateFormat();
-                                var dateFormatParts = dateFormat.split("-");
+                                // Split the date format based on the different delimiters found in date formats
+                                const separators =['-','.','/'];
+                                for(const sep of separators ){
+                                    if(dateFormat.includes(sep)){
+                                        var separator = sep;
+                                        var dateFormatParts = dateFormat.split(separator);
+                                        break;
+                                    }
+                                }
+
                                 var valueArray = value.split(',');
                                 for(i = 0; i < valueArray.length; i++) {
-                                    var valueParts = valueArray[i].split("-");
+                                    var valueParts = valueArray[i].split(separator);
                                     var dateInstance = new Date(valueParts[dateFormatParts.indexOf('yyyy')], parseInt(valueParts[dateFormatParts.indexOf('mm')]) - 1, valueParts[dateFormatParts.indexOf('dd')]);
                                     if(!isNaN(dateInstance.getTime())) {
                                         valueArray[i] = app.getDateInVtigerFormat('yyyy-mm-dd', dateInstance);
