@@ -82,7 +82,7 @@ Settings_Vtiger_List_Js('Settings_Tags_List_Js',{
         var editTagContainer = this.getEditTagContainer();
         editTagContainer.find('[name="id"]').val(tagInfo.id);
 
-        editTagContainer.find('[name="tagName"]').val(tagInfo.tag);
+        editTagContainer.find('[name="tagName"]').val(app.helper.getDecodedValue(tagInfo.tag));
         if(tagInfo.visibility == "public") {
             editTagContainer.find('[type="checkbox"]').prop('checked',true);
         }else{

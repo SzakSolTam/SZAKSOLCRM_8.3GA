@@ -306,7 +306,8 @@ var Settings_Picklist_Js = {
         var form = container.find('[name="addItemForm"]');
         var params = {
             submitHandler: function(form) {
-                var specialChars = /[<\>\"\,\[\]\{\}]/;
+				// detect characters that would break convention for css-class names
+                var specialChars = /[\<\>\"\,\[\]\{\}\'\!\@\#\$\%\^\&\*\(\)\+\=\?\|\\\;\:\/]/;
 				var newValueEle = jQuery('[name="newValue"]', container);
 				var newValues = newValueEle.val();
 				var newValueArray = newValues.split(',');
@@ -323,7 +324,7 @@ var Settings_Picklist_Js = {
 						return false;
 					}
 					if (specialChars.test(newValueArray[i])) {
-						var errorMessage = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , [ ] { } " + app.vtranslate('JS_NOT_ALLOWED');
+						var errorMessage = app.vtranslate('JS_SPECIAL_CHARACTERS') + " <>\",[]{}\'!@#$%^&*()+=?|\\;:/ " + app.vtranslate('JS_NOT_ALLOWED');
                               vtUtils.showValidationMessage(newValueEle, errorMessage, showValidationParams);
 						return false;
 					}
@@ -372,7 +373,7 @@ var Settings_Picklist_Js = {
         var params = {
             submitHandler: function(form) {
                 var form = jQuery(form);
-                var specialChars = /[<\>\"\,\[\]\{\}]/;
+                var specialChars = /[\<\>\"\,\[\]\{\}\'\!\@\#\$\%\^\&\*\(\)\+\=\?\|\\\;\:\/]/;
 				var newValueEle = jQuery('[name="renamedValue"]',form);
 				var newValue = jQuery.trim(newValueEle.val());
 				if(Settings_Picklist_Js.duplicateItemNameCheck(form)) {
@@ -397,7 +398,7 @@ var Settings_Picklist_Js = {
 								at: 'top left',
 								container : form
 					}};
-                    var errorMessage = app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , [ ] { } " + app.vtranslate('JS_NOT_ALLOWED');
+                    var errorMessage = app.vtranslate('JS_SPECIAL_CHARACTERS') + " <>\",[]{}\'!@#$%^&*()+=?|\\;:/ " + app.vtranslate('JS_NOT_ALLOWED');
                     vtUtils.showValidationMessage(newValueEle, errorMessage, showValidationParams);
                     return false;
                 }

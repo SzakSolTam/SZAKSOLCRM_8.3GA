@@ -4,7 +4,7 @@
 	<name>Services</name>
 	<label>Services</label>
 	<parent>Inventory</parent>
-	<version>2.6</version>
+	<version>2.7</version>
 	<dependencies>
 		<vtiger_version>6.0.0rc</vtiger_version>
 		<vtiger_max_version>8.*</vtiger_max_version>
@@ -19,7 +19,7 @@
 			<sql><![CDATA[CREATE TABLE `vtiger_service` (
   `serviceid` int(11) NOT NULL,
   `service_no` varchar(100) NOT NULL,
-  `servicename` varchar(50) NOT NULL,
+  `servicename` varchar(255) NOT NULL,
   `servicecategory` varchar(200) default NULL,
   `qty_per_unit` decimal(11,2) default '0.00',
   `unit_price` decimal(25,2) default NULL,

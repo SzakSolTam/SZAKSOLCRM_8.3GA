@@ -234,6 +234,10 @@ class ListViewController {
 			$clickToCallLabel = vtranslate("LBL_CLICK_TO_CALL");
 		}
 
+		$emailModuleInstance = Vtiger_Module_Model::getInstance("Emails");
+		//checking the email module is active.
+		$isEmailModuleActive = $emailModuleInstance ? $emailModuleInstance->isActive() : false;
+
 		$data = array();
 		for ($i = 0; $i < $rowCount; ++$i) {
 			//Getting the recordId
@@ -412,7 +416,8 @@ class ListViewController {
 					}
 				} elseif ($fieldDataType == 'email') {
 					global $current_user;
-					if($current_user->internal_mailer == 1){
+					// checking email module is active and internal mail composer is on
+					if($isEmailModuleActive && $current_user->internal_mailer == 1){
 						//check added for email link in user detailview
 						$value = "<a class='emailField' data-rawvalue=\"$rawValue\" onclick=\"Vtiger_Helper_Js.getInternalMailer($recordId,".
 						"'$fieldName','$module');\">".textlength_check($value)."</a>";

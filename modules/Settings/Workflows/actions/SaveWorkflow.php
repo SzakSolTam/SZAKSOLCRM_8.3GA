@@ -73,10 +73,12 @@ class Settings_Workflows_SaveWorkflow_Action extends Vtiger_Action_Controller {
 		$workflowModel->set('name', $name);
 		if ($executionCondition == '6') {
 			$schtime = $request->get("schtime");
-			if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) or substr($schtime, 0, 2) > 23) {  // invalid time format
+			// checking the scheduled time input is in time format. If not set it to 00:00
+			if (!strtotime($schtime)) {
 				$schtime = '00:00';
 			}
-			$schtime .=':00';
+			// converting the schtime to H:i:s (00:00:00) format to store in DB.
+			$schtime = date('H:i:s', strtotime($schtime));
 
 			$workflowModel->set('schtime', $schtime);
 

@@ -54,6 +54,15 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['emailId'])) {
 		$mail->Subject = $subject;
 		$mail->AddAddress($email);
 
+		// ensure default sender if not coming from outgoing server
+		if (!$mail->From) {
+			global $HELPDESK_SUPPORT_EMAIL_ID;
+			// use only when config val is valid
+			if (strpos($HELPDESK_SUPPORT_EMAIL_ID, "@") !== false) {
+				$mail->From = $HELPDESK_SUPPORT_EMAIL_ID;
+			}
+		}
+
 		$status = $mail->Send(true);
 		if ($status === 1 || $status === true) {
 			header('Location:  index.php?modules=Users&view=Login&mailStatus=success');

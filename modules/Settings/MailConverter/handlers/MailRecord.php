@@ -143,7 +143,8 @@ class Vtiger_MailRecord {
 		if ($iconv_function === NULL) $iconv_function = function_exists('iconv');
 
 		if($mb_function) {
-			if(!$from) $from = mb_detect_encoding($input);
+			// if source charset is not determined or not-encoded as per imap_mime_decode
+			if(!$from || $from == 'default') $from = mb_detect_encoding($input);
 
 			if(strtolower(trim($to)) == strtolower(trim($from))) {                         
 					return $input;

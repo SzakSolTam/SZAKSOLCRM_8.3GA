@@ -68,7 +68,10 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
         $groupRecordCount = 0;
         $entries = array();
         for($i=0; $i<$rows; $i++) {
-			$entries[] = $db->query_result_rowdata($result, $i);
+            // row will have value with (index and column names)
+            $row = $db->query_result_rowdata($result, $i);
+            // we should discard values with index for comparisions
+			$entries[] = array_filter($row, function($k) { return !is_numeric($k); }, ARRAY_FILTER_USE_KEY);
 		}
 
 		$paging->calculatePageRange($entries);
@@ -85,9 +88,17 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
 		for ($i=0; $i<$rows; $i++) {
 			$row = $entries[$i];
             if($i != 0) {
-                $slicedArray = array_slice($row, 2);
+                // make copy of current row
+                $slicedArray = array_slice($row, 0);
+
+                // prepare for map comparisions
                 array_walk($temp, 'lower_array');
                 array_walk($slicedArray, 'lower_array');
+                unset($temp["recordid"]); // remove id which will obviously vary.
+                unset($slicedArray["recordid"]);
+
+                // if there is any value difference between (temp = prev) and (slicedArray = current) 
+                // group them separately.
                 $arrDiff = array_diff($temp, $slicedArray);
                 if(php7_count($arrDiff) > 0) {
                     $groupCount++;
