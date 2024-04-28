@@ -124,8 +124,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			$fieldLabel = decode_html($request->get('fieldLabel'));
 			$fieldInfo = $fieldInstance->getFieldInfo();
 			$fieldInfo['id'] = $fieldInstance->getId();
-
 			$fieldInfo['fieldDefaultValueRaw'] = $defaultValue;
+            
 			if (isset($defaultValue)) {
 				if ($defaultValue && $fieldInfo['type'] == 'date') {
 					$defaultValue = DateTimeField::convertToUserFormat($defaultValue);
