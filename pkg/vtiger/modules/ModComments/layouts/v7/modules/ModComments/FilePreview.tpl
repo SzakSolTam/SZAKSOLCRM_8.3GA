@@ -54,7 +54,10 @@
                         {else if $PDF_FILE_TYPE eq 'yes'}
                             <iframe id='viewer' src="libraries/jquery/pdfjs/web/viewer.html?file={$SITE_URL}/{$DOWNLOAD_URL|escape:'url'}" height="100%" width="100%"></iframe>
                         {else if $IMAGE_FILE_TYPE eq 'yes'}
-                            <div style="overflow:auto;height:100%;width:100%;float:left;background-image: url({$DOWNLOAD_URL});background-color: #EEEEEE;background-position: center 25%;background-repeat: no-repeat;display: block; background-size: contain;"></div>
+                            <div style="overflow:auto;height:100%;width:100%;float:left;background-color: #EEEEEE;background-position: center 25%;background-repeat: no-repeat;display: block; background-size: contain;">
+                                {* used image tag to support the file path with special characters. *}
+                                <img src="{$DOWNLOAD_URL}" style="max-width: 100%; max-height: 100%; display: block; margin:auto">
+                            </div>
                         {else if $AUDIO_FILE_TYPE eq 'yes'}
                             <div style="overflow:auto;height:100%;width:100%;float:left;background-color: #EEEEEE;background-position: center 25%;background-repeat: no-repeat;display: block;text-align: center;">
                                 <div style="display: inline-block;margin-top : 10%;">
