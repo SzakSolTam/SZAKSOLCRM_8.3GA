@@ -45,6 +45,6 @@ $languageStrings = array(
 	'In Progress' => 'Em Andamento',
 	'Completed' => 'Concluído',
 	'Deferred' => 'Adiado',
-	'Canceled ' => 'Cancelado',
+	'Canceled' => 'Cancelado',
     'LBL_NO_DATE_VALUE_MSG' => 'ou a Tarefa do Projeto não tem Data Início e/ou Data Fim',
 );

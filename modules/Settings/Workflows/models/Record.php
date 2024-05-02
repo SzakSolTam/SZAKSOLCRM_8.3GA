@@ -245,8 +245,18 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 						$isDateValue = true;
 						$valueArray[$i] = DateTimeField::convertToUserFormat($valueArray[$i]);
 					}
+					if(Vtiger_Functions::isTimeValue($valueArray[$i])){
+						$isTimeValue = true;
+						$userModel = Users_Record_Model::getCurrentUserModel();
+						$hourFormat = $userModel->get('hour_format');
+						if($hourFormat == '24') {
+							$valueArray[$i] = date('H:i', strtotime($valueArray[$i]));
+						} else {
+							$valueArray[$i] = date('g:i A', strtotime($valueArray[$i]));
+						}
+					}
 				}
-				if($isDateValue) {
+				if($isDateValue || $isTimeValue ) {
 					$value = implode(',', $valueArray);
 				}
 				// End

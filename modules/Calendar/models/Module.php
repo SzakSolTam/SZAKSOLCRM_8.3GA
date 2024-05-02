@@ -763,6 +763,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 	public function getAllTasksbyPriority($conditions = false, $pagingModel) {
 		global $current_user;
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = new QueryGenerator("Calendar",$current_user);
@@ -813,6 +814,15 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 										}
 										break;
 					case "datetime":	$value = Vtiger_Date_UIType::getDisplayDateValue($value);
+										break;
+
+					// Assigning the time value to the basic info, which we use for the quick edit of tasks ex: start time.
+					case "time":		$value = Vtiger_Time_UIType::getDisplayTimeValue($value);
+										$value = $fieldModel->getDisplayValue($value);
+										$hourFormat = $currentUserModel->get('hour_format');
+										if($hourFormat == '24') {
+											$value= date('H:i', strtotime($value));
+										}
 										break;
 				}
 				$basicInfo[$fieldName] = $value;

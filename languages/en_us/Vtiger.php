@@ -447,6 +447,8 @@ $languageStrings = array(
 	'LBL_LAST_60_DAYS' => 'Last 60 Days',
 	'LBL_LAST_90_DAYS' => 'Last 90 Days',
 	'LBL_LAST_120_DAYS' => 'Last 120 Days',
+	'LBL_NEXT_7_DAYS' => 'Next 7 Days',
+	'LBL_NEXT_14_DAYS' => 'Next 14 Days',
 	'LBL_NEXT_30_DAYS' => 'Next 30 Days',
 	'LBL_NEXT_60_DAYS' => 'Next 60 Days',
 	'LBL_NEXT_90_DAYS' => 'Next 90 Days',
@@ -1421,7 +1423,7 @@ $jsLanguageStrings = array(
 	'JS_SUBJECT_VALUE_CANT_BE_EMPTY' => 'Subject value cannot be empty',
 	'JS_PERCENTAGE_SHOULD_BE_LESS_THAN_100' => 'Percentage should be less than 100',
 
-
+	'INVALID PICKLIST'  => 'Invalid value for Picklist field',
 	'INVALID_NUMBER_OF' => 'Invalid number of',
 	'INVALID_NUMBER' => 'Invalid number',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Are you sure that you want to delete?',

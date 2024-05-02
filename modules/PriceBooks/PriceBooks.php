@@ -453,6 +453,7 @@ class PriceBooks extends CRMEntity {
 		try{
 			$fieldData['source'] = $obj->recordSource;
 			$entityInfo = vtws_create($moduleName, $fieldData, $obj->user);
+			$this->updateMissingSeqNumber($moduleName);
 			if($entityInfo && $productList){
 				$this->relatePriceBookWithProduct($entityInfo, $productList);
 			}

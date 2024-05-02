@@ -305,6 +305,11 @@ class VtigerCRMObjectMeta extends EntityMeta {
 					if (strcasecmp($webserviceField->getFieldDataType(), 'file') !== 0) {
 						$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
 					}
+				} else if($this->getEntityName() == "Users") {
+					$restrictedFields = array('user_password', 'confirm_password', 'accesskey');
+					if(!in_array($fieldName, $restrictedFields)) {
+						$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
+					}	
 				} else {
 					$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
 				}

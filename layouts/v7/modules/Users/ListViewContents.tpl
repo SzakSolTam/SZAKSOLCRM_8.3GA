@@ -100,9 +100,9 @@
 								{assign var=LISTVIEW_ENTRY_VALUE value=$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
 								{if $LISTVIEW_HEADER->getName() eq 'first_name'}
 									<td data-name="{$LISTVIEW_HEADER->get('name')}" data-rawvalue="{$LISTVIEW_ENTRY_RAWVALUE}" data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
-										<span class="fieldValue">
-											<span class="value textOverflowEllipsis">
-												<div style="margin-left: -13px;">
+										<span class="fieldValue show">
+											<span class="value show textOverflowEllipsis">
+												<div>
 													{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 													{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 														{if !empty($IMAGE_INFO.url)}

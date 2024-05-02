@@ -485,6 +485,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 			if(!array_key_exists('visibility', $fieldData)){
 				$fieldData['visibility'] = $current_user->calendarsharedtype;
 			}
+			$fieldData['source'] = $this->recordSource;
 			foreach ($eventModuleFields as $fieldName => $fieldModel) {
 				if (stripos($fieldName, 'cf_') !== false) {
 					$moduleFields[$fieldName] = $fieldModel;
@@ -765,9 +766,11 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 				$_REQUEST['cur_'.$this->lineitem_currency_id.'_check'] = 1;
 			}
 			$fieldData['currency_id'] = $this->lineitem_currency_id;
-                        // to save Source of Record while Creating
-                        $fieldData['source'] = $this->recordSource;
+                        
+                        
 		}
+		// to save Source of Record while Creating
+		$fieldData['source'] = $this->recordSource;
 		if ($fieldData != null && $checkMandatoryFieldValues) {
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ((($fieldData[$fieldName] == '') || ($fieldData[$fieldName] == null)) && $fieldInstance->isMandatory()) {

@@ -43,6 +43,6 @@ $languageStrings = array(
 	'Canceled'	=>	"Cancellato",
         'LBL_NO_DATE_VALUE_MSG' => 'o Attività del Progetto non hanno Data di Inizio e/o Fine',
 
-  'Canceled ' => 'Annullata',
+  'Canceled' => 'Annullata',
 
 );

@@ -200,7 +200,8 @@ Vtiger.Class('Vtiger_ListSidebar_Js',{},{
                 placement: 'left',
                 template: '<div class="popover" style="top: 0; position:absolute; z-index:0; margin-top:5px"><div class="popover-content"></div></div>',
                 content: contentEle.html(),
-                container: jQuery('#module-filters')
+                container: jQuery('#module-filters'),
+                sanitize : false, /* to allow button / anchor */
             };
             
             jQuery(ele).popover(options);

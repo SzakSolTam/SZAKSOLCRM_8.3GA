@@ -658,7 +658,23 @@ class Vtiger_Functions {
         if (!in_array($filetype, $allowedImageFormats)) {
             $saveimage = false;
         }
+		
+		//Checking the path of the file 
+		if ($saveimage) {
+			$fileExtensionPath = pathinfo($file_details['name'], PATHINFO_EXTENSION);
+			if (!in_array(strtolower($fileExtensionPath), $allowedImageFormats)) {
+				$saveimage = false;
+			}
+		}
 
+		//checking the filename has dot character
+		if ($saveimage) {
+			$firstCharacter = $file_details['name'][0];
+			if ($firstCharacter == '.') {
+				$saveimage = false;
+			}
+		}
+		
         //mime type check
         if ($saveimage) {
             $mimeType = mime_content_type($file_details['tmp_name']);
@@ -1288,6 +1304,28 @@ class Vtiger_Functions {
 	}
 
 	/**
+	 * Function to check if a string is a valid time value or not
+	 * @param string $value string to check if that is a time value or not
+	 * @return boolean Returns true if $value is time else returns false
+	 */
+	static function isTimeValue($value) {
+		$value = trim($value);
+		$patterns = array(
+			'/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',     
+			'/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i',
+			'/^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/'
+		);
+	
+		foreach ($patterns as $pattern) {
+			if (preg_match($pattern, $value)) {
+				return true;
+			}
+		}
+	
+		return false; 
+	}
+	
+	/**
 	 * Function to get name and email value from a string of format <b>Your Name<youremail@company.com></b>
 	 * @param String $string Name and email value in required format.
 	 * @return Array Returns array of name and email in format <b><br>Array(<br>&#09;name => Your Name,<br>&#09;email => youemail@company.com<br>)</b>
@@ -1613,7 +1651,17 @@ class Vtiger_Functions {
 		}
 		return $publicUrl;
 	}
-
+	
+	/**
+	 * Function to get logo public url
+	 * @param <String> $logoName
+	 * @return <String> $sourceUrl
+	 */
+	public static function getLogoPublicURL($logoName) {
+		$publicUrl = "public.php?type=logo&key=$logoName";
+		return $publicUrl;
+	}
+	
     /**
      * Function to get the attachmentsid to given crmid
      * @param type $crmid

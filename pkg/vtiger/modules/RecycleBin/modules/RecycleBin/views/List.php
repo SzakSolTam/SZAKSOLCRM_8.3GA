@@ -10,6 +10,8 @@
 
 class RecycleBin_List_View extends Vtiger_Index_View {
 
+	protected $listviewinitcalled = false;
+
 	function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -68,19 +70,23 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
-		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
 
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-		$searchParams = $request->get('search_params');
-		$listHeaders = $request->get('list_headers', array());
+		if($this->listviewinitcalled){
+			return;
+		}
+			$moduleName = $request->getModule();
+			$sourceModule = $request->get('sourceModule');
 
-		$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName . '_' . $sourceModule);
+			$pageNumber = $request->get('page');
+			$orderBy = $request->get('orderby');
+			$sortOrder = $request->get('sortorder');
+			$searchKey = $request->get('search_key');
+			$searchValue = $request->get('search_value');
+			$operator = $request->get('operator');
+			$searchParams = $request->get('search_params');
+			$listHeaders = $request->get('list_headers', array());
+
+			$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName . '_' . $sourceModule);
 		if ($request->get('mode') == 'removeSorting') {
 			Vtiger_ListView_Model::deleteParamsSession($moduleName . '_' . $sourceModule, array('orderby', 'sortorder'));
 			$orderBy = '';
@@ -217,6 +223,8 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
+
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 
 	}
 

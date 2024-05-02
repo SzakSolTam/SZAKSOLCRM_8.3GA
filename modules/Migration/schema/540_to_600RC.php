@@ -1551,7 +1551,7 @@ foreach ($inventoryModules as $key => $moduleName) {
 	$field->displaytype = '5';
 	$field->masseditable = '0';
 	$field->quickcreate = '0';
-	$field->columntype = 'INT(11)';
+	$field->columntype = 'DECIMAL(25,3)';
 	$blockInstance->addField($field);
 }
 

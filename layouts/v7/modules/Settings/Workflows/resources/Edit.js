@@ -147,12 +147,13 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
             clonedPopupUi.find('.fieldValueContainer div').prepend(clonedDateElement);
          } else if (fieldValueElement.hasClass('time')) {
             clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
+            var timeFormat = fieldValueElement.data('time-format');
             if (valueType == 'rawtext') {
                var value = fieldValueElement.val();
             } else {
                value = '';
             }
-            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement" value="' + value + '" data-input="true" >'
+            var clonedTimeElement = '<input type="text" style="width: 30%;" class="timepicker-default fieldValue inputElement" value="' + value + '" data-format="' + timeFormat + '" data-input="true" >'
             clonedPopupUi.find('.fieldValueContainer div').prepend(clonedTimeElement);
          } else if (fieldValueElement.hasClass('boolean')) {
             clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -603,7 +604,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    isEmptyFieldSelected: function (fieldSelect) {
       var selectedOption = fieldSelect.find('option:selected');
       //assumption that empty field will be having value none
-      if (selectedOption.val() == 'none') {
+      if (selectedOption.val() == 'none' || selectedOption.val() === '') {
          return true;
       }
       return false;
@@ -944,6 +945,19 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       }
 
       fieldUiHolder.html(fieldSpecificUi);
+
+      if (fieldInfo.type === 'picklist' || fieldInfo.type === 'multipicklist') {
+         var editablePicklistValues = Object.values(fieldInfo.editablepicklistvalues);
+         fieldSpecificUi.val(fieldInfo.value);
+         jQuery('.btn-success').on('click', function(event) {
+            var enteredValue = fieldSpecificUi.val().trim();
+            if (!editablePicklistValues.includes(enteredValue)) {
+               var message = app.vtranslate('INVALID PICKLIST');
+               app.helper.showErrorNotification({'message': message})
+               event.preventDefault();
+            }
+         });
+      }
 
       if (fieldSpecificUi.is('input.select2')) {
          var tagElements = fieldSpecificUi.data('tags');

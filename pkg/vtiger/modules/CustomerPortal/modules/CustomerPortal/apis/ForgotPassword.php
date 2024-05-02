@@ -16,6 +16,10 @@ class CustomerPortal_ForgotPassword extends CustomerPortal_API_Abstract {
 		$user = new Users();
 		$current_user = $user->retrieveCurrentUserInfoFromFile($userId);
 
+		// send back neutral response to avoid CRM system state or user enumeration attacks.
+		$neutralResponse = new CustomerPortal_API_Response(); // set this to false in case you need specific response.
+		$neutralResponse->setResult(vtranslate('LBL_MAIL_SENT', 'HelpDesk'));
+
 		$response = new CustomerPortal_API_Response();
 		$mailid = $request->get('email');
 		$current_date = date("Y-m-d");
@@ -68,14 +72,15 @@ class CustomerPortal_ForgotPassword extends CustomerPortal_API_Abstract {
 				}
 				$response->setResult($ret_msg);
 			} else if ($isActive && $support_end_date <= $current_date) {
-				throw new Exception('Access to the portal was disabled on '.$support_end_date, 1413);
+				if (!$neutralResponse) throw new Exception('Access to the portal was disabled on '.$support_end_date, 1413);
 			} else if ($isActive == 0) {
-				throw new Exception('Portal access has not been enabled for this account.', 1414);
+				if (!$neutralResponse) throw new Exception('Portal access has not been enabled for this account.', 1414);
 			}
 		} else {
 			$response->setError('1412', 'Invalid email');
 		}
-		return $response;
+
+		return $neutralResponse ? $neutralResponse : $response;
 	}
 
 	function authenticatePortalUser($username, $password) {

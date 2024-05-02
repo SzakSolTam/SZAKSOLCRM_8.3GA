@@ -10,6 +10,9 @@
 
 class EmailTemplates_List_View extends Vtiger_Index_View {
 
+
+	protected $listviewinitcalled = false;
+
 	function __construct() {
 		parent::__construct();
 	}
@@ -83,17 +86,21 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
-		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
-		$viewType = $request->get('viewType');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$sourceModule = $request->get('sourceModule');
-		$operator = $request->get('operator');
-		$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName);
+
+		if($this->listviewinitcalled){
+			return;
+		}
+			$moduleName = $request->getModule();
+			$cvId = $request->get('viewname');
+			$viewType = $request->get('viewType');
+			$pageNumber = $request->get('page');
+			$orderBy = $request->get('orderby');
+			$sortOrder = $request->get('sortorder');
+			$searchKey = $request->get('search_key');
+			$searchValue = $request->get('search_value');
+			$sourceModule = $request->get('sourceModule');
+			$operator = $request->get('operator');
+			$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName);
 		if ($request->get('mode') == 'removeAlphabetSearch') {
 			Vtiger_ListView_Model::deleteParamsSession($moduleName, array('search_key', 'search_value', 'operator'));
 			$searchKey = '';
@@ -220,6 +227,8 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$viewer->assign('IS_CREATE_PERMITTED', $listViewModel->getModule()->isPermitted('CreateView'));
 		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
+
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
 
 	/**

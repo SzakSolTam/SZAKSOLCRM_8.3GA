@@ -1026,6 +1026,8 @@ class QueryGenerator {
 			return $sql;
 		}
 		foreach ($valueArray as $value) {
+			$isvaluefn = false; /* flag to use when value becomes a sql function */
+
 			if(!$this->isStringType($field->getFieldDataType())) {
 				$value = trim($value);
 			}
@@ -1123,6 +1125,7 @@ class QueryGenerator {
 			if($field->getFieldName() == 'birthday' && !$this->isRelativeSearchOperators(
                                 $operator)) {
                             $value = "DATE_FORMAT(".$db->quote($value).", '%m%d')";
+							$isvaluefn = true;
                         } else {
                             $value = is_array($value) ? NULL : $db->sql_escape_string($value);
                         }
@@ -1191,7 +1194,7 @@ class QueryGenerator {
                             $value = $value."%";
                         }
 
-                        if( ($field->getFieldDataType() != 'birthday' || ($field->getFieldDataType() == 'birthday'
+                        if( ($field->getFieldName() != 'birthday' || ($field->getFieldName() == 'birthday'
                                         && $this->isRelativeSearchOperators($operator)))){
                             if($field->getFieldDataType() !== 'integer'){
                                 $value = "'$value'";

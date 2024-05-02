@@ -2422,10 +2422,10 @@ th {
   border: none;
   border-left: 1px solid #ddd;
 }
-.input-group.inputElement .input-group-addon-right{
-    border:none;
-    border-left:0px;
-    border-right:1px solid #ddd;
+.input-group.inputElement .input-group-addon-right {
+  border: none;
+  border-left: 0px;
+  border-right: 1px solid #ddd;
 }
 .fieldBlockContainer textarea.inputElement {
   height: auto;
@@ -2511,6 +2511,12 @@ th {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 1s ease;
+}
+.advanceFilterContainer .modal-content {
+  height: 100vh;
+}
+.p-xy-8 {
+  padding: 8px !important;
 }
 #advanceSearchHolder {
   max-height: 0px;
@@ -5589,8 +5595,8 @@ TN-34230 .row .nav > li > a:hover {
 .width75per {
   width: 75%;
 }
-.width100per{
-    width: 100% !important;
+.width100per {
+  width: 100% !important;
 }
 #_mbox_pwd {
   padding: 3px 8px;
@@ -6123,8 +6129,8 @@ div.tooltip-inner {
 }
 #detailView .detailview-table .input-group.editElement,
 .calendar-timezone .input-group.editElement {
-    width: auto;
-    display: inline-flex;
+  width: auto;
+  display: inline-flex;
 }
 .summaryViewEntries .input-group.editElement {
   width: auto;
@@ -6145,8 +6151,8 @@ div.tooltip-inner {
 .editViewContents .fieldValue .referencefield-wrapper {
   display: inline-block;
 }
-.fieldValueWidth80{
-    width:80% !important;
+.fieldValueWidth80 {
+  width: 80% !important;
 }
 .input-group-addon {
   line-height: inherit;
@@ -6164,6 +6170,8 @@ div.tooltip-inner {
 .referencefield-wrapper .input-group {
   width: 100%;
   max-width: 325px;
+  min-width: unset;
+  /* of .input-group above */
 }
 .summaryViewEntries .inputElement.form-control,
 .detailview-table .inputElement.form-control {
@@ -7732,33 +7740,36 @@ body .fc {
     padding: 30px;
   }
 }
+#vt-mask {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-height: 100%;
+  min-width: 100%;
+  height: auto;
+  width: auto;
+  opacity: 0;
+  z-index: 10001;
+  background-color: #fff;
+  position: relative;
+  display: inline-flex;
+}
+.fieldBlockContainer .inputElement.textAreaElement {
+  max-width: none;
+  width: 100%;
+}
+.detailview-table textarea.inputElement.form-control {
+  max-width: none;
+  width: 90%;
+}
 .modules-menu ul li.active a {
   border-left: 3px solid #3CB878;
   opacity: 1;
 }
-#vt-mask{
-    border: 0;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    display: inline-flex;
-    left: 0;
-    top: 0;
-    min-height: 100%;
-    min-width: 100%;
-    height: auto;
-    width: auto;
-    opacity: 0;
-    z-index: 10001;
-    background-color: #fff;
- }
- .fieldBlockContainer .inputElement.textAreaElement {
-    max-width:none;
-    width: 100%;
+#vt-mask {
+  position: relative;
+  display: inline-flex;
 }
-
-.detailview-table textarea.inputElement.form-control {
-    max-width:none;
-    width: 90%;
-}
-/*# sourceMappingURL=style.css.map */

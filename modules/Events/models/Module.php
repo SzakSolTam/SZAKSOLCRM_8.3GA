@@ -32,7 +32,7 @@ class Events_Module_Model extends Calendar_Module_Model {
         $selectUsers = $recordModel->get('selectedusers');
         if(!empty($selectUsers))
         {
-            $invities = implode(';',$selectUsers);
+			$invities = $selectUsers; // expect ';' concatenated values
             $mail_contents = $recordModel->getInviteUserMailData();
             $activityMode = ($recordModel->getModuleName()=='Calendar') ? 'Task' : 'Events';
             sendInvitation($invities,$activityMode,$recordModel,$mail_contents);

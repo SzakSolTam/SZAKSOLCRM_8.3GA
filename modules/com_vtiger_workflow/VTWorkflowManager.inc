@@ -87,7 +87,8 @@ class VTWorkflowManager{
 		$query = 'SELECT * FROM com_vtiger_workflows INNER JOIN vtiger_tab ON vtiger_tab.name = com_vtiger_workflows.module_name WHERE vtiger_tab.presence IN (0,2) AND execution_condition = ? AND status=?';
 		$params = array(VTWorkflowManager::$ON_SCHEDULE,1);
 		if($referenceTime != '') {
-			$query .= " AND (nexttrigger_time = '' OR nexttrigger_time IS NULL OR nexttrigger_time <= ?)";
+			//Removed the coparision of empty string with the nexttrigger_time to avoid MySQL error INCORRECT DATE TIME VALUE
+			$query .= " AND (nexttrigger_time IS NULL OR nexttrigger_time <= ?)";
 			array_push($params, $referenceTime);
 		}
 		$result = $adb->pquery($query, $params);

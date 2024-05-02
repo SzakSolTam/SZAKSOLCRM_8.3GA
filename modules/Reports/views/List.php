@@ -13,6 +13,7 @@ class Reports_List_View extends Vtiger_Index_View {
 	protected $listViewHeaders = false;
 	protected $listViewEntries = false;
 	protected $listViewCount   = false;
+	protected $listviewinitcalled = false;
 
 	function preProcess(Vtiger_Request $request, $display=true) {
 		parent::preProcess($request, false);
@@ -98,11 +99,15 @@ class Reports_List_View extends Vtiger_Index_View {
 	}
 
 	public function initializeListViewContents(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		$folderId = $request->get('viewname');
+		if($this->listviewinitcalled){
+			return;
+		}
+			$moduleName = $request->getModule();
+			$viewer = $this->getViewer($request);
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+			$folderId = $request->get('viewname');
 		if(empty($folderId) || $folderId == 'undefined'){
 			$folderId = Vtiger_ListView_Model::getSortParamsSession($moduleName.'_folderId');
 			if(empty($folderId)) {
@@ -234,7 +239,9 @@ class Reports_List_View extends Vtiger_Index_View {
 			}
 		}
 		$viewer->assign('DASHBOARD_TABS', $activeTabs);
-	}
+
+		$this->listviewinitcalled=true;  // to make a early exit if it is called more than once
+}
 
 	/**
 	 * Function returns the number of records for the current filter

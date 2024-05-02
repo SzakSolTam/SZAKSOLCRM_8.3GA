@@ -145,10 +145,16 @@ function vtlib_moduleAlwaysActive() {
  * Toggle the module (enable/disable)
  */
 function vtlib_toggleModuleAccess($modules, $enable_disable) {
-	global $adb, $__cache_module_activeinfo;
-
+	global $adb, $__cache_module_activeinfo, $current_user;
+	
 	include_once('vtlib/Vtiger/Module.php');
-
+	
+	// Checks if the user is admin or not
+	$isAdmin = is_admin($current_user);
+	if(!$isAdmin) {
+		throw new AppException('Permission denied! Only admin users can toggle modules');
+	}
+	
 	if(is_string($modules)) $modules = array($modules);
 	$event_type = false;
 
@@ -158,8 +164,8 @@ function vtlib_toggleModuleAccess($modules, $enable_disable) {
 	} else if($enable_disable === false) {
 		$enable_disable = 1;
 		$event_type = Vtiger_Module::EVENT_MODULE_DISABLED;
-        //Update default landing page to dashboard if module is disabled.
-        $adb->pquery('UPDATE vtiger_users SET defaultlandingpage = ? WHERE defaultlandingpage IN(' . generateQuestionMarks($modules) . ')', array_merge(array('Home'), $modules));
+		//Update default landing page to dashboard if module is disabled.
+		$adb->pquery('UPDATE vtiger_users SET defaultlandingpage = ? WHERE defaultlandingpage IN(' . generateQuestionMarks($modules) . ')', array_merge(array('Home'), $modules));
 	}
 
 	$checkResult = $adb->pquery('SELECT name FROM vtiger_tab WHERE name IN ('. generateQuestionMarks($modules) .')', array($modules));
@@ -835,7 +841,7 @@ function purifyJavascriptAlert($value){
             }        
         }
     }
-    
+
     return $value;
 }
 

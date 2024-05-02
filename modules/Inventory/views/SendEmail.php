@@ -32,8 +32,10 @@ class Inventory_SendEmail_View extends Vtiger_ComposeEmail_View {
             'attachment' =>$fileName,
             'path' => implode('/',$fileComponents),
             'size' => filesize($pdfFileName),
-				'type' => 'pdf',
-				'nondeletable' => true
+			'type' => 'pdf',
+			'nondeletable' => true,
+			// The stored name is needed to send the file with the email.
+			'storedname' => $fileName
 		));
 
 		$this->populateTo($request);
