@@ -300,9 +300,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 				$insertParams = array($currentUserModel->getId(), $moduleModel->getId(), $cvId);
 				$db->pquery($insertSql, $insertParams);
 			}
-			$sql = 'UPDATE vtiger_customview SET setdefault=0 WHERE cvid!=? and entitytype=?';
-			$params = array($cvId,$moduleName);
-			$db->pquery($sql, $params);
+			$sql = 'UPDATE vtiger_customview SET setdefault=0 WHERE cvid!=? and entitytype=? and userid = ?';
+			$params = array($cvId,$moduleName,$currentUserModel->getId());
+			$db->pquery($sql,$params);
 			$_SESSION['lvs'][$module]["viewname"] = $cvId;
 		} else {
 			$fetchsql = 'SELECT cvid from vtiger_customview WHERE viewname="All" and entitytype=? ';
