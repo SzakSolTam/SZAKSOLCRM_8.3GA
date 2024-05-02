@@ -122,20 +122,6 @@ jQuery.validator.addMethod("greaterThanDependentField", function(value, element,
 );
 */
 
-
-//The method to validate the subject field. To not allow the double quotes
-jQuery.validator.addMethod("subjectFieldValidator", function(value,element, params){
-	var form = jQuery(element).closest('form');
-	var subjectElement = form.find('[name="subject"]');
-	var subjectValue = subjectElement.val();
-	if(subjectValue.includes('"')){
-		return false;
-	}
-	return true;
-
-},jQuery.validator.format(app.vtranslate('The subject should not have double quotes("")'))
-);
-
 jQuery.validator.addMethod("Calendar_greaterThanDependentField", function(value, element, params) {
 		var form = jQuery(element).closest('form');
 		var startDateElement = form.find('[name="date_start"]');
