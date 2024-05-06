@@ -658,7 +658,23 @@ class Vtiger_Functions {
         if (!in_array($filetype, $allowedImageFormats)) {
             $saveimage = false;
         }
+		
+		//Checking the path of the file 
+		if ($saveimage) {
+			$fileExtensionPath = pathinfo($file_details['name'], PATHINFO_EXTENSION);
+			if (!in_array(strtolower($fileExtensionPath), $allowedImageFormats)) {
+				$saveimage = false;
+			}
+		}
 
+		//checking the filename has dot character
+		if ($saveimage) {
+			$firstCharacter = $file_details['name'][0];
+			if ($firstCharacter == '.') {
+				$saveimage = false;
+			}
+		}
+		
         //mime type check
         if ($saveimage) {
             $mimeType = mime_content_type($file_details['tmp_name']);
@@ -1635,7 +1651,17 @@ class Vtiger_Functions {
 		}
 		return $publicUrl;
 	}
-
+	
+	/**
+	 * Function to get logo public url
+	 * @param <String> $logoName
+	 * @return <String> $sourceUrl
+	 */
+	public static function getLogoPublicURL($logoName) {
+		$publicUrl = "public.php?type=logo&key=$logoName";
+		return $publicUrl;
+	}
+	
     /**
      * Function to get the attachmentsid to given crmid
      * @param type $crmid

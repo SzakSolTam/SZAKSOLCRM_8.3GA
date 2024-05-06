@@ -24,7 +24,11 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType {
 	 * @return <Object>
 	 */
 	public function getDisplayValue($value, $record=false, $recordInstance=false) {
-		return decimalFormat($value);
+		//The value is formatting to the user preffered format
+		//The third parameter for the converTouserFormat() function is skipConversion. 
+		//We set skipConversion to true because there's no need to convert the values for different currency formats.
+		$value = CurrencyField::convertToUserFormat(decimalFormat($value), null, true);
+		return $value;
 	}
 
 	/**

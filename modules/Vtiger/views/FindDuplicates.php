@@ -10,6 +10,8 @@
 
 class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 
+	protected $listviewinitcalled = false;
+
 	function preProcess(Vtiger_Request $request, $display = true) {
 		$viewer = $this->getViewer ($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -55,13 +57,17 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
-		$currentUser = vglobal('current_user');
-		$viewer = $this->getViewer ($request);
-		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
 
-		$massActionLinks = array();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if($this->listviewinitcalled){
+			return;
+		}
+			$currentUser = vglobal('current_user');
+			$viewer = $this->getViewer ($request);
+			$module = $request->getModule();
+			$moduleModel = Vtiger_Module_Model::getInstance($module);
+
+			$massActionLinks = array();
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWBASIC',
@@ -119,6 +125,8 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 
 		$customViewModel = CustomView_Record_Model::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
+
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
 
 	/**

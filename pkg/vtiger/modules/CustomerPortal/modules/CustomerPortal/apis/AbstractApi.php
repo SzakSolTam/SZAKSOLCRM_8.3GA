@@ -62,7 +62,7 @@ abstract class CustomerPortal_API_Abstract {
 		$num_rows = $adb->num_rows($result);
 
 		$isAuthenticated = false;
-		if ($num_rows >= 0) {
+		if ($num_rows > 0) {
 			for ($i = 0; $i < $num_rows; ++$i) {
 				$customerId = $adb->query_result($result, $i, 'id');
 				if (Vtiger_Functions::compareEncryptedPassword($password, $adb->query_result($result, $i, 'user_password'), $adb->query_result($result, $i, 'cryptmode'))) {

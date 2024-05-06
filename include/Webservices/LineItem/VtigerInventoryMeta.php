@@ -51,7 +51,7 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta {
 		$field['displaytype'] = 1;
 		$field['uitype'] = 1;
 		$fieldDataType = 'V';
-		$typeOfData = $fieldType.'~O';
+		$typeOfData = $fieldDataType.'~O';
 
 		$field['typeofdata'] = $typeOfData;
 		$field['tabid'] = null;

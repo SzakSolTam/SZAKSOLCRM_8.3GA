@@ -11,8 +11,7 @@
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View {
 
 	public function requiresPermission(\Vtiger_Request $request) {
-		$permissions = parent::requiresPermission($request);
-		$permissions[] = array('module_parameter' => 'source_module', 'action' => 'DetailView', 'record_parameter' => 'record');
+		$permissions = array('module_parameter' => 'source_module', 'action' => 'DetailView', 'record_parameter' => 'record');
 		return $permissions;
 	}
 	

@@ -45,10 +45,10 @@
 						<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 						<div class='media'>
 							<div class='row'>
-								<div class='media-left module-icon col-lg-1 col-md-1 col-sm-1 textAlignCenter'>
+								<div class='module-icon col-lg-1 col-md-1 col-sm-1 textAlignCenter'>
 									<span class='vicon-{strtolower($RECORD->get('activitytype'))}'></span>
 								</div>
-								<div class='media-body col-lg-7 col-md-7 col-sm-7'>
+								<div class='col-lg-7 col-md-7 col-sm-7'>
 									<div class="summaryViewEntries">
 										{if $DETAILVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getDetailViewUrl()}" title="{$RECORD->get('subject')}">{$RECORD->get('subject')}</a>{else}{$RECORD->get('subject')}{/if}&nbsp;&nbsp;
 										{if $EDITVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getEditViewUrl()}&sourceModule={$SOURCE_MODEL->getModuleName()}&sourceRecord={$SOURCE_MODEL->getId()}&relationOperation=true" class="fieldValue"><i class="summaryViewEdit fa fa-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></a>{/if}&nbsp;

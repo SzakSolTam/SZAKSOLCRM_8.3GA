@@ -86,7 +86,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 		}
 
-		if($currentUserModel->hasModuleActionPermission($projectModuleModel->getId(), 'CreateView') && !$recordModel->isPotentialConverted()) {
+		if($projectModuleModel && $currentUserModel->hasModuleActionPermission($projectModuleModel->getId(), 'CreateView') && !$recordModel->isPotentialConverted()) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => vtranslate('LBL_CREATE_PROJECT', $recordModel->getModuleName()),

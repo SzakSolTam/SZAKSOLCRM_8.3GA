@@ -267,9 +267,14 @@ window.app = (function () {
 				return _USERMETA.menustatus;
 		},
 		getRecordId: function () {
-			var record = jQuery('#recordId')
-			if (record.length) {
-				return record.val();
+			var el = null;
+			if (_view == "Edit") {
+				el = jQuery('#EditView [name="record"]');
+			} else {
+				el = jQuery('#recordId');
+			}
+			if (el) {
+				return el.val();
 			}
 			return false;
 		},

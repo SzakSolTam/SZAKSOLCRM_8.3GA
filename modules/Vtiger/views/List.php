@@ -16,6 +16,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 	protected $noOfEntries = false;
 	protected $pagingModel = false;
 	protected $listViewModel = false;
+	protected $listviewinitcalled = false;
 	function __construct() {
 		parent::__construct();
 	}
@@ -159,21 +160,25 @@ class Vtiger_List_View extends Vtiger_Index_View {
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
-		$moduleName = $request->getModule();
-		$cvId = $this->viewName;
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-		$searchParams = $request->get('search_params');
-		$tagParams = $request->get('tag_params');
-		$starFilterMode = $request->get('starFilterMode');
-		$listHeaders = $request->get('list_headers', array());
-		$tag = $request->get('tag');
-		$requestViewName = $request->get('viewname');
-		$tagSessionKey = $moduleName.'_TAG';
+
+		if($this->listviewinitcalled){
+			return;
+		}
+			$moduleName = $request->getModule();
+			$cvId = $this->viewName;
+			$pageNumber = $request->get('page');
+			$orderBy = $request->get('orderby');
+			$sortOrder = $request->get('sortorder');
+			$searchKey = $request->get('search_key');
+			$searchValue = $request->get('search_value');
+			$operator = $request->get('operator');
+			$searchParams = $request->get('search_params');
+			$tagParams = $request->get('tag_params');
+			$starFilterMode = $request->get('starFilterMode');
+			$listHeaders = $request->get('list_headers', array());
+			$tag = $request->get('tag');
+			$requestViewName = $request->get('viewname');
+			$tagSessionKey = $moduleName.'_TAG';
                 
                 if(!$this->listViewModel) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId, $listHeaders);
@@ -435,6 +440,8 @@ class Vtiger_List_View extends Vtiger_Index_View {
 
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
+
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
 
 	protected function assignCustomViews(Vtiger_Request $request, Vtiger_Viewer $viewer) {

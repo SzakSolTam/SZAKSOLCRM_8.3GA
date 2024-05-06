@@ -787,8 +787,13 @@ class Contacts extends CRMEntity {
 				$button .= "<input title='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."' accessyKey='F' class='crmbutton small create' onclick='fnvshobj(this,\"sendmail_cont\");sendmail(\"$this_module\",$id);' type='button' name='button' value='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."'></td>";
 			}
 		}
+
+		$projectModuleInstance = Vtiger_Module_Model::getInstance("Project");
+		//checking the project module is active.
+		$isProjectModuleActive = $projectModuleInstance ? $projectModuleInstance->isActive() : false;
         
-        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id));
+		//getting related project ids only if the Project module is active
+        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id), $isProjectModuleActive ? $this->getRelatedProjectIds($id):array());
         $relatedIds = implode(', ', $relatedIds);
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
@@ -1611,6 +1616,20 @@ function get_contactsforol($user_name)
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
             $relatedIds[] = $db->query_result($result, $i, 'crmid');
         }
+        return $relatedIds;
+    }
+
+	// The function to get projectIds related to contacts.
+	function getRelatedProjectIds($id) {
+		$relatedIds = array();
+		$db = PearDatabase::getInstance();
+		$query = "SELECT DISTINCT vtiger_crmentity.crmid FROM vtiger_contactdetails LEFT JOIN vtiger_project ON
+		(vtiger_project.linktoaccountscontacts = vtiger_contactdetails.contactid) INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
+		WHERE vtiger_crmentity.deleted = 0 AND vtiger_contactdetails.contactid = ?";
+		$result = $db->pquery($query, array($id));
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$relatedIds[] = $db->query_result($result, $i, 'crmid');
+		}
         return $relatedIds;
     }
 

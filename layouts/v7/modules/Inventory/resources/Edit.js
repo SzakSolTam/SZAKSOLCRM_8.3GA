@@ -1819,7 +1819,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : popOverTitle,
                 'trigger' : 'manual',
-                'template' : template,
+                'template' : template[0].outerHTML,
+				'sanitize' : false, /* to allow button / anchor */
                 'container' : self.lineItemsHolder
                 
             });
@@ -2008,7 +2009,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : popOverTitle,
                 'trigger' : 'manual',
-                'template' : template,
+                'template' : template[0].outerHTML,
+				'sanitize' : false, /* to allow button / anchor */
                 'container' : self.lineItemsHolder
                 
             });
@@ -2035,8 +2037,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 			'animation' : true,
 			'title' : 'Discount',
 			'trigger' : 'manual',
-			'template' : popOverTemplate
-                
+			'template' : popOverTemplate[0].outerHTML,
+            'sanitize' : false, /* to allow button / anchor */
 		});
 		this.finalDiscountEle.on('shown.bs.popover', function(){
 			if(jQuery(this.finalDiscountEle).next('.popover').find('.popover-content').height() > 300) {
@@ -2112,8 +2114,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : chargesTrigger.text(),
                 'trigger' : 'manual',
-                'template' : popOverTemplate
-                
+                'template' : popOverTemplate[0].outerHTML,
+                'sanitize' : false, /* to allow button / anchor */
         });
 
 		chargesTrigger.on('shown.bs.popover', function(){
@@ -2176,8 +2178,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : finalTaxUI.find('.popover_title').val(),
                 'trigger' : 'manual',
-                'template' : popOverTemplate
-                
+                'template' : popOverTemplate[0].outerHTML,
+                'sanitize' : false, /* to allow button / anchor */
         });
 
 		finalTaxTriggerer.on('shown.bs.popover', function(){
@@ -2239,8 +2241,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : 'Discount',
                 'trigger' : 'manual',
-                'template' : popOverTemplate
-                
+                'template' : popOverTemplate[0].outerHTML,
+                'sanitize' : false, /* to allow button / anchor */
         });
 
 		chargeTaxTriggerer.on('shown.bs.popover', function(){
@@ -2301,8 +2303,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : deductTaxesTriggerer.text(),
                 'trigger' : 'manual',
-                'template' : popOverTemplate
-                
+                'template' : popOverTemplate[0].outerHTML,
+				'sanitize' : false, /* to allow buttons or anchor tag */                
         });
 
 		deductTaxesTriggerer.on('shown.bs.popover', function(){

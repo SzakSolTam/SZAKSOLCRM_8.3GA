@@ -115,7 +115,8 @@ class Events_Save_Action extends Calendar_Save_Action {
 	protected function getRecordModelFromRequest(Vtiger_Request $request) {
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if($request->has('selectedusers')) {
-			$recordModel->set('selectedusers', $request->get('selectedusers'));
+			// recordModel trackable object converts list(vals) to vals[0] send it as string.
+			$recordModel->set('selectedusers', implode(';', $request->get('selectedusers')));
 		}
 		return $recordModel;
 	}

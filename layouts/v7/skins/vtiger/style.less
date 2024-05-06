@@ -6983,6 +6983,21 @@ float:left;
 margin-right: 5px;
 }
 
+/* Fix Text area in Line Items */
+table#lineItemTab textarea.lineItemCommentBox {
+  width:90%;
+  /* Line-height is 1.4 so this is an approximation of 4 lines high */
+  min-height: 5.6em;
+}
+/* Change width of columns in LineItems (1) drag-handler (3) quanity (4) price */
+table#lineItemTab tbody tr>:nth-child(1) {
+  width:5%;
+}
+table#lineItemTab tbody tr>:nth-child(3),
+table#lineItemTab tbody tr>:nth-child(4) {
+  width:10%;
+}
+
 /***** Oursites Changes *****/
 .portal-table .table-actions{
     width:inherit ! important;

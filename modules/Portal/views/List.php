@@ -10,6 +10,8 @@
 
 class Portal_List_View extends Vtiger_Index_View {
 
+	protected $listviewinitcalled  = false;
+
 	public function requiresPermission(Vtiger_Request $request){
 		$permissions = parent::requiresPermission($request);
 		$permissions[] = array('module_parameter' => 'module', 'action' => 'DetailView');
@@ -37,6 +39,11 @@ class Portal_List_View extends Vtiger_Index_View {
 	}
 
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+
+	if($this->listviewinitcalled){
+		return;
+	}
+
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
@@ -125,8 +132,9 @@ class Portal_List_View extends Vtiger_Index_View {
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pagingModel->get('page'));
 		$viewer->assign('NO_OF_ENTRIES', count($listviewEntries));
-	}
 
+		$this->listviewinitcalled = true;
+	}
 	function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();

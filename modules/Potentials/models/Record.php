@@ -99,7 +99,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if ($moduleModel->isActive()) {
+		if ($moduleModel && $moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 			foreach ($fieldModels as $fieldName => $fieldModel) {
 				if($fieldModel->isMandatory() && !in_array($fieldName, array('assigned_user_id', 'potentialid'))) {

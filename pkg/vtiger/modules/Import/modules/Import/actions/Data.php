@@ -485,6 +485,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 			if(!array_key_exists('visibility', $fieldData)){
 				$fieldData['visibility'] = $current_user->calendarsharedtype;
 			}
+			$fieldData['source'] = $this->recordSource;
 			foreach ($eventModuleFields as $fieldName => $fieldModel) {
 				if (stripos($fieldName, 'cf_') !== false) {
 					$moduleFields[$fieldName] = $fieldModel;

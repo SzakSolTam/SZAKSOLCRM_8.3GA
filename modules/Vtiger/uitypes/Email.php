@@ -24,7 +24,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType {
 		if($value){
             $moduleName = $this->get('field')->get('block')->module->name;
             $fieldName = $this->get('field')->get('name');
-			if ($internalMailer == 1) {
+			if ($internalMailer == 1 && $recordId) {
 				/**
                  *  We should not add "emailField" class to user name field.
                  *  If we do so, for sending mail from list view is taking that value as a TO field. 

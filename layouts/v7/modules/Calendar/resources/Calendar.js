@@ -559,7 +559,11 @@ Vtiger.Class("Calendar_Calendar_Js", {
 					feedIndicatorTemplate.removeClass('.feed-indicator-template');
 					var newFeedIndicator = feedIndicatorTemplate.clone(true, true);
 					//replacing module name prefix with translated module name and concatinating with field name
-					feedIndicatorTitle = translatedModuleName + feedIndicatorTitle.substr(feedIndicatorTitle.indexOf('-'));
+					var feedIndicatorModuleEndIndex = feedIndicatorTitle.indexOf('('); // Events (ActivityType) - title...
+					if (feedIndicatorModuleEndIndex == -1) { // ModuleName - title...
+							feedIndicatorModuleEndIndex = feedInicatorTitle.indexOf('-');
+					}
+					feedIndicatorTitle = translatedModuleName + feedIndicatorTitle.substr(feedIndicatorModuleEndIndex);
 					newFeedIndicator.find('span:first').text(feedIndicatorTitle);
 					var newFeedCheckbox = newFeedIndicator.find('.toggleCalendarFeed');
 					newFeedCheckbox.attr('data-calendar-sourcekey', calendarSourceKey).

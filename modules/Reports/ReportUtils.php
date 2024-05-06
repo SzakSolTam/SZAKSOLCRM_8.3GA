@@ -189,6 +189,13 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 	} elseif( $fieldType == "datetime" && !empty($value)) {
 		$date = new DateTimeField($value);
 		$fieldvalue = $date->getDisplayDateTimeValue();
+		$userModel = Users_Privileges_Model::getCurrentUserModel();
+			if($userModel->get('hour_format') == '12'){
+				$time_parts = explode(" ", $fieldvalue);
+				$time = $time_parts[1];
+				$value = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
+				$fieldvalue = $time_parts[0].' '.$value;
+			}	
 	} elseif( $fieldType == 'time' && !empty($value) && $field->getFieldName()
 			!= 'duration_hours') {
 		if($field->getFieldName() == "time_start" || $field->getFieldName() == "time_end") {

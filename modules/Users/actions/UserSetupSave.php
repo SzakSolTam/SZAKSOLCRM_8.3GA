@@ -21,6 +21,13 @@ class Users_UserSetupSave_Action extends Users_Save_Action {
 		$userRecordModel->set('time_zone', $request->get('time_zone'));
 		$userRecordModel->set('date_format', $request->get('date_format'));
 		$userRecordModel->set('tagcloud', 0);
+
+		// Use defaults if not specified.
+		if (!$request->has('no_of_currency_decimals') && !$userRecordModel->get('no_of_currency_decimals')) {
+			$userCurrencyDecimalField = Vtiger_Field::getInstance('no_of_currency_decimals', $userModuleModel);
+			$userRecordModel->set('no_of_currency_decimals', $userCurrencyDecimalField->defaultvalue);
+		}		
+		
 		$userRecordModel->save();
 		//End
 

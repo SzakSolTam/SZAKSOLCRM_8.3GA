@@ -22,9 +22,9 @@
         <input type="hidden" name="reports_description" value="{Vtiger_Util_Helper::toSafeHTML($REPORT_MODEL->get('description'))}" />
         <input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
         <input type="hidden" name="secondary_modules" value={ZEND_JSON::encode($SECONDARY_MODULES)} />
-        <input type="hidden" name="selected_fields" id="seleted_fields" value='{$REPORT_MODEL->get('selected_fields')}' />
-        <input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value={$REPORT_MODEL->get('selected_sort_fields')} />
-        <input type="hidden" name="selected_calculation_fields" id="calculation_fields" value={$REPORT_MODEL->get('calculation_fields')} />
+        <input type="hidden" name="selected_fields" id="seleted_fields" value='{Vtiger_Util_Helper::toSafeHTML($REPORT_MODEL->get('selected_fields'))}' />
+        <input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value={Vtiger_Util_Helper::toSafeHTML($REPORT_MODEL->get('selected_sort_fields'))} />
+        <input type="hidden" name="selected_calculation_fields" id="calculation_fields" value={Vtiger_Util_Helper::toSafeHTML($REPORT_MODEL->get('calculation_fields'))} />
         <input type="hidden" name="advanced_filter" id="advanced_filter" value="" />
         <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
         <input type="hidden" class="step" value="3" />

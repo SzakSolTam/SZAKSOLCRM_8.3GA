@@ -210,10 +210,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
                     if ($defaultValue && $fieldInfo['type'] == 'date') {
                         $defaultValue = DateTimeField::convertToUserFormat($defaultValue);
                     } else if (!$defaultValue) {
-                        $defaultValue = $fieldInstance->getDisplayValue($defaultValue);
+                        $defaultValue = $fieldModel ->getDisplayValue($defaultValue);
                     } else if (is_array($defaultValue)) {
                         foreach ($defaultValue as $key => $value) {
-                            $defaultValue[$key] = $fieldInstance->getDisplayValue($value);
+                            $defaultValue[$key] = $fieldModel->getDisplayValue($value);
                         }
                         $defaultValue = Zend_Json::encode($defaultValue);
                     }

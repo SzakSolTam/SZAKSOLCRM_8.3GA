@@ -946,6 +946,19 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 
       fieldUiHolder.html(fieldSpecificUi);
 
+      if (fieldInfo.type === 'picklist' || fieldInfo.type === 'multipicklist') {
+         var editablePicklistValues = Object.values(fieldInfo.editablepicklistvalues);
+         fieldSpecificUi.val(fieldInfo.value);
+         jQuery('.btn-success').on('click', function(event) {
+            var enteredValue = fieldSpecificUi.val().trim();
+            if (!editablePicklistValues.includes(enteredValue)) {
+               var message = app.vtranslate('INVALID PICKLIST');
+               app.helper.showErrorNotification({'message': message})
+               event.preventDefault();
+            }
+         });
+      }
+
       if (fieldSpecificUi.is('input.select2')) {
          var tagElements = fieldSpecificUi.data('tags');
          var params = {tags: tagElements, tokenSeparators: [","]}

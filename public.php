@@ -12,4 +12,18 @@ include_once 'vendor/autoload.php';
 include_once 'vtlib/Vtiger/Module.php';
 vimport('includes.runtime.EntryPoint');
 
+if(isset($_REQUEST['type']) && isset($_REQUEST['key']) && $_REQUEST['type'] == 'logo'){
+	$logoPath = 'test/logo/';
+	$allowedLogoImageFormats = Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats;
+	$fileName = vtlib_purify($_REQUEST['key']);
+	$finalFilePath = $logoPath.$fileName;
+	$extension = explode('.', $fileName);
+	$imageFormat = strtolower($extension[1]);
+	if (in_array($imageFormat, $allowedLogoImageFormats)) {
+		checkFileAccess($finalFilePath);
+		Vtiger_ShowFile_Helper::show($finalFilePath, $imageFormat);
+	}
+	return;
+}
+
 Vtiger_ShowFile_Helper::handle(vtlib_purify($_REQUEST['fid']), vtlib_purify($_REQUEST['key']));

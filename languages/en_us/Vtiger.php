@@ -1423,7 +1423,7 @@ $jsLanguageStrings = array(
 	'JS_SUBJECT_VALUE_CANT_BE_EMPTY' => 'Subject value cannot be empty',
 	'JS_PERCENTAGE_SHOULD_BE_LESS_THAN_100' => 'Percentage should be less than 100',
 
-
+	'INVALID PICKLIST'  => 'Invalid value for Picklist field',
 	'INVALID_NUMBER_OF' => 'Invalid number of',
 	'INVALID_NUMBER' => 'Invalid number',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Are you sure that you want to delete?',

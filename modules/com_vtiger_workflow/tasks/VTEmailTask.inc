@@ -157,7 +157,7 @@ class VTEmailTask extends VTTask{
 				//There can be multiple attachments for a single comment
 				foreach($fileDetails as $fileDetail){
 					if(!empty($fileDetail)){
-						$path = $fileDetail['path'].$fileDetail['attachmentsid'].'_'.decode_html($fileDetail['name']);
+						$path = $fileDetail['path'].$fileDetail['attachmentsid'].'_'.decode_html(!empty($fileDetail['storedname']) ? $fileDetail['storedname'] : $fileDetail['name']);
 						$mailerInstance->AddAttachment($path);
 					}
 				}

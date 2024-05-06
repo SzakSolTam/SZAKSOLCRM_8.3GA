@@ -274,7 +274,8 @@ Vtiger.Class("Vtiger_Tag_Js",{},{
                 'animation' : true,
                 'trigger' : 'manual',
                 'template' : self.editTagTemplate,
-                'container' : container
+                'container' : container,
+                'sanitize' : false, /* to allow button / anchor */
                 
             });
             element.popover('show');
