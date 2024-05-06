@@ -1704,11 +1704,10 @@ class Vtiger_Module_Model extends Vtiger_Module {
                     $relIndex = $fieldModel->get('column');
                     if($tablename == $relatedModuleFocus->table_name){
 						if($this->getName() == "Contacts" && $module == "Potentials"){
-							$tabIndex = $relatedModuleFocus->table_index;
-                                                        $sql .= " LEFT JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid ";
+							$tabIndex =  $relatedModuleFocus->tab_name_index[$tablename];
+                                                        $sql .= " INNER JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid ";
                                                         $tablename1 = 'vtiger_contpotentialrel';
-                                                        $tabIndex1 = 'potentialid';
-                                                        $sql .= " LEFT JOIN $tablename1 ON $tablename1.$tabIndex1 = vtiger_crmentity.crmid ";
+                                                        $sql .= " INNER JOIN $tablename1 ON $tablename1.$tabIndex = vtiger_crmentity.crmid ";
                                                         $sql .= " WHERE ($tablename.$relIndex IN (" . generateQuestionMarks($recordIds) . ") OR $tablename1.contactid IN (" . generateQuestionMarks($recordIds) . ")) ";
                                                         foreach ($recordIds as $key => $recordId) {
                                                             array_push($params, $recordId);
