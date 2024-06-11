@@ -10,7 +10,7 @@
 
 class Vtiger_Viewer extends Smarty {
 
-	const DEFAULTLAYOUT = 'v7';
+	const DEFAULTLAYOUT = 'custom_radus28';
 	const DEFAULTTHEME  = 'softed';
 	static $currentLayout;
 	
