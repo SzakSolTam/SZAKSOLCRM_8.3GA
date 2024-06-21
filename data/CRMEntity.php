@@ -733,7 +733,7 @@ class CRMEntity {
 				
 				$defaultFieldValue = $fieldModel->getDefaultFieldValue();
 				if(!empty($defaultFieldValue)) {
-					$fldvalue = $defaultFieldValue;
+					$fldvalue = vtlib_purify($defaultFieldValue);
 				}
 			}
 			if ($insertion_mode == 'edit') {
