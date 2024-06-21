@@ -732,7 +732,7 @@ class CRMEntity {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldname,$moduleModel);
 				
 				$defaultFieldValue = $fieldModel->getDefaultFieldValue();
-				if(isset($defaultFieldValue)) {
+				if(!empty($defaultFieldValue)) {
 					$fldvalue = $defaultFieldValue;
 				}
 			}
