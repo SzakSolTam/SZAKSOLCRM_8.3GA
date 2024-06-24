@@ -21,6 +21,8 @@ class Vtiger_Report_Model extends Reports {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$currentUserRoleId = $currentUser->get('roleid');
+		$userGroupsQuery = '';
+		$current_user_parent_role_seq = '';
 		$subordinateRoles = getRoleSubordinates($currentUserRoleId);
 		array_push($subordinateRoles, $currentUserRoleId);
 

@@ -139,10 +139,14 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		}
 
 		$isPercentExist = false;
+		$relModuleName = '';
+		$fieldName = '';
 		$selectedDataFields = $reportChartModel->get('datafields');
 		foreach ($selectedDataFields as $dataField) {
-			list($tableName, $columnName, $moduleField, $fieldName, $single) = explode(':', $dataField);
-			list($relModuleName, $fieldLabel) = explode('_', $moduleField);
+			if (isset($dataField) && substr_count($dataField, ':') >= 4) {
+				list($tableName, $columnName, $moduleField, $fieldName, $single) = explode(':', $dataField);
+				list($relModuleName, $fieldLabel) = explode('_', $moduleField);
+			} 
 			$relModuleModel = Vtiger_Module_Model::getInstance($relModuleName);
 			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $relModuleModel);
 			if ($fieldModel && $fieldModel->getFieldDataType() != 'currency') {

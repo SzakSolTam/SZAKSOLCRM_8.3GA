@@ -198,6 +198,8 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 	 * @var array
 	 */
 	public $_fntHashIndex;
+	private $_preCalculateFormulas;
+	private $_print_headers;
 
 	/**
 	 * Constructor

@@ -18,7 +18,7 @@
                     {foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
                         <optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
                             {foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-                                <option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+                                <option value="{$FIELD_KEY}"{if isset($SELECTED_SORT_FIELD_KEY) && $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
                             {/foreach}
                         </optgroup>
                     {/foreach}
@@ -27,7 +27,7 @@
                     {foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
                         <optgroup label='{vtranslate($SECONDARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
                             {foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-                                <option value="{$FIELD_KEY}"{if $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
+                                <option value="{$FIELD_KEY}"{if isset($SELECTED_SORT_FIELD_KEY) && $FIELD_KEY eq $SELECTED_SORT_FIELD_KEY}selected=""{/if}>{vtranslate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
                             {/foreach}
                         </optgroup>
                     {/foreach}
@@ -39,8 +39,8 @@
         <div class="row">
             <span class="col-lg-6">
                 {assign var=ROW value='row_'|cat:$ROW_VAL}
-                <input type="radio" name="{$ROW}" class="sortOrder" value="Ascending" {if $SELECTED_SORT_FIELD_VALUE eq Ascending} checked="" {/if} />&nbsp;<span>{vtranslate('LBL_ASCENDING',$MODULE)}</span>&nbsp;&nbsp;
-                <input type="radio" name="{$ROW}" class="sortOrder" value="Descending" {if $SELECTED_SORT_FIELD_VALUE eq Descending} checked="" {/if}/>&nbsp;<span>{vtranslate('LBL_DESCENDING',$MODULE)}</span>
+                <input type="radio" name="{$ROW}" class="sortOrder" value="Ascending" {if isset($SELECTED_SORT_FIELD_VALUE) && $SELECTED_SORT_FIELD_VALUE eq Ascending} checked="" {/if} />&nbsp;<span>{vtranslate('LBL_ASCENDING',$MODULE)}</span>&nbsp;&nbsp;
+                <input type="radio" name="{$ROW}" class="sortOrder" value="Descending" {if isset($SELECTED_SORT_FIELD_VALUE) && $SELECTED_SORT_FIELD_VALUE eq Descending} checked="" {/if}/>&nbsp;<span>{vtranslate('LBL_DESCENDING',$MODULE)}</span>
             </span>
         </div>
     </span>

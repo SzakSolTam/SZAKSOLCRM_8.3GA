@@ -17,7 +17,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	function deleteRecord(Vtiger_Record_Model $reportModel) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
-
+		$homePageChartIdsList = array();
 		$subOrdinates = array();
 		foreach($subOrdinateUsers as $id=>$name) {
 			$subOrdinates[] = $id;

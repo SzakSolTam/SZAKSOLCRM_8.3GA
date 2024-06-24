@@ -104,6 +104,8 @@ class PHPExcel_Writer_Excel5 implements PHPExcel_Writer_IWriter
 	 * @var array
 	 */
 	private $_documentSummaryInformation;
+	private $_writerWorksheets;
+	private $_writerWorkbook;
 
 	/**
 	 * Create a new PHPExcel_Writer_Excel5

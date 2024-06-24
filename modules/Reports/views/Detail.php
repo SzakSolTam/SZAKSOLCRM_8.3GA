@@ -58,7 +58,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		$pagingModel->set('limit', self::REPORT_LIMIT);
 
 		$reportData = $reportModel->getReportData($pagingModel);
-		$this->reportData = $reportData['data'];
+		$this->reportData = isset($reportData['data']) ? $reportData['data'] : '';
 		$this->calculationFields = $reportModel->getReportCalulationData();
 
 		$this->count = $reportData['count'];
@@ -138,7 +138,9 @@ class Reports_Detail_View extends Vtiger_Index_View {
 		foreach($dateFilters as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'],$module);
+			if (isset($module)) {
+				$comparatorInfo['label'] = vtranslate($comparatorInfo['label'],$module);
+			}
 			$dateFilters[$comparatorKey] = $comparatorInfo;
 		}
 		$viewer->assign('DATE_FILTERS', $dateFilters);
@@ -182,7 +184,7 @@ class Reports_Detail_View extends Vtiger_Index_View {
 			$reportType = $reportModel->get('reporttype');
 
 			$reportData = $reportModel->getReportData($pagingModel);
-			$data = $reportData['data'];
+			$data = isset($reportData['data']) ? $reportData['data'] : '';
 			$this->count = $reportData['count'];
 			$calculation = $reportModel->getReportCalulationData();
 		}

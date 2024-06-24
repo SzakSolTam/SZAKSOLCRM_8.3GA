@@ -131,6 +131,9 @@ class PHPExcel_Writer_Excel5_Xf
 	 */
 	public $_right_color;
 
+	public $_diag;
+	public $_diag_color;
+	public $_style;
 	/**
 	 * Constructor
 	 *

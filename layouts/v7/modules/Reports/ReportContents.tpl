@@ -48,7 +48,7 @@
     </div>
     <div id="reportDetails" class="contents-bottomscroll">
         <div class="bottomscroll-div">
-            <input type="hidden" id="updatedCount" value="{$NEW_COUNT}" />
+            <input type="hidden" id="updatedCount" value="{if isset($NEW_COUNT)}{$NEW_COUNT}{else}''{/if}" />
             {if $DATA neq ''}
                 {assign var=HEADERS value=$DATA[0]}
                 <table class="table table-bordered">
@@ -139,7 +139,7 @@
                         {/foreach}
                     {/if}
                 </table>
-                {if $LIMIT_EXCEEDED}
+                {if isset($LIMIT_EXCEEDED) && $LIMIT_EXCEEDED}
                     <center>{vtranslate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{vtranslate('LBL_TOP',$MODULE)}</a></span></center>
                         {/if}
                     {else}

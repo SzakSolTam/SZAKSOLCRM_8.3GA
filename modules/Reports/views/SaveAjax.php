@@ -36,7 +36,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
 		if ($mode === 'save') {
 			$reportModel->saveAdvancedFilters();
 			$reportData = $reportModel->getReportData($pagingModel);
-			$data = $reportData['data'];
+			$data = isset($reportData['data']) ? $reportData['data'] : '';
 		} else if ($mode === 'generate') {
 			$reportData = $reportModel->generateData($pagingModel);
 			$data = $reportData['data'];

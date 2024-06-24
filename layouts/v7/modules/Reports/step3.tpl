@@ -64,6 +64,9 @@
                 <h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
                 <br>
                 <span class="col-lg-12">
+                {if !isset($SELECTED_ADVANCED_FILTER_FIELDS)}
+                    {assign var="SELECTED_ADVANCED_FILTER_FIELDS" value=array()}
+                {/if}
                     {include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
                 </span>
             </div>

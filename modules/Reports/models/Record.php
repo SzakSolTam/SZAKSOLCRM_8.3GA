@@ -51,7 +51,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	 * @return type
 	 */
 	public function getMembers() {
-		if($this->members == false) {
+		if(!property_exists($this, 'members') || $this->members == false) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this, Settings_Groups_Member_Model::REPORTS_VIEW_MODE);
 		}
 		return $this->members;
@@ -654,7 +654,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 				if(!is_array($groupInfo)) continue;
 
 				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : '';
 
 				foreach($groupColumns as $columnIndex => $columnCondition) {
 					if(empty($columnCondition)) continue;
@@ -727,7 +727,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 					$advancedFilter[$groupIndex]["conditionexpression"] = $groupConditionExpression;
 				}
 
-				$groupConditionExpression = $advancedFilter[$groupIndex]["conditionexpression"];
+				$groupConditionExpression = isset($advancedFilter[$groupIndex]["conditionexpression"]) ? $advancedFilter[$groupIndex]["conditionexpression"] : '';
 				if(empty($groupConditionExpression)) continue; // Case when the group doesn't have any column criteria
 
 				$db->pquery("INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)",
@@ -1080,7 +1080,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			foreach($advancedFilter as $groupIndex => $groupInfo) {
                             if(!is_array($groupInfo)) continue;
 				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : '';
 
 				if (empty ($groupColumns)) {
 					unset($advancedFilter[1]['condition']);

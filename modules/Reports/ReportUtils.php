@@ -64,11 +64,13 @@ function isReferenceUIType($uitype) {
 }
 
 function IsDateField($reportColDetails) {
-	list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(':', $reportColDetails);
-	if ($typeOfData == "D") {
-		return true;
-	} else {
-		return false;
+	if (substr_count($reportColDetails, ':') >= 4) {
+		list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(':', $reportColDetails);
+		if ($typeOfData == "D") {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 
@@ -113,7 +115,7 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 		$field = WebserviceField::fromArray($db, $fieldInfo);
 		$fieldType = $field->getFieldDataType();
 	}
-	if(is_object($field) &&	$field->getUIType() == 401){
+	if(isset($field) && is_object($field) && $field->getUIType() == 401){
 		if ($value) {
 			$value = explode('_', $value);
 			$module = 'RecurringInvoice';
@@ -255,7 +257,7 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
 	}
 
 	// Added to render html tag for description fields
-	if($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails')) {
+	if(isset($fieldInfo['uitype']) && $fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails')) {
 		return $fieldvalue;
 	}
         if($operation == 'ExcelExport') {

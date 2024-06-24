@@ -71,12 +71,14 @@
 					<span class="pull-right">
 						<div class="btn-toolbar">
 							<div class="btn-group">
+							{if isset($DETAILVIEW_LINKS) && $DETAILVIEW_LINKS}
 								{foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
 									{assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}
 									<button class="btn btn-default reportActions" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}&source={$REPORT_MODEL->getReportType()}">
 										{$LINKNAME}
 									</button>
 								{/foreach}
+							{/if}
 							</div>
 						</div>
 					</span>

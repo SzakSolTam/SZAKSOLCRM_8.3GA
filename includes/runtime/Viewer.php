@@ -78,7 +78,7 @@ class Vtiger_Viewer extends Smarty {
 			'Vtiger_Theme', 'Users_Record_Model', 'Vtiger_Module_Model', 'Vtiger_Field_Model', 'Vtiger_Record_Model',
 			'Settings_Picklist_Module_Model', 'CustomView_Record_Model', 'Vtiger_Extension_View',
 			'Vtiger_Tag_Model', 'Settings_Vtiger_Module_Model', 'PBXManager_Server_Model',
-			'Vtiger_Functions', 'Users', 'CurrencyField');
+			'Vtiger_Functions', 'Users', 'CurrencyField', 'Reports_Field_Model');
 		foreach ($classes as $clazz) {
 			if (class_exists($clazz)) {
 				$this->registerClass($clazz, $clazz);

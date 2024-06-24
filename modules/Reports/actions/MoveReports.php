@@ -18,6 +18,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action {
 
 	public function process(Vtiger_Request $request) {
 		$parentModule = 'Reports';
+		$sameTargetFolder = 0;
 		$reportIdsList = $this->getRecordsListFromRequest($request);
 		$folderId = $request->get('folderid');
                 $viewname=$request->get('viewname');

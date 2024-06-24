@@ -2430,7 +2430,7 @@ class CRMEntity {
 			$fields[] = $value;
 		}
 		$pritablename = $tables[0];
-		$sectablename = $tables[1];
+		$sectablename = isset($tables[1]) ? $tables[1] : '';
 		$prifieldname = $fields[0][0];
 		$secfieldname = $fields[0][1];
 		$tmpname = $pritablename . 'tmp' . $secmodule;
@@ -2470,7 +2470,7 @@ class CRMEntity {
 
 		$secQuery = 'SELECT '.$selectColumns.' '.$secQueryFrom;
 
-		$secQueryTempTableQuery = $queryPlanner->registerTempTable($secQuery, array($column_name, $fields[1], $prifieldname),$secmodule);
+		$secQueryTempTableQuery = $queryPlanner->registerTempTable($secQuery, array($column_name, isset($fields[1]) ? $fields[1] : '', $prifieldname),$secmodule);
 
 		$query = '';
 		if ($pritablename == 'vtiger_crmentityrel') {

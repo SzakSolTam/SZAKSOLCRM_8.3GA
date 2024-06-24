@@ -120,7 +120,7 @@ class Reports_List_View extends Vtiger_Index_View {
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$searchParams = $request->get('search_params');
-		$searchParams = $searchParams[0];
+		$searchParams = isset($searchParams[0]) ? $searchParams[0] : '';
 
 		$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName.'_'.$folderId);
 		if($request->get('mode') == 'removeSorting') {
@@ -170,7 +170,7 @@ class Reports_List_View extends Vtiger_Index_View {
 
 		$viewer->assign('MODULE', $moduleName);
 		  // preProcess is already loading this, we can reuse
-		if(!$this->pagingModel){
+		if(!property_exists($this, 'pagingModel') || !$this->pagingModel){
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 		} else{
@@ -203,7 +203,7 @@ class Reports_List_View extends Vtiger_Index_View {
 		$viewer->assign('SEARCH_DETAILS', array());
 		$viewer->assign('LISTVIEW_MODEL',$listViewModel);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		if(!$this->pagingModel){
+		if(!property_exists($this, 'pagingModel') || !$this->pagingModel){
 			$this->pagingModel = $pagingModel;
 		}
 

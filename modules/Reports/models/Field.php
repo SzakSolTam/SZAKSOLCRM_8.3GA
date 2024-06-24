@@ -11,7 +11,7 @@
 class Reports_Field_Model extends Vtiger_Field_Model {
 
 	static function getPicklistValueByField($fieldName) {
-		$picklistValues = false;
+		$picklistValues = array();
 		if ($fieldName == 'reporttype') {
 			$picklistValues = array(
 				'tabular'	=> vtranslate('tabular', 'Reports'),

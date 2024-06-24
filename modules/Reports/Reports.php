@@ -112,6 +112,7 @@ class Reports extends CRMEntity{
 	 */
         function __construct($reportid="") {
             global $adb,$current_user,$theme,$mod_strings;
+			$is_admin = false;
             $this->initListOfModules();
             if($reportid != "")
             {
@@ -464,6 +465,8 @@ class Reports extends CRMEntity{
 		global $log;
 		global $mod_strings,$current_user;
 		$returndata = Array();
+		$current_user_parent_role_seq = '';
+		$is_admin = false;
 		
 		require_once('include/utils/UserInfoUtil.php');
 
@@ -582,7 +585,7 @@ class Reports extends CRMEntity{
 			}while($report = $adb->fetch_array($result));
 		}
 		if($rpt_fldr_id !== false && $rpt_fldr_id !== 'shared' && $rpt_fldr_id !== 'All') {
-			$returndata = $returndata[$rpt_fldr_id];
+			$returndata = isset($returndata[$rpt_fldr_id]) ? $returndata[$rpt_fldr_id] : '';
 		}
 		$log->info("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
@@ -611,9 +614,10 @@ class Reports extends CRMEntity{
 	function getPriModuleColumnsList($module)
 	{
 		//$this->updateModuleList($module);
-		$allColumnsListByBlocks =& $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
+		$tempColumnsListByBlocks =$this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
+		$allColumnsListByBlocks = & $tempColumnsListByBlocks;
 		foreach($this->module_list[$module] as $key=>$value) {
-			$temp = $allColumnsListByBlocks[$key];
+			$temp = isset($allColumnsListByBlocks[$key]) ? $allColumnsListByBlocks[$key] : array();
 
 			if (!empty($ret_module_list[$module][$value])) {
 				if (!empty($temp)) {
@@ -682,7 +686,7 @@ class Reports extends CRMEntity{
 	 * @return Array
 	 */
 	public function getBlockFieldList($module, $blockIdList, $currentFieldList,$allColumnsListByBlocks) {
-		$temp = $allColumnsListByBlocks[$blockIdList];
+		$temp = isset($allColumnsListByBlocks[$blockIdList]) ? $allColumnsListByBlocks[$blockIdList] : '';
 		if(!empty($currentFieldList)){
 			if(!empty($temp)){
 				$currentFieldList = array_merge($currentFieldList,$temp);
@@ -694,10 +698,12 @@ class Reports extends CRMEntity{
 	}
 
 	public function getModuleFieldList($module) {
-		$allColumnsListByBlocks =& $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
+		$ret_module_list = array();
+		$tempColumnsListByBlocks =$this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
+		$allColumnsListByBlocks = & $tempColumnsListByBlocks;
 		foreach($this->module_list[$module] as $key=>$value) {
 			$ret_module_list[$module][$value] = $this->getBlockFieldList(
-					$module, $key, $ret_module_list[$module][$value],$allColumnsListByBlocks);
+					$module, $key, isset($ret_module_list[$module][$value]) ? $ret_module_list[$module][$value] : array(),$allColumnsListByBlocks);
 		}
 		return $ret_module_list[$module];
 	}
@@ -805,7 +811,7 @@ class Reports extends CRMEntity{
 			$optionvalue = $fieldtablename.":".$fieldcolname.":".$module."_".$fieldlabel1.":".$fieldname.":".$fieldtypeofdata;
 
 			$adv_rel_field_tod_value = '$'.$module.'#'.$fieldname.'$'."::".getTranslatedString($module,$module)." ".getTranslatedString($fieldlabel,$module);
-			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
+			if (!isset($this->adv_rel_fields[$fieldtypeofdata]) || !is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 					!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
 			}

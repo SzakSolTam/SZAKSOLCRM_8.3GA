@@ -65,7 +65,18 @@ class Vtiger_Theme extends Vtiger_Viewer {
 	 * @return <string> - theme folder
 	 */
 	public static function getBaseThemePath(){
-		return 'layouts'. '/' . self::getLayoutName(). '/skins';
+		$basepath = 'layouts'. '/' . self::getLayoutName();
+		$useskin = static::DEFAULTSKIN;
+
+		// do we have any override valid custom skin?
+		$customskin = isset($_SESSION) && isset($_SESSION['authenticated_user_skin']) ?  $_SESSION['authenticated_user_skin'] : '';
+		if ($customskin && !preg_match("/[^a-zA-Z0-9_-]/", $customskin)) { // strict-check to avoid file-inclusion attack.
+			$customskin = "custom_skins/" . $customskin;      // lookup path
+			if (file_exists($basepath . '/' . $customskin)) { // ensure validity
+				$useskin = $customskin;
+			}
+		}
+		return $basepath . '/' . $useskin;
 	}
 
 	/**
@@ -108,7 +119,11 @@ class Vtiger_Theme extends Vtiger_Viewer {
 	 * @return <Array>
 	 */
 	public static function getAllSkins(){
-		return Vtiger_Util_Helper::getAllSkins();
+		$dirs = glob("layouts/". static::DEFAULTLAYOUT . "/custom_skins/*", GLOB_ONLYDIR);
+		if (!empty($dirs)) {
+			$dirs = array_map('basename', $dirs);
+		}
+		return $dirs;
 	}
 
 	/**

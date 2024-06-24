@@ -113,10 +113,11 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 			$reportModels = array();
 			for($i=0; $i < php7_count($reportsList); $i++) {
 				$reportModel = Reports_Record_Model::getCleanInstance();
-
-				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
-				$reportModels[] = $reportModel;
-				unset($reportModel);
+				if (isset($reportsList[$i]) && is_array($reportsList)) { 
+					$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
+					$reportModels[] = $reportModel;
+					unset($reportModel);
+				}
 			}
 			return $reportModels;
 		}

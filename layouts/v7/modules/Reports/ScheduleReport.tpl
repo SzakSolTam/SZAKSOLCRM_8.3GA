@@ -67,8 +67,8 @@
                 <div class='col-lg-2'>
                     <div class="input-group inputElement date" style="margin-bottom: 3px">
                         {assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
-                        {if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-                        <input style='width: 185px;' type="text" class="dateField form-control" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true" />
+                        {if isset($specificDate[0]) && $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
+                        <input style='width: 185px;' type="text" class="dateField form-control" id="schdate" name="schdate" value="{if isset($specificDate1)}{$specificDate1}{else}''{/if}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true" />
                         <span class="input-group-addon"><i class="fa fa-calendar "></i></span>
                     </div>
                 </div>

@@ -23,7 +23,7 @@
         <input type="hidden" name="description" value="{$REPORT_MODEL->get('description')}" />
         <input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
         <input type="hidden" name="secondary_modules" value={ZEND_JSON::encode($SECONDARY_MODULES)} />
-        <input type="hidden" name="selected_fields" id="seleted_fields" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
+        <input type="hidden" name="selected_fields" id="selected_fields" value='{if isset($SELECTED_FIELDS)}{ZEND_JSON::encode($SELECTED_FIELDS)}{/if}' />
         <input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value="" />
         <input type="hidden" name="calculation_fields" id="calculation_fields" value="" />
         <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
@@ -71,14 +71,16 @@
                 </div>
                 <div class="">
                     {assign var=ROW_VAL value=1}
+                    {if isset($SELECTED_SORT_FIELDS) && is_array($SELECTED_SORT_FIELDS)}
                     {foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
                         <div class="row sortFieldRow" style="padding-bottom:10px;">
                             {include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
                             {assign var=ROW_VAL value=($ROW_VAL+1)}
                         </div>
                     {/foreach}
-                    {assign var=SELECTED_SORT_FEILDS_ARRAY value=$SELECTED_SORT_FIELDS}
-                    {assign var=SELECTED_SORT_FIELDS_COUNT value=php7_count($SELECTED_SORT_FEILDS_ARRAY)}
+                    {/if}
+                    {assign var=SELECTED_SORT_FEILDS_ARRAY value=(isset($SELECTED_SORT_FIELDS))?$SELECTED_SORT_FIELDS:array()}
+                    {assign var=SELECTED_SORT_FIELDS_COUNT value=(isset($SELECTED_SORT_FEILDS_ARRAY))?php7_count($SELECTED_SORT_FEILDS_ARRAY):array()}
                     {while $SELECTED_SORT_FIELDS_COUNT lt 3 }
                         <div class="row sortFieldRow" style="padding-bottom:10px;">
                             {include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}

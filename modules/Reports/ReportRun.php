@@ -341,6 +341,9 @@ class ReportRun extends CRMEntity {
 	}
 
 	public static function getInstance($reportid) {
+		if (self::$instances === false || !is_array(self::$instances)) {
+            self::$instances = array();
+        }
 		if (!isset(self::$instances[$reportid])) {
 			self::$instances[$reportid] = new ReportRun($reportid);
 		}
@@ -371,14 +374,18 @@ class ReportRun extends CRMEntity {
 		$ssql .= " order by vtiger_selectcolumn.columnindex";
 		$result = $adb->pquery($ssql, array($reportid));
 		$permitted_fields = Array();
-
+		$module = '';
         $selectedModuleFields = array();
         require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		while ($columnslistrow = $adb->fetch_array($result)) {
 			$fieldname = "";
-			$fieldcolname = $columnslistrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
-			list($module, $field) = explode('_', $module_field, 2);
+			$fieldcolname = isset($columnslistrow["columnname"]) ? $columnslistrow["columnname"] : '';
+			if ($fieldcolname != null && substr_count($fieldcolname, ':') >= 4) {
+				list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
+				if ($module_field != null && substr_count($module_field, '_') >= 1) {
+					list($module, $field) = explode('_', $module_field, 2);
+				}
+			}
             $selectedModuleFields[$module][] = $fieldname;
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
@@ -402,9 +409,9 @@ class ReportRun extends CRMEntity {
 				$mod_strings = return_module_language($current_language, $module);
 			}
 
-			$targetTableName = $tablename;
+			$targetTableName = isset($tablename) ? $tablename : '';
 
-			$fieldlabel = trim(preg_replace("/$module/", " ", $selectedfields[2], 1));
+			$fieldlabel = trim(preg_replace("/$module/", " ", isset($selectedfields[2]) ? $selectedfields[2] :'', 1));
 			$mod_arr = explode('_', $fieldlabel);
 			$fieldlabel = trim(str_replace("_", " ", $fieldlabel));
 			//modified code to support i18n issue
@@ -426,7 +433,7 @@ class ReportRun extends CRMEntity {
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
 			} 
-			if ((CheckFieldPermission($fieldname, $mod) != 'true' && $colname != "crmid" && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
+			if ((CheckFieldPermission($fieldname, $mod) != 'true' && isset($colname) && $colname != "crmid" && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
 				continue;
 			} else {
 				$this->labelMapping[$selectedfields[2]] = str_replace(" ", "_", $fieldlabel);
@@ -454,7 +461,7 @@ class ReportRun extends CRMEntity {
 			if ($this->secondarymodule) {
 				$secondaryModules = explode(':', $this->secondarymodule);
 				foreach ($secondaryModules as $secondaryModule) {
-                    $columnsSelected = (array)$selectedModuleFields[$secondaryModule];
+                    $columnsSelected = isset($selectedModuleFields[$secondaryModule]) ? (array)$selectedModuleFields[$secondaryModule] : [];
 					$moduleModel = Vtiger_Module_Model::getInstance($secondaryModule);
                     /**
                      * To check whether any column is selected from secondary module. If so, then only add 
@@ -732,21 +739,23 @@ class ReportRun extends CRMEntity {
 	 *  returns the case query for the escaped columns
 	 */
 	function getEscapedColumns($selectedfields) {
-
+		$queryColumn = '';
 		$tableName = $selectedfields[0];
-		$columnName = $selectedfields[1];
-		$moduleFieldLabel = $selectedfields[2];
-		$fieldName = $selectedfields[3];
-		list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
-		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+		$columnName = isset($selectedfields[1]) ? $selectedfields[1] : '';
+		$moduleFieldLabel = isset($selectedfields[2]) ? $selectedfields[2] : '';
+		$fieldName = isset($selectedfields[3]) ? $selectedfields[3] : '';
+		if ($moduleFieldLabel !=null && substr_count($moduleFieldLabel, '_') >= 1) {
+			list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
+			$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+		}
 
-		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
+		if (isset($moduleName) && $moduleName == 'ModComments' && $fieldName == 'creator') {
 			$concatSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_usersModComments.first_name',
 				'last_name' => 'vtiger_usersModComments.last_name'), 'Users');
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
 			$this->queryPlanner->addTable("vtiger_usersModComments");
-		} elseif ((($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['tablename'] != 'vtiger_inventoryproductrel') && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
+		} elseif (isset($fieldInfo) && (($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['tablename'] != 'vtiger_inventoryproductrel') && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
 			$fieldSqlColumns = $this->getReferenceFieldColumnList($moduleName, $fieldInfo);
 			if (php7_count($fieldSqlColumns) > 0) {
 				$queryColumn = "(CASE WHEN $tableName.$columnName NOT LIKE '' THEN (CASE";
@@ -2209,6 +2218,7 @@ class ReportRun extends CRMEntity {
 	 */
 	function getReportsQuery($module, $type = '') {
 		global $log, $current_user, $adb;
+		$query = '';
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
 		$secondary_module .="'";
@@ -2999,7 +3009,7 @@ class ReportRun extends CRMEntity {
 		$allColumnsRestricted = false;
 
 		if ($type == 'COLUMNSTOTOTAL') {
-			if ($columnstotalsql != '') {
+			if (isset($columnstotalsql) && $columnstotalsql != '') {
 				$reportquery = "select " . $columnstotalsql . " " . $reportquery . " " . $wheresql;
 			}
 		} else {
@@ -3077,7 +3087,10 @@ class ReportRun extends CRMEntity {
 		static $mod_query_details = array();
 		
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		$coltotalhtml = '';
 		$modules_selected = array();
+		$picklistarray = array();
+		static $mod_query_details = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
 			$sec_modules = explode(':', $this->secondarymodule);
@@ -3153,6 +3166,7 @@ class ReportRun extends CRMEntity {
 				}
 				do {
 					$arraylists = Array();
+					$sec_modules = array();
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $fieldsList[$i]['field'];
 						$headerLabel = $fieldsList[$i]['headerlabel'];
@@ -3916,18 +3930,20 @@ class ReportRun extends CRMEntity {
 			return $coltotalhtml;
 		} elseif ($outputformat == "PRINT") {
 			$reportData = $this->GenerateReport('PDF', $filtersql);
+			$header = '';
 			if (is_array($reportData) && $reportData['count'] > 0) {
 				$data = $reportData['data'];
 				$noofrows = $reportData['count'];
 				$firstRow = reset($data);
 				$headers = array_keys($firstRow);
 				foreach ($headers as $headerName) {
-					if ($headerName == 'ACTION' || $headerName == vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate('LBL ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
+					if ($headerName == 'ACTION' || $headerName == vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate('LBL ACTION', $this->primarymodule) || isset($key) && $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
 						continue;
 					}
 					$header .= '<th>' . $headerName . '</th>';
 				}
 				$groupslist = $this->getGroupingList($this->reportid);
+				$groupByFieldNames = array();
 				foreach ($groupslist as $reportFieldName => $reportFieldValue) {
 					$nameParts = explode(":", $reportFieldName);
 					list($groupFieldModuleName, $groupFieldName) = explode('_', $nameParts[2], 2);
@@ -3995,7 +4011,7 @@ class ReportRun extends CRMEntity {
 					}
 				} else {
 					foreach ($data as $key => $values) {
-						$valtemplate .= '<tr>';
+						$valtemplate = '<tr>';
 						foreach ($values as $fieldName => $value) {
 							if ($fieldName == 'ACTION' || $fieldName == vtranslate('LBL_ACTION', $this->primarymodule) || $fieldName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $fieldName == vtranslate('LBL ACTION', $this->primarymodule) || $fieldName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
 								continue;
@@ -4244,10 +4260,11 @@ class ReportRun extends CRMEntity {
 			}
 		}
 		// Save the information
-		$this->_columnstotallist = $stdfilterlist;
-
-		$log->info("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
-		return $stdfilterlist;
+		if (isset($stdfilterlist)) {
+			$this->_columnstotallist = $stdfilterlist;
+			$log->info("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
+			return $stdfilterlist;
+		}
 	}
 
 	//<<<<<<new>>>>>>>>>
@@ -4563,7 +4580,7 @@ class ReportRun extends CRMEntity {
 		$worksheet = $workbook->setActiveSheetIndex(0);
 
 		$reportData = $this->GenerateReport("PDF", $filterlist, false, false, false, 'ExcelExport');
-		$arr_val = $reportData['data'];
+		$arr_val = isset($reportData['data']) ? $reportData['data'] : array();
 		$totalxls = $this->GenerateReport("XLS", $filterlist, false, false, false, 'ExcelExport');
 		$numericTypes = array('currency', 'double', 'integer', 'percentage');
 
@@ -4576,7 +4593,7 @@ class ReportRun extends CRMEntity {
 			$count = 0;
 			$rowcount = 1;
 			//copy the first value details
-			$arrayFirstRowValues = $arr_val[0];
+			$arrayFirstRowValues = isset($arr_val[0]) ? $arr_val[0] : array();
 			foreach ($arrayFirstRowValues as $key => $value) {
 				// It'll not translate properly if you don't mention module of that string
 				if ($key == 'ACTION' || $key == vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $key == vtranslate('LBL ACTION', $this->primarymodule) || $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
@@ -4619,7 +4636,7 @@ class ReportRun extends CRMEntity {
 			// Summary Total
 			$rowcount++;
 			$count = 0;
-			if (is_array($totalxls[0])) {
+			if (isset($totalxls[0]) && is_array($totalxls[0])) {
 				foreach ($totalxls[0] as $key => $value) {
 					$exploedKey = explode('_', $key);
 					$chdr = end($exploedKey);
@@ -4662,7 +4679,7 @@ class ReportRun extends CRMEntity {
 		$mod_strings = return_module_language($current_language, $currentModule);
 
 		$reportData = $this->GenerateReport("PDF", $filterlist);
-		$arr_val = $reportData['data'];
+		$arr_val = isset($reportData['data']) ? $reportData['data'] : '';
 
 		$fp = fopen($fileName, 'w+');
 
@@ -4735,7 +4752,7 @@ class ReportRun extends CRMEntity {
 		if ($this->_groupbycondition !== false) {
 			return $this->_groupbycondition;
 		}
-        
+        $groupByCondition = array();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
 		$groupByTimeRes = $adb->pquery($groupByTimeQuery, array($reportId));
 		$num_rows = $adb->num_rows($groupByTimeRes);

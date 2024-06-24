@@ -62,11 +62,14 @@
 		input:focus ~ .bar:before, input:focus ~ .bar:after {
 			width: 50%;
 		}
+		select {
+			font-size: 16px;
+		}
 		#page {
 			padding-top: 86px;
 		}
 		.widgetHeight {
-			height: 410px;
+			height: 460px;
 			margin-top: 20px !important;
 		}
 		.loginDiv {
@@ -230,7 +233,18 @@
 							<span class="bar"></span>
 							<label>Password</label>
 						</div>
-						<div class="group">
+						{assign var="CUSTOM_SKINS" value=Vtiger_Theme::getAllSkins()}
+						{if !empty($CUSTOM_SKINS)}
+						<div class="group" style="margin-bottom: 10px;">
+							<select id="skin" name="skin" placeholder="Skin" style="text-transform: capitalize; width:100%;height:30px;">
+								<option value="">Default Skin</option>
+								{foreach item=CUSTOM_SKIN from=$CUSTOM_SKINS}
+								<option value="{$CUSTOM_SKIN}">{$CUSTOM_SKIN}</option>
+								{/foreach}
+							</select>
+						</div>
+						{/if}
+					<div class="group">
 							<button type="submit" class="button buttonBlue">Sign in</button><br>
 							<a class="forgotPasswordLink" style="color: #15c;">forgot password?</a>
 						</div>

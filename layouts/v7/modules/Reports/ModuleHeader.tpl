@@ -36,7 +36,7 @@
 						&nbsp;
 					</p>
 				</span>
-				{if $VIEWNAME}
+				{if isset($VIEWNAME) && $VIEWNAME}
 					{if $VIEWNAME neq 'All'}
 						{foreach item=FOLDER from=$FOLDERS}
 							{if $FOLDER->getId() eq $VIEWNAME}
@@ -48,13 +48,14 @@
 						{assign var=FOLDERNAME value=vtranslate('LBL_ALL_REPORTS', $MODULE)}
 					{/if}
 					<span>
-						<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$FOLDERNAME}&nbsp;</p>
+						<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{if isset($FOLDERNAME)}{$FOLDERNAME}{else}''{/if}&nbsp;</p>
 					</span>
 				{/if}
 			</span>
 
 			<span class="col-lg-5 col-md-5 pull-right">
 				<div id="appnav" class="navbar-right">
+				{if isset($LISTVIEW_LINKS['LISTVIEWBASIC'])}
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						{if $childLinks && $LISTVIEW_BASICACTION->get('linklabel') == 'LBL_ADD_RECORD'}
@@ -71,14 +72,16 @@
 										{elseif $childLink->getLabel() eq 'LBL_DETAIL_REPORT'}
 											{assign var="ICON_CLASS" value='vicon-detailreport'}
 										{/if}
-										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{$childLink->disabled}" data-edition-message="{$childLink->message}">
-											<a {if $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
+										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{if isset($childLink->disabled)} {$childLink->disabled} {/if}" 
+											data-edition-message="{if isset($childLink->message)} {$childLink->message} {/if}">
+											<a {if ($childLink) && !isset($childLink->disabled) || $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
 										</li>
 									{/foreach}
 								</ul>
 							</span>
 						{/if}
 					{/foreach}
+				{/if}
 				</div>
 			</span>
 		</div>

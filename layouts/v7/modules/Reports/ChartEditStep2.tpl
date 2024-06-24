@@ -39,7 +39,7 @@
         {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
             {assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}
             {assign var=key value="$PRIMARY_MODULE_LABEL $PRIMARY_MODULE_BLOCK_LABEL"}
-            {if $LINEITEM_FIELD_IN_CALCULATION eq false && $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}
+            {if isset($LINEITEM_FIELD_IN_CALCULATION) && $LINEITEM_FIELD_IN_CALCULATION eq false && $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}
                 {* dont show the line item fields block when Inventory fields are selected for calculations *}
             {else}
                 {$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
@@ -58,6 +58,9 @@
                 <h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
                 <br>
                 <span class="col-lg-12">
+                {if !isset($SELECTED_ADVANCED_FILTER_FIELDS)}
+                    {assign var="SELECTED_ADVANCED_FILTER_FIELDS" value=array()}
+                {/if}
                     {include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
                 </span>
             </div>

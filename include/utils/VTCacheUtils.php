@@ -441,7 +441,7 @@ class VTCacheUtils {
 
 	static $_report_field_bylabel = array();
 	public static function getReportFieldByLabel($module, $label) {
-		return self::$_report_field_bylabel[$module][$label];
+		return isset(self::$_report_field_bylabel[$module][$label]) ? self::$_report_field_bylabel[$module][$label] : array();
 	}
 
 	public static function setReportFieldByLabel($module, $label, $fieldInfo) {

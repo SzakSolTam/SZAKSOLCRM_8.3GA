@@ -14,7 +14,7 @@
 			<span class="essentials-toggle-marker fa {if $LEFTPANELHIDE eq '1'}fa-chevron-right{else}fa-chevron-left{/if} cursorPointer"></span>
 		</div>
 		<input type="hidden" name="view" id="view" value="{$VIEW}" />
-		<input type="hidden" name="cvid" value="{$VIEWID}" />
+		<input type="hidden" name="cvid" value="{(isset($VIEWID)) ? $VIEWID : ''}" />
 		<input type="hidden" name="pageStartRange" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 		<input type="hidden" name="pageEndRange" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 		<input type="hidden" name="previousPageExist" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -25,11 +25,11 @@
 		<input type='hidden' name="pageLimit" value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 		<input type="hidden" name="currentSearchParams" value="{Vtiger_Util_Helper::toSafeHTML(Zend_JSON::encode($SEARCH_DETAILS))}" id="currentSearchParams" />
-		<input type="hidden" name="noFilterCache" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
+		<input type="hidden" name="noFilterCache" value="{(isset($NO_SEARCH_PARAMS_CACHE)) ? $NO_SEARCH_PARAMS_CACHE : ''}" id="noFilterCache" >
 		<input type="hidden" name="orderBy" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" name="sortOrder" value="{$SORT_ORDER}" id="sortOrder">
-		<input type="hidden" name="list_headers" value='{$LIST_HEADER_FIELDS}'/>
-		<input type="hidden" name="tag" value="{$CURRENT_TAG}" />
+		<input type="hidden" name="list_headers" value='{(isset($LIST_HEADER_FIELDS)) ? $LIST_HEADER_FIELDS : ''}'/>
+		<input type="hidden" name="tag" value="{(isset($CURRENT_TAG)) ? $CURRENT_TAG : ''}" />
 		<input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
 		<input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
 		<input type="hidden" name="folder" value="{$VIEWNAME}" />
@@ -88,13 +88,13 @@
 										{assign var="DATA_TYPE" value=$LISTVIEW_HEADER['type']}
 										{if $DATA_TYPE == 'string'}
 											<div class="row-fluid">
-												<input type="text" name="{$LISTVIEW_HEADER_KEY}" class="listSearchContributor inputElement" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['searchValue']}" data-fieldinfo='{$FIELD_INFO|escape}'/>
+												<input type="text" name="{$LISTVIEW_HEADER_KEY}" class="listSearchContributor inputElement" value="{(isset($SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['searchValue'])) ? $SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['searchValue'] : ''}" data-fieldinfo='{if isset($FIELD_INFO)}{$FIELD_INFO|escape}{/if}'/>
 											</div>
 										{elseif $DATA_TYPE == 'picklist'}
 											{assign var=PICKLIST_VALUES value=Reports_Field_Model::getPicklistValueByField($LISTVIEW_HEADER_KEY)}
-											{assign var=SEARCH_VALUES value=explode(',',$SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['searchValue'])}
+											{assign var=SEARCH_VALUES value=explode(',',(isset($SEARCH_INFO['searchValue'])) ? $SEARCH_INFO['searchValue'] : ',')}
 											<div class="row-fluid">
-												<select class="select2 listSearchContributor report-type-select" name="{$LISTVIEW_HEADER_KEY}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
+												<select class="select2 listSearchContributor report-type-select" name="{$LISTVIEW_HEADER_KEY}" multiple data-fieldinfo='{if isset($FIELD_INFO)}{$FIELD_INFO|escape}{/if}'>
 													{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
 														{if $PICKLIST_LABEL eq 'Chart'}
 															{assign var="ICON_CLASS" value='fa fa-pie-chart'}
@@ -106,7 +106,7 @@
 												</select>
 											</div>
 										{/if}
-										<input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['comparator']}">
+										<input type="hidden" class="operatorValue" value="{(isset($SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['comparator'])) ? $SEARCH_DETAILS[$LISTVIEW_HEADER_KEY]['comparator'] : ''}">
 									</th>
 								{/foreach}
 							</tr>
@@ -125,7 +125,7 @@
 									<td class="listViewEntryValue" data-name="{$LISTVIEW_HEADERNAME}" title="{$LISTVIEW_ENTRY_RAWVALUE}" data-rawvalue="{$LISTVIEW_ENTRY_RAWVALUE}" data-field-type="">
 										<span class="fieldValue">
 											<span class="value textOverflowEllipsis">
-												{if $LISTVIEW_HEADERNAME eq 'reporttype'}
+												{if isset($LISTVIEW_HEADERNAME) && $LISTVIEW_HEADERNAME eq 'reporttype'}
 													{if $LISTVIEW_ENTRY_VALUE eq 'summary' || $LISTVIEW_ENTRY_VALUE eq 'tabular'}
 														<center title="{vtranslate('LBL_DETAIL_REPORT', $MODULE)}"><span class='vicon-detailreport' style="font-size:17px;"></span></center>
 													{elseif $LISTVIEW_ENTRY_VALUE eq 'chart'}
@@ -152,7 +152,7 @@
 									<div class="emptyRecordsDiv">
 										<div class="emptyRecordsContent">
 											{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-											{vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE')} </a> {if Users_Privileges_Model::isPermitted($MODULE, 'Import') && $LIST_VIEW_MODEL->isImportEnabled()} {vtranslate('LBL_OR', $MODULE)} <a style="color:blue" href="#" onclick="return Vtiger_Import_Js.triggerImportAction()"> {vtranslate('LBL_IMPORT', $MODULE)} </a>{vtranslate($MODULE, $MODULE)}{else}{vtranslate($SINGLE_MODULE, $MODULE)}{/if}{/if}
+											{vtranslate('LBL_NO')} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND')}.{if isset($IS_MODULE_EDITABLE) && $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE')} </a> {if Users_Privileges_Model::isPermitted($MODULE, 'Import') && $LIST_VIEW_MODEL->isImportEnabled()} {vtranslate('LBL_OR', $MODULE)} <a style="color:blue" href="#" onclick="return Vtiger_Import_Js.triggerImportAction()"> {vtranslate('LBL_IMPORT', $MODULE)} </a>{vtranslate($MODULE, $MODULE)}{else}{vtranslate($SINGLE_MODULE, $MODULE)}{/if}{/if}
 										</div>
 									</div>
 								</td>

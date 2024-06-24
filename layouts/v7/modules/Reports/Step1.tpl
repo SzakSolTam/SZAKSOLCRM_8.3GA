@@ -18,7 +18,7 @@
         <input type="hidden" name="module" value="{$MODULE}" />
         <input type="hidden" name="view" value="{$VIEW}" />
         <input type="hidden" class="step" value="1" />
-        <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
+        <input type="hidden" name="isDuplicate" value="{if isset($IS_DUPLICATE)}{$IS_DUPLICATE}{else}false{/if}" />
         <input type="hidden" name="record" value="{$RECORD_ID}" />
         <input type=hidden id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
         <div style="border:1px solid #ccc;padding:4%;">
@@ -51,14 +51,14 @@
                     <label class="col-lg-3 control-label textAlignLeft">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></label>
                     <div class="col-lg-4">
                         <select class="select2-container select2 col-lg-12 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
-                                {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
+                                {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
                                 <option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected" {/if}>
                                     {vtranslate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
                                 </option>
                             {/foreach}
                         </select>
-                        {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
+                        {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
                             <input type="hidden" name="primary_module" value="{$REPORT_MODEL->getPrimaryModule()}" />
                         {/if}
                     </div>
@@ -68,7 +68,11 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label textAlignLeft">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}&nbsp;({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</label>
                     <div class="col-lg-4">
-                        {assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
+                        {if $REPORT_MODEL->getSecondaryModules() neq null && $REPORT_MODEL->getSecondaryModules() neq ''}
+                            {assign var="SECONDARY_MODULES_ARR" value=explode(':', $REPORT_MODEL->getSecondaryModules())}
+                        {else}
+                            {assign var="SECONDARY_MODULES_ARR" value=[]}
+                        {/if}
                         {assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
                         {if $PRIMARY_MODULE eq ''}
