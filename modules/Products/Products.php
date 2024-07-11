@@ -88,18 +88,21 @@ class Products extends CRMEntity {
 	function save_module($module)
 	{
 		//Inserting into product_taxrel table
-		if(isset($_REQUEST['ajxaction']) != 'DETAILVIEW' && isset($_REQUEST['action']) != 'ProcessDuplicates' && !$this->isWorkFlowFieldUpdate)
+		$ajaxActionSet = isset($_REQUEST["ajxaction"]);
+		if((($ajaxActionSet && $_REQUEST['ajxaction'] != 'DETAILVIEW') || !$ajaxActionSet)
+		&& (isset($_REQUEST['action']) && $_REQUEST['action'] != 'ProcessDuplicates')
+		&& !$this->isWorkFlowFieldUpdate)
 		{
-			if (isset($_REQUEST['ajxaction']) != 'CurrencyUpdate') {
+			if (($ajaxActionSet && $_REQUEST['ajxaction'] != 'CurrencyUpdate') || !$ajaxActionSet) {
 				$this->insertTaxInformation('vtiger_producttaxrel', 'Products');
 			}
 
-			if (isset($_REQUEST['action']) != 'MassEditSave' ) {
+			if ($_REQUEST['action'] != 'MassEditSave' ) {
 				$this->insertPriceInformation('vtiger_productcurrencyrel', 'Products');
 			}
 		}
 
-		if(isset($_REQUEST['action']) == 'SaveAjax' && isset($_REQUEST['base_currency']) && isset($_REQUEST['unit_price'])){
+		if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'SaveAjax' && isset($_REQUEST['base_currency']) && isset($_REQUEST['unit_price'])){
 			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Products');
 		}
 		// Update unit price value in vtiger_productcurrencyrel
