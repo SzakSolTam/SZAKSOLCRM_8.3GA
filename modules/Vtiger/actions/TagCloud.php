@@ -105,13 +105,27 @@ class Vtiger_TagCloud_Action extends Vtiger_Mass_Action {
 		}
 
 		$result = array();
-		foreach($newTags as $tagName) {
-			if(empty($tagName)) continue;
-			$tagModel = new Vtiger_Tag_Model();
-			$tagModel->set('tag', $tagName)->setType($newTagType);
-			$tagId = $tagModel->create();
-			array_push($existingTags, $tagId);
-			$result['new'][$tagId] = array('name'=> decode_html($tagName), 'type' => $newTagType);
+		try{
+			foreach($newTags as $tagName) {
+				if(empty($tagName)) continue;
+				$tagModel = new Vtiger_Tag_Model();
+				$tagModel->set('tag', $tagName)->setType($newTagType);
+
+				// throw an exception if the tag name is previously used.
+				$existingInstance = Vtiger_Tag_Model::getInstanceByName($tagModel->getName(), $userId);
+				if($existingInstance !== false){
+					throw new Exception(vtranslate("LBL_SAME_TAG_EXISTS", $module));
+				}
+
+				$tagId = $tagModel->create();
+				array_push($existingTags, $tagId);
+				$result['new'][$tagId] = array('name'=> decode_html($tagName), 'type' => $newTagType);
+			}
+		}catch(Exception $e){
+			$response = new Vtiger_Response();
+			$response->setError($e->getMessage());
+			$response->emit();
+			return;
 		}
 		$existingTags = array_unique($existingTags);
 
