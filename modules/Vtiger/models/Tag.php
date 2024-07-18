@@ -67,7 +67,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model {
 		$visibility = $this->getType();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$checkRes = $db->pquery("SELECT id FROM vtiger_freetags WHERE tag=?",array($this->getName()));
-		if($db->num_rows($checkRes) > 0 && $visibility == self::PUBLIC_TYPE) {
+		if($db->num_rows($checkRes) > 0 && $visibility !== self::PRIVATE_TYPE) {
 			$id = $db->query_result($checkRes, 0, 'id');
 		}else{
 			$id = $db->getUniqueId('vtiger_freetags');

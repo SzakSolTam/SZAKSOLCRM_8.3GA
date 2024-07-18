@@ -111,10 +111,13 @@ class Vtiger_TagCloud_Action extends Vtiger_Mass_Action {
 				$tagModel = new Vtiger_Tag_Model();
 				$tagModel->set('tag', $tagName)->setType($newTagType);
 
-				// throw an exception if the tag name is previously used.
-				$existingInstance = Vtiger_Tag_Model::getInstanceByName($tagModel->getName(), $userId);
-				if($existingInstance !== false){
-					throw new Exception(vtranslate("LBL_SAME_TAG_EXISTS", $module));
+				//handle name clash condition.
+				$existingInstances = Vtiger_Tag_Model::getAllUserTags($userId);
+				foreach($existingInstances as $instance){
+					if($instance->get('owner') == $userId && $instance->getName() == $tagModel->getName() ||
+					($instance->get('owner') !== $userId && $tagModel->getType() != Vtiger_Tag_Model::PRIVATE_TYPE)){
+						throw new Exception(vtranslate('LBL_SAME_TAG_EXISTS', $module));
+					}
 				}
 
 				$tagId = $tagModel->create();
