@@ -959,6 +959,13 @@ class CRMEntity {
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
+
+					// load picklist value with umlatus with explict decoding
+					// required for field-value strict check during save.
+					if ($fieldinfo["uitype"] == 15 || $fieldinfo["uitype"] == 16) {
+						$fieldvalue = decode_html($fieldvalue);
+					}
+
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
 				}
 			}
