@@ -1598,7 +1598,9 @@ class Vtiger_Functions {
         '_mfrom' => 'email',
         '_mto' => 'email',
         'sequencesList' => 'idlist',
-        'search_value' => 'keyword',
+		'search_value' => 'keyword',
+		'page' => 'number',
+		'limit'=> 'number',
     );
 
     /**
@@ -1640,6 +1642,8 @@ class Vtiger_Functions {
                     }
                 }
                 break;
+            case 'number': $ok = self::validateTypeNumber($value);
+                break;
         }
         return $ok;
     }
@@ -1652,6 +1656,10 @@ class Vtiger_Functions {
         if(!filter_var($mailaddress, FILTER_VALIDATE_EMAIL)) $ok = FALSE;
       }
       return $ok;
+    }
+
+    public static function validateTypeNumber($value) {
+        return filter_var($value, FILTER_VALIDATE_FLOAT) !== false;
     }
 
     /**
