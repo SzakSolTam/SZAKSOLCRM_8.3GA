@@ -98,12 +98,20 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 		}
 
 		$myiCal = new iCalendar;
+		$myiCal->add_property("prodid", "VTIGER-ICS"); // mandatory
 		$myiCal->add_component($timeZone);
 
 		while (!$result->EOF) {
 			$eventFields = $result->fields;
 			$id = $eventFields['activityid'];
 			$type = $eventFields['activitytype'];
+
+			// skip invalid data
+			if ($eventFields["date_start"] == "0000-00-00") {
+				$result->MoveNext();
+				continue;
+			}
+			
 			if($type != 'Task') {
 				$temp = $moduleModel->get('eventFields');
 				foreach($temp as $fieldName => $access) {
@@ -148,6 +156,8 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 				$iCalTask = new iCalendar_todo;
 				$iCalTask->assign_values($temp);
 			}
+
+			$iCalTask->add_property("uid", $id); // mandatory
 
 			$myiCal->add_component($iCalTask);
 			$result->MoveNext();
