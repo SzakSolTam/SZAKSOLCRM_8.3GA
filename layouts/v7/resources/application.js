@@ -568,3 +568,13 @@ if (jQuery.ajaxPrefilter) {
     }
   });
 }
+
+/**
+ * JSON override to handle empty string to null.
+ * When values are picked from DOM attribute it could be empty.
+ */
+_JSONParse = JSON.parse
+JSON.parse = function(value) {
+	if (value == '') return null;
+	return _JSONParse(value);
+}
