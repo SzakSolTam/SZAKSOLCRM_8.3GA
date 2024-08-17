@@ -1384,10 +1384,10 @@ class ReportRun extends CRMEntity {
 						} else if ($comparator == 'ny') {
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '' AND " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
-							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70' ||$fieldInfo['uitype'] == '55')){
+							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70'){ /* date and time */
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL)";
 							}
-							else {
+							else { /* text */
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
 							     }	
 						}elseif ($comparator == 'y' || ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == ''))) {
