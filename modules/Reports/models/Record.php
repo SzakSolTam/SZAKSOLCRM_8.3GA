@@ -1137,7 +1137,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$params = array($this->getName());
 
 		$record = $this->getId();
-		if ($record && !$this->get('isDuplicate')) {
+		if ($record && !filter_var($this->get('isDuplicate'), FILTER_VALIDATE_BOOL)) {
 			$query .= " AND reportid != ?";
 			array_push($params, $record);
 		}
