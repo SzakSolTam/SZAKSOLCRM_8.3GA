@@ -243,7 +243,10 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 					if (function_exists('mb_convert_encoding')) {
 						$folderName = mb_convert_encoding($folderName, "UTF7-IMAP", "UTF-8");
 					}
-					imap_append($connector->mBox, $connector->mBoxUrl.$folderName, $message, "\\Seen");
+					// propogate change to connected imap mailbox if valid.
+					if ($connector->mBox) {
+						imap_append($connector->mBox, $connector->mBoxUrl.$folderName, $message, "\\Seen");
+					}
 				}
 			}
 		}
