@@ -182,7 +182,7 @@
                     {if isset($RELATED_LOAD) && $RELATED_LOAD eq true}
                         <input type="hidden" name="related_load" value={$RELATED_LOAD} />
                     {/if}
-                    <input type="hidden" name="attachments" value="{if isset($ATTACHMENTS)}{ZEND_JSON::encode($ATTACHMENTS)}{/if}" />
+                    <input type="hidden" name="attachments" value="{if isset($ATTACHMENTS)}{ZEND_JSON::encode($ATTACHMENTS)}{else}null{/if}" />
                     <div id="emailTemplateWarningContent" style="display: none;">
                         {vtranslate('LBL_EMAILTEMPLATE_WARNING_CONTENT',$MODULE)}
                     </div>
