@@ -198,7 +198,7 @@ class CurrencyField {
      * @return Formatted Currency
      */
 	private function _formatCurrencyValue($value) {
-        if(empty($value)) {
+        if(empty($value) || !is_numeric($value)) {
             $value = 0;
         }
         $currencyPattern = $this->currencyFormat;
