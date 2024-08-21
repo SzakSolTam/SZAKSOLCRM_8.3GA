@@ -117,11 +117,18 @@ function vtws_getUserWebservicesGroups($tabId,$user){
 }
 
 function vtws_getIdComponents($elementid){
-	return explode("x",(string)$elementid);
+	$elementid = (string)$elementid;
+	if (!$elementid || !preg_match("/[0-9]+x[0-9]+/", $elementid)) {
+		throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Id specified is incorrect");
+	}
+	return explode("x",$elementid);
 }
 
 function vtws_getId($objId, $elemId){
 	if(is_array($elemId)){$elemId=implode(' ',$elemId);}
+	if(!is_numeric($objId) || !is_numeric($elemId)) {
+		throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Id specified is incorrect");
+	}
 	return $objId."x".$elemId;
 }
 
