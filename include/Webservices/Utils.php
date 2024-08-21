@@ -118,6 +118,7 @@ function vtws_getUserWebservicesGroups($tabId,$user){
 
 function vtws_getIdComponents($elementid){
 	$elementid = (string)$elementid;
+	if ($elementid && is_numeric($elementid)) return array($elementid); // during (UserId permission check)
 	if (!$elementid || !preg_match("/[0-9]+x[0-9]+/", $elementid)) {
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Id specified is incorrect");
 	}
