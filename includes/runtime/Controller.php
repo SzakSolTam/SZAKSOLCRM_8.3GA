@@ -201,7 +201,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			$viewer->assign('NO_EDIT', '');
 			$viewer->assign('SOURCE_MODULE', '');
 			$viewer->assign('OPERATOR', '');
-			$viewer->assign('LISTVIEW_COUNT', 0);
+			$viewer->assign('LISTVIEW_COUNT', '');
 			$viewer->assign('FOLDER_ID', 0);
 			$viewer->assign('FOLDER_VALUE', '');
 			$viewer->assign('VIEWTYPE', '');
