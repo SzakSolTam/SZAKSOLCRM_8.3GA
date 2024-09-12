@@ -830,7 +830,7 @@ function purifyHtmlEventAttributes($value,$replaceAll = false){
         $value = purifyJavascriptAlert($value);
 	
     } else {
-        if (preg_match("/\s*(" . $htmlEventAttributes . ")\s*=/i", $value)) {
+        if (preg_match("/b(alert|on\w+)\s*\([^)]*\)|\s*=/i", $value)) {
             $value = str_replace("=", "&equals;", $value);
         }
     }
@@ -1053,5 +1053,4 @@ function php7_htmlentities($str) {
 	// PHP 8.x marks as deprecated
 	return $str == null ? $str : htmlentities($str);
 }
-
 
