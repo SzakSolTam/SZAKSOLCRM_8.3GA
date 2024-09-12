@@ -822,15 +822,16 @@ function purifyHtmlEventAttributes($value,$replaceAll = false){
 	$value = Vtiger_Functions::stripInlineOffice365Image($value,true,$office365ImageMarkers);		
 	$tmp_markers = array_merge($tmp_markers, $office365ImageMarkers);
     // remove malicious html attributes with its value.
+	$pattern='/\b(alert|on\w+)\s*\([^)]*\)|\s*(?:on\w+)=(".*?"|\'.*?\'|[^\'">\s]+)\s*/';
     if ($replaceAll) {
-        $value = preg_replace('/\b(alert|on\w+)\s*\([^)]*\)|\s*(?:on\w+)=(".*?"|\'.*?\'|[^\'">\s]+)\s*/', '', $value);
+        $value = preg_replace($pattern, '', $value);
         //remove script tag with contents
         $value = purifyScript($value);
         //purify javascript alert from the tag contents
         $value = purifyJavascriptAlert($value);
 	
     } else {
-        if (preg_match("/\s*(" . $htmlEventAttributes . ")\s*=/i", $value)) {
+        if (preg_match($pattern, $value)) {
             $value = str_replace("=", "&equals;", $value);
         }
     }
@@ -1053,5 +1054,4 @@ function php7_htmlentities($str) {
 	// PHP 8.x marks as deprecated
 	return $str == null ? $str : htmlentities($str);
 }
-
 
