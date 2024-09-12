@@ -55,6 +55,7 @@ class Documents_List_View extends Vtiger_List_View {
 		 $tagParams = $request->get('tag_params');
 		$listHeaders = $request->get('list_headers', array());
 		$tag = $request->get('tag');
+		if (!is_numeric($tag)) $tag = "";
 		$requestViewName = $request->get('viewname');
 		$tagSessionKey = $moduleName.'_TAG';
 

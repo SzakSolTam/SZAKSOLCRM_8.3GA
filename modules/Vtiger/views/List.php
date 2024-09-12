@@ -48,6 +48,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 		}
 		$listHeaders = $request->get('list_headers', array());
 		$tag = $request->get('tag');
+		if (!is_numeric($tag)) $tag = "";
 
 		$listViewSessionKey = $moduleName.'_'.$cvId;
 		if(!empty($tag)) {
@@ -177,6 +178,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 			$starFilterMode = $request->get('starFilterMode');
 			$listHeaders = $request->get('list_headers', array());
 			$tag = $request->get('tag');
+			if (!is_numeric($tag)) $tag = "";
 			$requestViewName = $request->get('viewname');
 			$tagSessionKey = $moduleName.'_TAG';
                 
