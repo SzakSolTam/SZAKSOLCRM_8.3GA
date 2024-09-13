@@ -1591,7 +1591,8 @@ class Vtiger_Functions {
      * Request parameters and it's type.
      * @var type
      */
-    protected static $type = array(
+	protected static $type = array(
+	'module' => 'name',
 	'record' => 'id',
 	'src_record' => 'id',
 	'parent_id' => 'keyword', // id or ref-label in filter
@@ -1628,6 +1629,8 @@ class Vtiger_Functions {
 		switch ($type) {
 			/* restricted set of (number / wsid / uuid format) for id */
             case 'id' : $ok = (preg_match('/[^0-9xa-zA-Z\-]/', $value)) ? false : $ok;
+				break;
+            case 'name': $ok = preg_match('/[^a-zA-Z0-9]+/', $value) ? false : $ok;
                 break;
             case 'email' : $ok = self::validateTypeEmail($value);
                 break;
