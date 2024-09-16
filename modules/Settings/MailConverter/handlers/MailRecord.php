@@ -167,7 +167,7 @@ class Vtiger_MailRecord {
 		preg_match_all('/=\?([^\?]+)\?([^\?]+)\?([^\?]+)\?=/', $input, $matches);
                 if($matches) array_filter($matches);
                 if(php7_count($matches[0])>0){
-                $decodedArray=  imap_mime_header_decode($input);
+                $decodedArray=  imapv_mime_header_decode($input);
                 foreach($decodedArray as $part=>$prop){
                             $decodevalue=$prop->text;
                             $charset=$prop->charset;
@@ -194,8 +194,8 @@ class Vtiger_MailRecord {
 			$encoded = true;
 		} else {
 			$returnvalue = self::__convert_encoding($input, $charset);
-			if(function_exists('imap_qprint')) {
-				$returnvalue = imap_qprint($returnvalue);
+			if(function_exists('imapv_qprint')) {
+				$returnvalue = imapv_qprint($returnvalue);
 				$encoded = true;
 			} else {
 				// TODO: Handle case when imap_qprint is not available.
@@ -215,7 +215,7 @@ class Vtiger_MailRecord {
 		$this->_from = Array();
 		$this->_to = Array();
 
-		$mailheader = imap_headerinfo($imap, $messageid);
+		$mailheader = imapv_headerinfo($imap, $messageid);
 
 		$this->_uniqueid = $mailheader->message_id;
 
@@ -233,7 +233,7 @@ class Vtiger_MailRecord {
 	}
 	// Modified: http://in2.php.net/manual/en/function.imap-fetchstructure.php#85685
 	function __parseBody($imap, $messageid) {
-		$structure = imap_fetchstructure($imap, $messageid);
+		$structure = imapv_fetchstructure($imap, $messageid);
 
 		$this->_plainmessage = '';
 		$this->_htmlmessage = '';
@@ -280,8 +280,8 @@ class Vtiger_MailRecord {
     	
 	    // DECODE DATA
     	$data = ($partno)? 
-			imap_fetchbody($imap,$messageid,$partno):  // multipart
-			imap_body($imap,$messageid);               // not multipart
+			imapv_fetchbody($imap,$messageid,$partno):  // multipart
+			imapv_body($imap,$messageid);               // not multipart
 	
 		// Any part may be encoded, even plain text messages, so check everything.
     	if ($p->encoding==4) $data = quoted_printable_decode($data);

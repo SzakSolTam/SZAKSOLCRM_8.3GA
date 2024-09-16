@@ -11,6 +11,7 @@
 
 require_once('modules/Settings/MailConverter/handlers/MailScannerInfo.php');
 require_once('modules/Settings/MailConverter/handlers/MailRecord.php');
+require_once('vtlib/Vtiger/Mail/Imap.php');
 
 /**
  * Class to work with server mailbox.
@@ -81,7 +82,7 @@ class Vtiger_MailBox {
 			$connecturl = $mailboxsettings['connecturl'];
 			if($mailboxsettings['readonly']) $connecturl = str_replace("}", "/readonly}", $connecturl);
 			$this->log("Trying to connect using connecturl $connecturl$folder", true);
-			$imap = @imap_open("$connecturl$folder", $mailboxsettings['username'], $mailboxsettings['password']);
+			$imap = @imapv_open("$connecturl$folder", $mailboxsettings['username'], $mailboxsettings['password']);
 			if($imap) {
 				$this->_imapurl = $connecturl;
 				$this->_imapfolder = $folder;
@@ -96,9 +97,9 @@ class Vtiger_MailBox {
 			$connectStringShort = '{'. $mailboxsettings['server'].'/'.$mailboxsettings['protocol'].':'.$mailboxsettings['port'] .$mailboxsettings['readonly'] ."}";
 
 			$this->log("Trying to connect using $connectString$folder", true);
-			if(!$imap = @imap_open("$connectString$folder", $mailboxsettings["username"], $mailboxsettings["password"])) {
+			if(!$imap = @imapv_open("$connectString$folder", $mailboxsettings["username"], $mailboxsettings["password"])) {
 				$this->log("Connect failed using $connectString$folder, trying with $connectStringShort$folder...", true);
-				$imap = @imap_open("$connectStringShort$folder", $mailboxsettings["username"], $mailboxsettings["password"]);
+				$imap = @imapv_open("$connectStringShort$folder", $mailboxsettings["username"], $mailboxsettings["password"]);
 				if($imap) {
 					$this->_imapurl = $connectStringShort;
 					$this->_imapfolder = $folder;
@@ -136,7 +137,7 @@ class Vtiger_MailBox {
 		$isconnected = false;
 		$connectString = $this->_imapurl;
 		$this->log("Trying to open folder using $connectString$folder");
-		$imap = @imap_open("$connectString$folder", $mailboxsettings["username"], $mailboxsettings["password"]);
+		$imap = @imapv_open("$connectString$folder", $mailboxsettings["username"], $mailboxsettings["password"]);
 		if($imap) {
 
 			// Perform cleanup task before re-initializing the connection
@@ -172,7 +173,7 @@ class Vtiger_MailBox {
 		}
 		if($this->open($folder)) {
 			$this->log("Searching mailbox[$folder] using query: $searchQuery");
-			return imap_search($this->_imap, $searchQuery);
+			return imapv_search($this->_imap, $searchQuery);
 		}
 		return false;
 	}
@@ -183,14 +184,14 @@ class Vtiger_MailBox {
 	function getFolders() {
 		$folders = false;
 		if($this->_imap) {
-			$imapfolders = imap_list($this->_imap, $this->_imapurl, '*');
+			$imapfolders = imapv_list($this->_imap, $this->_imapurl, '*');
 			if($imapfolders) {
 				foreach($imapfolders as $imapfolder) {
 					if(!is_array($folders)) $folders = [];
 					$folders[] = substr($imapfolder, strlen($this->_imapurl));
 				}
 			} else {
-                            return imap_last_error();
+                            return imapv_last_error();
                         }
 		}
 		return $folders;
@@ -213,9 +214,9 @@ class Vtiger_MailBox {
 		if ($this->_imap && $markas) {
 		    if (strtoupper($markas) == 'SEEN') {
 				$markas = "\\Seen";
-				imap_setflag_full($this->_imap, $messageid, $markas);
+				imapv_setflag_full($this->_imap, $messageid, $markas);
 		    } else if (strtoupper($markas) == 'UNSEEN') {
-				imap_clearflag_full($this->_imap, $messageid, "\\Seen");
+				imapv_clearflag_full($this->_imap, $messageid, "\\Seen");
 		    }
 		}
 	}
@@ -225,11 +226,11 @@ class Vtiger_MailBox {
 	 */
 	function close() {
 		if($this->_needExpunge) {
-			imap_expunge($this->_imap);
+			imapv_expunge($this->_imap);
 		}
 		$this->_needExpunge = false;
 		if($this->_imap) {
-			imap_close($this->_imap);
+			imapv_close($this->_imap);
 			$this->_imap = false;
 		}
 	}
