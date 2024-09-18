@@ -22,6 +22,13 @@ Settings_Vtiger_Index_Js('Settings_MailConverter_Edit_Js', {
 		form.submit(function (e) {
 			e.preventDefault();
 		});
+
+		jQuery('[name="server"]', form).on('blur', function(ev){
+			if (((this.value||"").toLowerCase()).indexOf("imap.gmail.com") != -1) {
+				// TODO disable submit and clear button
+				location.href = "oauth2callback/index.php?authfor=MailConverter&authservice=Google"
+			}
+		});
 	},
 
 	saveMailBox: function (form) {

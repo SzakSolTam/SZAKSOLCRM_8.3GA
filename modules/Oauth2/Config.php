@@ -8,13 +8,24 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-class Oauth2_Config {
+class Oauth2_Config implements ArrayAccess {
 
     protected $data;
 
     protected function __construct($data) {
         $this->data = $data;
     }
+
+    public function offsetExists($key) {
+        return isset($this->data[$key]);
+    }
+
+    public function offsetGet($key) {
+        return isset($this->data[$key])? $this->data[$key] : null;
+    }
+
+    public function offsetSet($key, $value) {}
+    public function offsetUnset($key) {}
 
     protected function initProviderConfig($config, $forprovider) {
         global $site_URL;

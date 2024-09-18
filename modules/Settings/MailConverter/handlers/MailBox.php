@@ -95,6 +95,13 @@ class Vtiger_MailBox {
 			$connectString = '{'. $mailboxsettings['server'].':'.$mailboxsettings['port'].'/'.$mailboxsettings['protocol'].'/'.$mailboxsettings['ssltype'].'/'.$mailboxsettings['sslmethod'] .$mailboxsettings['readonly'] ."}";
 			$connectStringShort = '{'. $mailboxsettings['server'].'/'.$mailboxsettings['protocol'].':'.$mailboxsettings['port'] .$mailboxsettings['readonly'] ."}";
 
+			if ($mailboxsettings['authtype'] == 'XOAUTH2' && $mailboxsettings['mailproxy']) {
+				$connectString = sprintf("{%s/notls/novalidate-cert}", $mailboxsettings['mailproxy']);
+				$connectStringShort = $connectString;
+				$tokens = json_decode($mailboxsettings["password"], true);
+				$mailboxsettings["password"] = $tokens["access_token"];
+			}
+
 			$this->log("Trying to connect using $connectString$folder", true);
 			if(!$imap = @imap_open("$connectString$folder", $mailboxsettings["username"], $mailboxsettings["password"])) {
 				$this->log("Connect failed using $connectString$folder, trying with $connectStringShort$folder...", true);

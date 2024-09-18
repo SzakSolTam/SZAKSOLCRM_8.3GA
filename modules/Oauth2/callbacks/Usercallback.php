@@ -52,6 +52,9 @@ class Oauth2_Usercallback_Callbacks {
             case "OutgoingServer":
                 static::ensureLogin(true);
                 break;
+            case "MailConverter":
+                static::ensureLogin(true);
+                break;
             case "MailManager":
                 static::ensureLogin();
                 break;
@@ -61,12 +64,12 @@ class Oauth2_Usercallback_Callbacks {
         }
 
         $authsvc = (isset($req['authservice'])) ? $req['authservice'] : (isset($_SESSION['oauth2svc']) ? $_SESSION['oauth2svc'] : "");
-        if (!isset($config[$authsvc])) {
+        $authcfg = $config->getProviderConfig($authsvc);
+        if (!$authcfg) {
             echo "Unknown service provider";
             exit;
         }
         
-        $authcfg = $config->getProviderConfig($authsvc);
         if (empty($authcfg["clientId"]) || empty($authcfg["clientSecret"])) {
             echo "Please setup configuration.";
             exit;
@@ -106,7 +109,7 @@ class Oauth2_Usercallback_Callbacks {
                 $accessTokenValue = $accessToken->getToken();
                 $refreshTokenValue = $accessToken->getRefreshToken();
                 $accessTokenExpiresOn = $accessToken->getExpires();
-                
+               
                 $resourceOwner = $provider->getResourceOwner($accessToken);
                 $userinfo = $resourceOwner ? $resourceOwner->toArray() : null;
 
@@ -129,6 +132,9 @@ class Oauth2_Usercallback_Callbacks {
                 switch ($oauth2for) {
                     case "OutgoingServer":
                         header("Location: {$crmBaseUrl}/index.php?parent=Settings&module=Vtiger&view=OutgoingServerDetail");
+                        break;
+                    case "MailConverter":
+                        header("Location: {$crmBaseUrl}/index.php?parent=Settings&module=MailConverter&view=List");
                         break;
                     case "MailManager":
                         header("Location: {$crmBaseUrl}/index.php?module=MailManager&view=List");
@@ -189,6 +195,29 @@ class Oauth2_Usercallback_Callbacks {
                     )
                 );
             }
+        } else if ($oauth2for == "MailConverter") {
+            require_once "modules/Settings/MailConverter/handlers/MailScannerInfo.php";
+
+            $server = strcasecmp($oauth2svc, "Google") === 0? "imap.gmail.com" : "";
+            $proxy  = $server && isset($config["Proxies"]) && isset($config["Proxies"][$server])? $config["Proxies"][$server] : "";
+
+            $scanner = new Vtiger_MailScannerInfo(sprintf("%f",microtime(true)));
+            $scanner->scannername = $server;
+            $scanner->server = $server;
+            $scanner->protocol = "imap4";
+            $scanner->authtype = "XOAUTH2";
+            $scanner->authexpireson = $expireson;
+            $scanner->mailproxy = $proxy;
+            $scanner->username = $userinfo["email"];
+            $scanner->password = json_encode($tokens);
+            $scanner->ssltype  = "ssl";
+            $scanner->sslmethod = "validate-cert";
+            $scanner->isvalid = 1;
+
+            $oldscanner = new Vtiger_MailScannerInfo($scanner->scannername, true);
+            $oldscanner->update($scanner);
+
+
         } else if ($oauth2for == "MailManager") {
 
             require_once "modules/MailManager/models/Mailbox.php";

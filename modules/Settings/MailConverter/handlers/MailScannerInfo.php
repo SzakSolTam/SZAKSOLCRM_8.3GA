@@ -30,6 +30,13 @@ class Vtiger_MailScannerInfo {
 	var $ssltype   = false;
 	// validate-certificate or novalidate-certificate
 	var $sslmethod = false;
+	// auth-type (LOGIN,XOAUTH2)
+	var $authtype  = false;
+	// auth expireson
+	var $authexpireson = 0;
+	// use mailproxy
+	var $mailproxy = false;
+
 	// last successful connection url to use
 	var $connecturl= false;
 	// search for type
@@ -88,6 +95,9 @@ class Vtiger_MailScannerInfo {
 			$this->password   = $this->__crypt($this->password, false);
 			$this->ssltype    = $adb->query_result($result, 0, 'ssltype');
 			$this->sslmethod  = $adb->query_result($result, 0, 'sslmethod');
+			$this->authtype  = $adb->query_result($result, 0, 'auth_type');
+			$this->authexpireson  = $adb->query_result($result, 0, 'auth_expireson');
+			$this->mailproxy  = $adb->query_result($result, 0, 'mail_proxy');
 			$this->connecturl = $adb->query_result($result, 0, 'connecturl');
 			$this->searchfor  = $adb->query_result($result, 0, 'searchfor');
 			$this->markas     = $adb->query_result($result, 0, 'markas');
@@ -305,7 +315,7 @@ class Vtiger_MailScannerInfo {
 	function getAsMap() {
 		$infomap = Array();
 		$keys = Array('scannerid', 'scannername', 'server', 'protocol', 'username', 'password', 'ssltype',
-			'sslmethod', 'connecturl', 'searchfor', 'markas', 'isvalid', 'time_zone', 'rules');
+			'sslmethod', 'authtype', 'authexpireson', 'mailproxy', 'connecturl', 'searchfor', 'markas', 'isvalid', 'time_zone', 'rules');
 		foreach($keys as $key) {
 			$infomap[$key] = $this->$key;
 		}
@@ -317,7 +327,7 @@ class Vtiger_MailScannerInfo {
 	 * Compare this instance with give instance
 	 */
 	function compare($otherInstance) {
-		$checkkeys = Array('server', 'scannername', 'protocol', 'username', 'password', 'ssltype', 'sslmethod', 'searchfor', 'markas');
+		$checkkeys = Array('server', 'scannername', 'protocol', 'username', 'password', 'ssltype', 'sslmethod', 'authtype', 'authexpireson', 'mailproxy', 'searchfor', 'markas');
 		foreach($checkkeys as $key) {
 			if($this->$key != $otherInstance->$key) return false;
 		}
@@ -344,6 +354,9 @@ class Vtiger_MailScannerInfo {
 		$this->password  = $otherInstance->password;
 		$this->ssltype   = $otherInstance->ssltype;
 		$this->sslmethod = $otherInstance->sslmethod;
+		$this->authtype  = $otherInstance->authtype;
+		$this->authexpireson = $otherInstance->authexpireson;
+		$this->mailproxy = $otherInstance->mailproxy;
 		$this->connecturl= $otherInstance->connecturl;
 		$this->searchfor = $otherInstance->searchfor;
 		$this->markas    = $otherInstance->markas;
@@ -357,15 +370,17 @@ class Vtiger_MailScannerInfo {
 		global $adb;
 		if($this->scannerid == false) {
             $adb->pquery("INSERT INTO vtiger_mailscanner(scannername,server,protocol,username,password,ssltype,
-				sslmethod,connecturl,searchfor,markas,isvalid,time_zone) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+				sslmethod,auth_type,auth_expireson,mail_proxy,connecturl,searchfor,markas,isvalid,time_zone) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 				Array($this->scannername,$this->server, $this->protocol, $this->username, $usepassword,
-				$this->ssltype, $this->sslmethod, $this->connecturl, $this->searchfor, $this->markas, $useisvalid, $this->time_zone));
+				$this->ssltype, $this->sslmethod, $this->authtype, $this->authexpireson, $this->mailproxy,
+				$this->connecturl, $this->searchfor, $this->markas, $useisvalid, $this->time_zone));
 			$this->scannerid = $adb->database->Insert_ID();
         } else { //this record is exist in the data
 			$adb->pquery("UPDATE vtiger_mailscanner SET scannername=?,server=?,protocol=?,username=?,password=?,ssltype=?,
-				sslmethod=?,connecturl=?,searchfor=?,markas=?,isvalid=?, time_zone=? WHERE scannerid=?",
+				sslmethod=?,auth_type=?,auth_expireson=?,mail_proxy=?,connecturl=?,searchfor=?,markas=?,isvalid=?, time_zone=? WHERE scannerid=?",
 				Array($this->scannername,$this->server,$this->protocol, $this->username, $usepassword, $this->ssltype,
-				$this->sslmethod, $this->connecturl,$this->searchfor, $this->markas,$useisvalid, $this->time_zone, $this->scannerid));
+				$this->sslmethod, $this->authtype, $this->authexpireson, $this->mailproxy,
+				$this->connecturl,$this->searchfor, $this->markas,$useisvalid, $this->time_zone, $this->scannerid));
         }
 
 		return $mailServerChanged;
