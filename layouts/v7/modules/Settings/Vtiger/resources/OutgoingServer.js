@@ -170,15 +170,9 @@ Vtiger.Class("Settings_Vtiger_OutgoingServer_Js",{},{
             form.find('[name="serverType"]').on('change',function(e){
                 
                 var servertypevalue=form.find('[name="serverType"]').val();
-				form.find('[name="server"]').val(servertypevalue);
-                
-                if(servertypevalue === "mail.od1.vtiger.com"){
-                   var vtigerUser= form.find('[name="vtigerServer"]').data("username");
-                   var vtigerpassword= form.find('[name="vtigerServer"]').data("password");
-                   var vtigeremail= form.find('[name="vtigerServer"]').data("email");
-                    form.find('[name="server_username"]').val(vtigerUser);
-                    form.find('[name="server_password"]').val(vtigerpassword);
-                    form.find('[name="from_email_field"]').val(vtigeremail);
+				              
+                if(servertypevalue === "google-oauth2"){
+                   window.location.href = "oauth2callback/index.php?authfor=OutgoingServer&authservice=Google";
                 }else{
 					form.find('[name="server_username"]').val("");
 					form.find('[name="server_password"]').val("");

@@ -43,7 +43,9 @@
 										<div class=" col-lg-6 col-md-6 col-sm-12">
 											<select class="select2 inputElement col-lg-12 col-md-12 col-lg-12" name="serverType">
 												<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
-												<option value="{"ssl://smtp.gmail.com:465"}" {if {$MODEL->get('server')} eq "ssl://smtp.gmail.com:465"} selected {/if}>{vtranslate('LBL_GMAIL', $QUALIFIED_MODULE)} </option>
+												<option value="google-oauth2" {if {$MODEL->get('server')} eq "ssl://smtp.gmail.com:465" and {$MODEL->get('smtp_auth_type')} eq "XOAUTH2"} selected {/if}>{vtranslate('LBL_GMAIL', $QUALIFIED_MODULE)} OAuth2</option>
+												{* Google disabled Password based from Sep 30, 2024 *}
+												{* <option value="{"ssl://smtp.gmail.com:465"}" {if {$MODEL->get('server')} eq "ssl://smtp.gmail.com:465" and {$MODEL->get('smtp_auth_type')} neq "XOAUTH2"} selected {/if}>{vtranslate('LBL_GMAIL', $QUALIFIED_MODULE)}</option> *}
 												<option value="{"smtp.live.com"}" {if {$MODEL->get('server')} eq "smtp.live.com"} selected {/if}>{vtranslate('LBL_HOTMAIL', $QUALIFIED_MODULE)}</option>
 												<option value="{"smtp-mail.outlook.com"}" {if {$MODEL->get('server')} eq "smtp.live.com"} selected {/if}>{vtranslate('LBL_OFFICE365', $QUALIFIED_MODULE)}</option>
 												<option value="{"smtp.mail.yahoo.com"}" {if {$MODEL->get('server')} eq "smtp.mail.yahoo.com"} selected {/if}>{vtranslate('LBL_YAHOO', $QUALIFIED_MODULE)}</option>

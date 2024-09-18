@@ -27,14 +27,16 @@
                                 <td class="fieldValue">
                                     <select id="serverType" class="select2 col-lg-9">
                                         <option></option>
-                                        <option value='gmail' {if $SERVERNAME eq 'gmail'} selected {/if}>{vtranslate('JSLBL_Gmail',$MODULE)}</option>
+                                        <option value='google-oauth2' {if $SERVERNAME eq 'gmail' && $AUTHTYPE eq 'XOAUTH2'} selected {/if}>{vtranslate('JSLBL_Gmail',$MODULE)} OAuth2</option>
+                                        {* Google stopped IMAP with password from Sep 30, 2024 *}
+                                        {* <option value='gmail' {if $SERVERNAME eq 'gmail'} selected {/if}>{vtranslate('JSLBL_Gmail',$MODULE)}</option> *}
                                         <option value='yahoo' {if $SERVERNAME eq 'yahoo'} selected {/if}>{vtranslate('JSLBL_Yahoo',$MODULE)}</option>
                                         <option value='fastmail' {if $SERVERNAME eq 'fastmail'} selected {/if}>{vtranslate('JSLBL_Fastmail',$MODULE)}</option>
                                         <option value='other' {if $SERVERNAME eq 'other'} selected {/if}>{vtranslate('JSLBL_Other',$MODULE)}</option>
                                     </select>
                                 </td>
                             </tr>
-                            <tr class="settings_details {if $SERVERNAME eq ''}hide{/if}">
+                            <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
                                     <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Mail_Server',$MODULE)}</label>
                                 </td>
@@ -42,7 +44,7 @@
                                     <input name="_mbox_server" id="_mbox_server" class="inputElement width75per" value="{$MAILBOX->server()}" type="text" placeholder="mail.company.com or 192.168.X.X">
                                 </td>
                             </tr>
-                            <tr class="settings_details {if $SERVERNAME eq ''}hide{/if}">
+                            <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
                                     <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Username',$MODULE)}</label>
                                 </td>
@@ -50,7 +52,7 @@
                                     <input name="_mbox_user" class="inputElement width75per" id="_mbox_user" value="{$MAILBOX->username()}" type="text" placeholder="{vtranslate('LBL_Your_Mailbox_Account',$MODULE)}">
                                 </td>
                             </tr>
-                            <tr class="settings_details {if $SERVERNAME eq ''}hide{/if}">
+                            <tr class="settings_details {if $SERVERNAME eq '' || $AUTHTYPE eq 'XOAUTH2'}hide{/if}">
                                 <td class="fieldLabel width40per">
                                     <label class="pull-right detailViewButtoncontainer"><font color="red">*</font> {vtranslate('LBL_Password',$MODULE)}</label>
                                 </td>

@@ -7,19 +7,32 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-require_once('modules/Emails/class.smtp.php');
-require_once('modules/Emails/class.phpmailer.php');
+// require_once('modules/Emails/class.smtp.php');
+// require_once('modules/Emails/class.phpmailer.php');
 include_once('include/utils/CommonUtils.php');
 include_once('config.inc.php');
 include_once('include/database/PearDatabase.php');
 include_once('vtlib/Vtiger/Utils.php');
 include_once('vtlib/Vtiger/Event.php');
 
+class Vtiger_Mailer_xOauth2Provider implements \PHPMailer\PHPMailer\OAuthTokenProvider {
+	protected $email;
+	protected $token;
+	function __construct($email, $token) {
+		$this->email = $email;
+		$this->token = $token;
+	}
+    function getOauth64() {
+        return 
+            base64_encode("user=".$this->email."\1auth=Bearer ".$this->token."\1\1");
+    }
+}
+
 /**
  * Provides API to work with PHPMailer & Email Templates
  * @package vtlib
  */
-class Vtiger_Mailer extends PHPMailer {
+class Vtiger_Mailer extends \PHPMailer\PHPMailer\PHPMailer {
 
 	var $_serverConfigured = false;
 
@@ -57,6 +70,7 @@ class Vtiger_Mailer extends PHPMailer {
 			$this->Username = decode_html($adb->query_result($result, 0, 'server_username'));
 			$this->Password = Vtiger_Functions::fromProtectedText(decode_html($adb->query_result($result, 0, 'server_password')));
 			$this->SMTPAuth = $adb->query_result($result, 0, 'smtp_auth');
+			$SMTPAuthType = $adb->query_result($result, 0, 'smtp_auth_type'); // prasad
 
 			// To support TLS
 			$hostinfo = explode("://", $this->Host);
@@ -68,6 +82,14 @@ class Vtiger_Mailer extends PHPMailer {
 			// End
 
 			if(empty($this->SMTPAuth)) $this->SMTPAuth = false;
+
+			// XOAUTH2
+			if($this->SMTPAuth && $SMTPAuthType == "XOAUTH2") {
+				$this->AuthType = "XOAUTH2";
+				$this->SMTPAuth = true;
+				$tokens = json_decode($this->Password, true);
+				$this->setOAuth(new Vtiger_Mailer_xOauth2Provider($this->Username, $tokens["access_token"]));
+			}
 
 			$this->ConfigSenderInfo($adb->query_result($result, 0, 'from_email_field'));
 

@@ -31,6 +31,7 @@ class MailManager_Settings_View extends MailManager_MainUI_View {
 			$viewer->assign('MODULE', $module);
 			$viewer->assign('MAILBOX', $model);
 			$viewer->assign('SERVERNAME', $serverName);
+			$viewer->assign('AUTHTYPE', $model->authtype());
             $viewer->assign('FOLDERS', $folders);
 			$response->setResult($viewer->view('SettingsEdit.tpl', $module, true));
 

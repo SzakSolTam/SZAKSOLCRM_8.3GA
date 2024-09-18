@@ -9,8 +9,8 @@
  *
  ********************************************************************************/
 
-require_once('modules/Emails/class.smtp.php');
-require_once("modules/Emails/class.phpmailer.php");
+// require_once('modules/Emails/class.smtp.php');
+// require_once("modules/Emails/class.phpmailer.php");
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/VTCacheUtils.php';
 
@@ -280,6 +280,8 @@ function setMailServerProperties($mail)
 	$adb->println("Inside the function setMailServerProperties");
 
 	$res = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
+	$resok = $adb->num_rows($res);
+
 	if(isset($_REQUEST['server'])) {
 		$server = $_REQUEST['server'];
 	} else if(!isset($_REQUEST['server'])) {
@@ -327,6 +329,33 @@ function setMailServerProperties($mail)
     $mail->Host = $server;		// specify main and backup server
 	$mail->Username = $username ;	// SMTP username
     $mail->Password = Vtiger_Functions::fromProtectedText($password);	// SMTP password
+
+	$smtp_auth_type = $resok ? $adb->query_result($res, 0, 'smtp_auth_type') : null;
+
+	if ($smtp_auth_type == "XOAUTH2") {
+
+		if (!class_exists("PHPMailerXOAuth2TokenProvider")) {
+			class PHPMailerXOAuth2TokenProvider implements \PHPMailer\PHPMailer\OAuthTokenProvider {
+				protected $email;
+				protected $token;
+				function __construct($email, $token) {
+					$this->email = $email;
+					$this->token = $token;
+				}
+				function getOauth64() {
+					return base64_encode("user={$this->email}\001auth=Bearer {$this->token}\001\001");
+				}
+			}
+		}
+
+		$mail->AuthType = "XOAUTH2";
+		$tokens = json_decode($mail->Password, true);
+		$mail->setOAuth(new PHPMailerXOAuth2TokenProvider($mail->Username, $tokens["access_token"]));
+
+		$mail->Username = '';
+		$mail->Password = '';
+	}
+
 
     // To Support TLS
     $serverinfo = explode("://", $server);

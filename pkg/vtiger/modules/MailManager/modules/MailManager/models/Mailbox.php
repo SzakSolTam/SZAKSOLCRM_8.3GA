@@ -20,6 +20,9 @@ class MailManager_Mailbox_Model {
 	protected $mId;
 	protected $mServerName;
     protected $mFolder;
+	protected $mAuthType;
+	protected $mAuthExpiresOn;
+	protected $mProxy;
 
 	public function exists() {
 		return !empty($this->mId);
@@ -85,6 +88,30 @@ class MailManager_Mailbox_Model {
 		$this->mSSLType = trim($ssltype);
 	}
 
+	public function authtype() {
+		return $this->mAuthType;
+	}
+
+	public function setAuthType($authType) {
+		$this->mAuthType = $authType;
+	}
+
+	public function authexpireson() {
+		return $this->mAuthExpiresOn;
+	}
+
+	public function setAuthExpiresOn($expireson) {
+		$this->mAuthExpiresOn = $expireson;
+	}
+
+	public function mailproxy() {
+		return $this->mProxy;
+	}
+
+	public function setMailProxy($mproxy) {
+		$this->mProxy = $mproxy;
+	}
+
 	public function certvalidate() {
 		return $this->mCertValidate;
 	}
@@ -126,13 +153,13 @@ class MailManager_Mailbox_Model {
 		$isUpdate = !empty($this->mId);
 
 		$sql = "";
-		$parameters = array($this->username(), $this->server(), $this->username(), $this->password(false), $this->protocol(), $this->ssltype(), $this->certvalidate(), $this->refreshTimeOut(),$this->folder(), $currentUserModel->getId());
+		$parameters = array($this->username(), $this->server(), $this->username(), $this->password(false), $this->protocol(), $this->ssltype(), $this->certvalidate(), $this->refreshTimeOut(),$this->folder(), $this->authtype(), $this->authexpireson(), $this->mailproxy(), $currentUserModel->getId());
 
 		if ($isUpdate) {
-			$sql = "UPDATE vtiger_mail_accounts SET display_name=?, mail_servername=?, mail_username=?, mail_password=?, mail_protocol=?, ssltype=?, sslmeth=?, box_refresh=?, sent_folder=? WHERE user_id=? AND account_id=?";
+			$sql = "UPDATE vtiger_mail_accounts SET display_name=?, mail_servername=?, mail_username=?, mail_password=?, mail_protocol=?, ssltype=?, sslmeth=?, box_refresh=?, sent_folder=?, auth_type = ?, auth_expireson = ?, mail_proxy = ? WHERE user_id=? AND account_id=?";
 			$parameters[] = $this->mId;
 		} else {
-			$sql = "INSERT INTO vtiger_mail_accounts(display_name, mail_servername, mail_username, mail_password, mail_protocol, ssltype, sslmeth, box_refresh,sent_folder, user_id, mails_per_page, account_name, status, set_default, account_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			$sql = "INSERT INTO vtiger_mail_accounts(display_name, mail_servername, mail_username, mail_password, mail_protocol, ssltype, sslmeth, box_refresh,sent_folder, auth_type, auth_expireson, mail_proxy, user_id, mails_per_page, account_name, status, set_default, account_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$parameters[] = vglobal('list_max_entries_per_page'); // Number of emails per page
 			$parameters[] = $this->username();
 			$parameters[] = 1; // Status
@@ -161,6 +188,9 @@ class MailManager_Mailbox_Model {
 			$instance->mCertValidate = trim($db->query_result($result, 0, 'sslmeth'));
 			$instance->mId = trim($db->query_result($result, 0, 'account_id'));
 			$instance->mRefreshTimeOut = trim($db->query_result($result, 0, 'box_refresh'));
+			$instance->mAuthType = trim($db->query_result($result, 0, 'auth_type'));
+			$instance->mAuthExpiresOn = $db->query_result($result, 0, 'auth_expireson');
+			$instance->mProxy = trim($db->query_result($result, 0, 'mail_proxy'));
             $instance->mFolder = trim($db->query_result($result, 0, 'sent_folder'));
 			$instance->mServerName = self::setServerName($instance->mServer);
 		}

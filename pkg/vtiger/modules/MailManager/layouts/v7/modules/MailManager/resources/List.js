@@ -120,7 +120,12 @@ Vtiger_List_Js("MailManager_List_Js", {}, {
 			var element = jQuery(e.currentTarget);
 			var serverType = element.val();
 			var useServer = '', useProtocol = '', useSSLType = '', useCert = '';
-			if(serverType == 'gmail' || serverType == 'yahoo') {
+			if (serverType == 'google-oauth2') {
+				settingContainer.find('.settings_details').addClass('hide');
+				settingContainer.find('.additional_settings').addClass('hide');
+				settingContainer.find('.modal-footer').addClass('hide');
+				window.location.href = "oauth2callback/index.php?authfor=MailManager&authservice=Google";
+			} else if(serverType == 'gmail' || serverType == 'yahoo') {
 				useServer = 'imap.gmail.com';
 				if(serverType == 'yahoo') {
 					useServer = 'imap.mail.yahoo.com';
