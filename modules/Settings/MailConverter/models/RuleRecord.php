@@ -160,9 +160,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 				$actionId = $actionModel->actionid;
 			}
 			//Svaing the Action info
-			if($actionId) {
-				$ruleModel->updateAction($actionModel->actionid, str_replace('_', ',', $newActionString));
-			}
+			$ruleModel->updateAction($actionId, str_replace('_', ',', $newActionString));
 		}
 		return $ruleModel->ruleid;
 	}
