@@ -90,7 +90,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$recordInstance = parent::getRecordFromArray($valueArray, $rawData);
 		$recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 		// added to fix picklist colorizer issue, list page not showing color for records
-		if ($rawData['status'] && empty($rawData['taskstatus'])) {
+		if (isset($rawData['status']) && $rawData['status'] && empty($rawData['taskstatus'])) {
 			$recordInstance->rawData['taskstatus'] = $recordInstance->rawData['status'];
 		}
 

@@ -40,7 +40,7 @@ class Mobile_WS_SaveRecord extends Mobile_WS_FetchRecordWithGrouping {
 			return $response;
 		}
 		try {
-			if (vtws_recordExists($recordid)) {
+			if (empty($recordid) || vtws_recordExists($recordid)) {
 				// Retrieve or Initalize
                 if (!empty($recordid) && !$this->isTemplateRecordRequest($request)) {
 					$this->recordValues = vtws_retrieve($recordid, $current_user);

@@ -18,6 +18,7 @@ require_once 'config.php';
 if (file_exists('config_override.php')) {
     include_once 'config_override.php';
 }
+require_once 'vendor/autoload.php';
 
 // Define GetRelatedList API before including the core files
 // NOTE: Make sure GetRelatedList function_exists check is made in include/utils/RelatedListView.php

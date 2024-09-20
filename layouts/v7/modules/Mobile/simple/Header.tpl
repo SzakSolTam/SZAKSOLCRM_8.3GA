@@ -18,7 +18,7 @@
 		<!--link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"-->
 
 		{* Include desired styles injected *}
-		{if $_styles}
+		{if isset($_styles) && $_styles}
 			{foreach item=_style from=$_styles}
 				<link type="text/css" rel="stylesheet" href="../../{$TEMPLATE_WEBPATH}/{$_style}">
 			{/foreach}

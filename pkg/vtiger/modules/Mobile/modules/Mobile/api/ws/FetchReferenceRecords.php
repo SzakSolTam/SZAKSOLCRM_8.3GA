@@ -45,7 +45,7 @@ class Mobile_WS_FetchReferenceRecords extends Mobile_WS_Controller {
         
         $referenceRecords = array();
         foreach($wsresult as $result) {
-            $record = array();
+            $record = array('label' => '');
             foreach($labelFieldsArray as $labelField) {
                 $record['label'] .= $result[$labelField] . ' ';
             }

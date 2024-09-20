@@ -8,7 +8,6 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-include_once 'vendor/autoload.php';
 include_once 'includes/runtime/Viewer.php';
 
 class Mobile_HTML_Viewer extends Vtiger_Viewer{

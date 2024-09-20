@@ -14,6 +14,7 @@ chdir( dirname(__FILE__). '/../../');
 set_include_path(dirname(__FILE__) . '/third-party/qCal' . PATH_SEPARATOR . get_include_path());
 include_once dirname(__FILE__) . '/third-party/qCal/autoload.php';
 
+require_once 'vendor/autoload.php';
 include_once 'vtlib/Vtiger/Module.php';
 
 /**

@@ -20,6 +20,7 @@ require_once 'config.php';
 if (file_exists('config_override.php')) {
     include_once 'config_override.php';
 }
+require_once 'vendor/autoload.php';
 
 include_once dirname(__FILE__) . '/api/Request.php';
 include_once dirname(__FILE__) . '/api/Response.php';

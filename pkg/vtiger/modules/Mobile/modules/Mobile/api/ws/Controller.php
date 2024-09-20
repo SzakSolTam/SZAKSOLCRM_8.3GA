@@ -44,7 +44,7 @@ class Mobile_WS_Controller {
 		return ($user !== false);
 	}
 	
-	function sessionGet($key, $defvaule = '') {
+	function sessionGet($key, $defvalue = '') {
 		return Mobile_API_Session::get($key, $defvalue);
 	}
 	

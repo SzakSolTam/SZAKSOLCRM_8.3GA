@@ -28,6 +28,10 @@ class Mobile_WS_FetchRecord extends Mobile_WS_Controller {
 		$recordid = $request->get('record');
 		if($request->get('view_mode') == 'web'){
 			$module = $request->get('module');
+			if ($module == "Calendar") {
+				// Handle detection of (Calendar or Events)
+				$module = vtws_getCalendarEntityType($recordid);
+			}
 			$recordid = vtws_getWebserviceEntityId($module, $recordid);
 		}
 		$record = vtws_retrieve($recordid, $current_user);

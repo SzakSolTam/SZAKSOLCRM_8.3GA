@@ -21,7 +21,7 @@ class Mobile_WS_Describe extends Mobile_WS_Controller {
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$fieldModels = $moduleModel->getFields();
 		foreach($fields as $index=>$field) {
-			$fieldModel = $fieldModels[$field['name']];
+			$fieldModel = isset($fieldModels[$field['name']]) ? $fieldModels[$field['name']] : null;
 			if($fieldModel) {
 				$field['headerfield'] = $fieldModel->get('headerfield');
 				$field['summaryfield'] = $fieldModel->get('summaryfield');

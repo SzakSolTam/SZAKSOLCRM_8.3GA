@@ -126,7 +126,7 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 	}
 	static $user_array = null;
 	if(!$module){
-        $module=$_REQUEST['module'];
+        $module=isset($_REQUEST['module']) ? $_REQUEST['module'] : "";
     }
 
 
@@ -197,7 +197,7 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 	}
 	static $group_array = null;
 	if(!$module){
-        $module=$_REQUEST['module'];
+        $module=isset($_REQUEST['module']) ? $_REQUEST['module'] : "";
     }
 
 	if($group_array == null)
