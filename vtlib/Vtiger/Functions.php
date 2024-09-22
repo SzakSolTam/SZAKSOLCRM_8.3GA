@@ -1596,7 +1596,7 @@ class Vtiger_Functions {
 	'record' => 'id',
 	'src_record' => 'id',
 	'parent_id' => 'keyword', // id or ref-label in filter
-	'parent' => 'name', // strict text
+	'parent' => 'id', // id or text
         '_mfrom' => 'email',
         '_mto' => 'email',
         'sequencesList' => 'idlist',
