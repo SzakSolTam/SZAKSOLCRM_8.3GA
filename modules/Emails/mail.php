@@ -71,7 +71,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 			$contents = addSignature($contents,$from_name,$from_email);
 		}
 	}
-	$mail = new PHPMailer();
+	$mail = new PHPMailer\PHPMailer\PHPMailer();
 
 	setMailerProperties($mail,$subject,$contents,$from_email,$from_name,trim($to_email,","),$attachment,$emailid,$module,$logo);
 	setCCAddress($mail,'cc',$cc);

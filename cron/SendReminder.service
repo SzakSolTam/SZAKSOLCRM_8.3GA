@@ -22,8 +22,8 @@
 //file modified by richie
 
 require_once('include/utils/utils.php');
-require_once("modules/Emails/class.smtp.php");
-require_once("modules/Emails/class.phpmailer.php");
+//require_once("modules/Emails/class.smtp.php");
+//require_once("modules/Emails/class.phpmailer.php");
 require_once("modules/Emails/mail.php");
 require_once('include/logging.php');
 require_once("config.php");
@@ -232,7 +232,7 @@ function send_email($to,$from,$subject,$contents,$mail_server,$mail_server_usern
 	$log->info("This is send_mail function in SendReminder.php(vtiger home).");
 	global $root_directory;
 
-	$mail = new PHPMailer();
+	$mail = new PHPMailer\PHPMailer\PHPMailer();
 
 
 	$mail->Subject	= $subject;

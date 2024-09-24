@@ -28,7 +28,7 @@ require_once 'include/utils/CommonUtils.php';
 
 function sendmail($to,$from,$subject,$contents,$mail_server,$mail_server_username,$mail_server_password,$filename,$smtp_auth='')
 {
-  $mail = new PHPMailer();
+  $mail = new PHPMailer\PHPMailer\PHPMailer();
   $mail->Subject = $subject;
 	$mail->Body    = $contents;//"This is the HTML message body <b>in bold!</b>";
 
