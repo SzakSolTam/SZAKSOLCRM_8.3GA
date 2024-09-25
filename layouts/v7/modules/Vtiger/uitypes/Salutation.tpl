@@ -8,7 +8,7 @@
 *************************************************************************************}
 
 {strip}
-	{if $SALUTATION_FIELD_MODEL}
+	{if isset($SALUTATION_FIELD_MODEL)}
 		{assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getEditablePicklistValues()}
 		{assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
 		<select class="inputElement select2" style="width:78px;" name="{$SALUTATION_FIELD_MODEL->get('name')}" >
