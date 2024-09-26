@@ -14,8 +14,13 @@
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
         {assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 	{assign var=ALL_ACTIVEUSER_LIST value=$FIELD_INFO['picklistvalues'][vtranslate('LBL_USERS')]}
-	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
-	{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
+
+	{if isset($SEARCH_INFO) && isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
+	{else}
+		{assign var=SEARCH_VALUES value=array()}
+	{/if}
 
 	{if $FIELD_MODEL->get('uitype') eq '52' || $FIELD_MODEL->get('uitype') eq '77'}
 		{assign var=ALL_ACTIVEGROUP_LIST value=array()}

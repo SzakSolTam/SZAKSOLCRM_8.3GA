@@ -135,8 +135,8 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 	}
 
 	protected function getFiltersFromSession() {
-		$filters = $_SESSION['task_filters'];
-		if (!isset($filters)) {
+		$filters = isset($_SESSION['task_filters'])? $_SESSION['task_filters'] : null;
+		if (!$filters) {
 			$filters = array('status' => array(), 'date' => 'all', 'assigned_user_id' => array());
 		}
 		return $filters;

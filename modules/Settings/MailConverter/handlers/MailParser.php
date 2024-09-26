@@ -23,7 +23,7 @@ class Vtiger_MailParser {
 		$this->msg = str_replace("\r\n", "\n", $this->msg);
 		$this->msg = str_replace("\r", "\n", $this->msg);
 
-		$domElement = new DOMDocument(null, 'UTF-8');
+		$domElement = new DOMDocument("1.0", 'UTF-8');
 		if(!@$domElement->loadHTML($this->msg)) {
 			return $this->msg;
 		}
@@ -80,7 +80,7 @@ class Vtiger_MailParser {
 		$nextName = $this->getNextNode($node);
 		$prevName = $this->getPrevNode($node);
 		$name = strtolower($node->nodeName);
-		$parentNodeName = strtolower($node->parentNode->nodeName);
+		$parentNodeName = $node->parentNode->nodeName ? strtolower($node->parentNode->nodeName) : '';
 		$firstChildNode='';
 		$firstChildName='';
 		if($node->childNodes){

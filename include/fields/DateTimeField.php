@@ -391,7 +391,7 @@ class DateTimeField {
 				}
 			}
 			if ($y) {
-				$value = "$y-$m-$d ".rtrim($time);
+				$value = "$y-$m-$d ".rtrim($time ? $time : '');
 			}
 		}
 		return $value;
