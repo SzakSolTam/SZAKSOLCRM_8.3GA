@@ -99,6 +99,7 @@ $GLOBALS['_PEAR_error_handler_stack']    = array();
  * @since      Class available since PHP 4.0.2
  * @link        http://pear.php.net/manual/en/core.pear.php#core.pear.pear
  */
+#[\AllowDynamicProperties]
 class PEAR
 {
     // {{{ properties
@@ -826,6 +827,7 @@ function _PEAR_call_destructors()
  * @see        PEAR::raiseError(), PEAR::throwError()
  * @since      Class available since PHP 4.0.2
  */
+#[\AllowDynamicProperties]
 class PEAR_Error
 {
     // {{{ properties
