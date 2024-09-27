@@ -139,6 +139,7 @@
 
 			$row = DataTransform::sanitizeDateFieldsForInsert($row,$meta);
 			$row = DataTransform::sanitizeCurrencyFieldsForInsert($row,$meta);
+			$row = DataTransform::sanitizeStringFields($row,$meta);
 
 			// New field added to store Source of Created Record
 			if (!isset($row['source'])) {
@@ -327,6 +328,17 @@
 						$row[$fieldName] = CurrencyField::convertToUserFormat($row[$fieldName],$current_user,true);
 					} else if($fieldObj->getUIType() == 1 && in_array($fieldObj->getFieldType(), array('N', 'NN')) && in_array($fieldObj->getFieldName(), array('qty_per_unit', 'qtyinstock'))) {
 						$row[$fieldName] = CurrencyField::convertToUserFormat($row[$fieldName],$current_user,true);
+					}
+				}
+			}
+			return $row;
+		}
+
+		static function sanitizeStringFields($row,$meta){
+			if(in_array($meta->getEntityName(),array('Groups', 'Currency', 'Tax', 'ProductTaxes'))){
+				foreach ($row as $field => $value) {
+					if(is_string($value)){
+						$row[$field] = vtlib_purify($value);
 					}
 				}
 			}
