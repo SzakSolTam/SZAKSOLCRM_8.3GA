@@ -84,7 +84,7 @@ class Vtiger_Viewer extends Smarty {
 			'Vtiger_Functions', 'Users', 'CurrencyField', 'Reports_Field_Model', 
 			'DateTimeField', 'Calendar_Time_UIType', 'Calendar_Field_Model',
 			'Vtiger_Date_UIType', 'Vtiger_Time_UIType', 'Vtiger_RelationListView_Model',
-			'Inventory_TaxRegion_Model');
+			'Inventory_TaxRegion_Model', 'EmailTemplates_Module_Model');
 
 		if ($inSettings) {
 			$classes = array_merge($classes, array(

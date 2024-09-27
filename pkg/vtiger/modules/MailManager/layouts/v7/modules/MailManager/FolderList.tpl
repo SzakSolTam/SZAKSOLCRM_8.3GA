@@ -7,7 +7,7 @@
  * All Rights Reserved.
  ************************************************************************************}
 
-{if $FOLDERS}
+{if isset($FOLDERS) && $FOLDERS}
     {assign var=INBOX_ADDED value=0}
     {assign var=TRASH_ADDED value=0}
     <ul>

@@ -203,7 +203,7 @@ class MailManager_Connector_Connector {
 	 */
 	public function updateFolder($folder, $options) {
 		$mailbox = $this->convertCharacterEncoding($folder->name($this->mBoxUrl), "UTF7-IMAP","ISO-8859-1"); //Encode folder name
-		$result = @imap_status($this->mBox, $mailbox, $options);
+		$result = $this->mBox ? imap_status($this->mBox, $mailbox, $options) : null;
 		if ($result) {
 			if (isset($result->unseen)) $folder->setUnreadCount($result->unseen);
 			if (isset($result->messages)) $folder->setCount($result->messages);
@@ -228,8 +228,8 @@ class MailManager_Connector_Connector {
 	 * @param Integer $maxLimit - Number of mails
 	 */
 	public function folderMails($folder, $start, $maxLimit) {
-		$folderCheck = @imap_check($this->mBox);
-		if ($folderCheck->Nmsgs) {
+		$folderCheck = $this->mBox ? imap_check($this->mBox) : null;
+		if ($folderCheck && $folderCheck->Nmsgs) {
 
 			$reverse_start = $folderCheck->Nmsgs - ($start*$maxLimit);
 			$reverse_end = $reverse_start - $maxLimit + 1;
@@ -414,8 +414,9 @@ class MailManager_Connector_Connector {
 	 * @return Array folder list
 	 */
 	public function getFolderList() {
+		$folderList = array();
 		if(!empty($this->mBoxBaseUrl)) {
-			$list = @imap_list($this->mBox, $this->mBoxBaseUrl, '*');
+			$list = $this->mBox ? imap_list($this->mBox, $this->mBoxBaseUrl, '*') : array();
 			if (is_array($list)) {
 				foreach ($list as $val) {
 					$folder = $this->convertCharacterEncoding( $val, 'UTF-8', 'UTF7-IMAP' ); //Decode folder name

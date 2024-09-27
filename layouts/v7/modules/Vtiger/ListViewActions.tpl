@@ -27,13 +27,13 @@
         <div class = "row">
             <div class=" col-md-3">
             <div class="btn-group listViewActionsContainer" role="group" aria-label="...">
-                {if $editAction}
+                {if isset($editAction) && $editAction}
                     <button type="button" class="btn btn-default" id={$MODULE}_listView_massAction_{$editAction->getLabel()} 
                             {if stripos($editAction->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$editAction->getUrl()|substr:strlen("javascript:")}'{else} href='{$editAction->getUrl()}' {/if} title="{vtranslate('LBL_EDIT', $MODULE)}" disabled="disabled">
                         <i class="fa fa-pencil"></i>
                     </button>
                 {/if}
-                {if $deleteAction}
+                {if isset($deleteAction) && $deleteAction}
                     <button type="button" class="btn btn-default" id={$MODULE}_listView_massAction_{$deleteAction->getLabel()} 
                             {if stripos($deleteAction->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$deleteAction->getUrl()|substr:strlen("javascript:")}'{else} href='{$deleteAction->getUrl()}' {/if} title="{vtranslate('LBL_DELETE', $MODULE)}" disabled="disabled">
                         <i class="fa fa-trash"></i>
