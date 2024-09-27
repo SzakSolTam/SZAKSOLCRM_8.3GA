@@ -352,21 +352,21 @@ function isPermitted($module,$actionname,$record_id='')
 			}
 		}
 		//Checking for vtiger_tab permission
-		if($profileTabsPermission[$tabid] !=0)
+		if(isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] !=0)
 		{
 			$permission = "no";
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
 		//Checking for Action Permission
-		if(strlen($profileActionPermission[$tabid][$actionid]) <  1 && $profileActionPermission[$tabid][$actionid] == '')
+		if(isset($profileActionPermission[$tabid][$actionid]) && strlen($profileActionPermission[$tabid][$actionid]) <  1 && $profileActionPermission[$tabid][$actionid] == '')
 		{
 			$permission = "yes";
 			$log->debug("Exiting isPermitted method ...");
 			return $permission;
 		}
 
-		if($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '')
+		if(isset($profileActionPermission[$tabid][$actionid]) && $profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '')
 		{
 			$permission = "no";
 			$log->debug("Exiting isPermitted method ...");
@@ -2132,7 +2132,7 @@ function getPermittedModuleNames()
 	{
 		foreach($tab_seq_array as $tabid=>$seq_value)
 		{
-			if($seq_value === 0 && $profileTabsPermission[$tabid] === 0)
+			if($seq_value === 0 && (isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid]) === 0)
 			{
 				$permittedModules[]=getTabModuleName($tabid);
 			}
@@ -2171,7 +2171,7 @@ function getPermittedModuleIdList() {
 	if($is_admin == false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {
 		foreach($tab_seq_array as $tabid=>$seq_value) {
-			if($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+			if($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
 				$permittedModules[]=($tabid);
 			}
 		}
