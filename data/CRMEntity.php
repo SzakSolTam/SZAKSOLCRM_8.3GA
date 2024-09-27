@@ -2794,7 +2794,7 @@ class CRMEntity {
 	 * @param <type> $userGroups
 	 */
 	function getNonAdminUserGroupAccessQuery($userGroups) {
-		$query .= " UNION (SELECT groupid FROM vtiger_groups WHERE groupid IN (".implode(",", $userGroups)."))";
+		$query = " UNION (SELECT groupid FROM vtiger_groups WHERE groupid IN (".implode(",", $userGroups)."))";
 		return $query;
 	}
 
@@ -2807,7 +2807,7 @@ class CRMEntity {
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$tabId = getTabid($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
-		$sharingRuleInfo = $$sharingRuleInfoVariable;
+		$sharingRuleInfo = isset($$sharingRuleInfoVariable) ? $$sharingRuleInfoVariable : array();
 		$sharedTabId = null;
 		$query = '';
 		if (!empty($sharingRuleInfo) && (php7_count($sharingRuleInfo['ROLE']) > 0 ||

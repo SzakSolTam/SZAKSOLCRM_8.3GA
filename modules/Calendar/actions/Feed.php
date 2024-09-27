@@ -18,6 +18,8 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$result = array();
 			if(php7_count($feedsRequest)) {
 				foreach($feedsRequest as $key=>$value) {
+					$value = vtlib_array($value); // isset guarded.
+
 					$requestParams = array();
 					$requestParams['start'] = $value['start'];
 					$requestParams['end'] = $value['end'];
@@ -212,7 +214,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
 			$item['sourceModule'] = $moduleModel->getName();
 			$item['fieldName'] = $fieldName;
 			$item['conditions'] = '';
-			$item['end'] = date('Y-m-d', strtotime(($item['end'] ?: $item['start']).' +1day'));
+			$item['end'] = date('Y-m-d', strtotime((isset($item['end']) ? $item['end']: $item['start']).' +1day'));
                         if(!empty($conditions)) {
                             $item['conditions'] = Zend_Json::encode(Zend_Json::encode($conditions));
                         }

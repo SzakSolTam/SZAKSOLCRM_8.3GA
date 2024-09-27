@@ -98,7 +98,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 
 	function save() {
 		//Time should changed to 24hrs format
-		$_REQUEST['time_start'] = Vtiger_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_start']);
+		$_REQUEST['time_start'] = isset($_REQUEST['time_start']) ? Vtiger_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_start']) : '';
 		$_REQUEST['time_end'] = isset($_REQUEST['time_end']) ? Vtiger_Time_UIType::getTimeValueWithSeconds($_REQUEST['time_end']): '';
 		parent::save();
 	}
