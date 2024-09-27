@@ -80,7 +80,7 @@ class Vtiger_MailParser {
 		$nextName = $this->getNextNode($node);
 		$prevName = $this->getPrevNode($node);
 		$name = strtolower($node->nodeName);
-		$parentNodeName = $node->parentNode->nodeName ? strtolower($node->parentNode->nodeName) : '';
+		$parentNodeName = $node->parentNode && $node->parentNode->nodeName ? strtolower($node->parentNode->nodeName) : '';
 		$firstChildNode='';
 		$firstChildName='';
 		if($node->childNodes){

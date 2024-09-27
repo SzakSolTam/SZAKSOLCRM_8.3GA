@@ -103,7 +103,7 @@ class Vtiger_Viewer extends Smarty {
 		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 
 			'html_entity_decode', 'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push', 'array_merge',
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities', 'purifyHtmlEventAttributes',
-			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getOwnerName', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
+			'getCurrencySymbolandCRate', 'getProductBaseCurrency', 'mb_substr', 'isPermitted', 'getOwnerName', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric','preg_match',
 			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array','array_keys', 'json_decode', 'getCurrencyDecimalPlaces', 'number_format', 'isRecordExists');
 		foreach ($modifiers as $modifier) {

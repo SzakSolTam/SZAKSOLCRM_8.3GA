@@ -223,6 +223,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 
 		$params = array();
+		$dateFilterSql = '';
+		$closingdateFilterSql = '';
 		$params[] = $currentUser->getId();
 		if(!empty($closingdateFilter)) {
 			$closingdateFilterSql = ' AND closingdate BETWEEN ? AND ? ';
