@@ -38,7 +38,8 @@
                                 </h6>
                                 <input type="hidden" name="allCvId" value="{CustomView_Record_Model::getAllFilterByModule($MODULE)->get('cvid')}" />
                                 <ul class="lists-menu">
-								{assign var=count value=0}
+								{assign var=shown_count value=0}
+								{assign var=hidden_count value=0}
 								{assign var=LISTVIEW_URL value=$MODULE_MODEL->getListViewUrl()}
                                 {foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS name="customView"}
                                     {assign var="IS_DEFAULT" value=$CUSTOM_VIEW->isDefault()}
@@ -50,7 +51,12 @@
 										{assign var="SHARED_MEMBER_COUNT" value=1}
 										{/if}
 									{/foreach}
-									<li style="font-size:12px;" class='listViewFilter {if $VIEWID eq $CUSTOM_VIEW->getId() && (isset($CURRENT_TAG) && $CURRENT_TAG eq '')} active {if $smarty.foreach.customView.iteration gt 10} {assign var=count value=1} {/if} {else if $smarty.foreach.customView.iteration gt 10} filterHidden hide{/if} '> 
+                                    {if $smarty.foreach.customView.iteration lte 10} 
+                                        {assign var=shown_count value=$shown_count+1}
+                                    {else} 
+                                        {assign var=hidden_count value=$hidden_count+1} 
+                                    {/if}
+									<li style="font-size:12px;" class='listViewFilter {if $VIEWID eq $CUSTOM_VIEW->getId() && (isset($CURRENT_TAG) && $CURRENT_TAG eq '')} active{else if $smarty.foreach.customView.iteration gt 10} filterHidden hide{/if}'> 
                                         {assign var=VIEWNAME value={vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}}
 										{append var="CUSTOM_VIEW_NAMES" value=$VIEWNAME}
                                          <a class="filterName listViewFilterElipsis" href="{$LISTVIEW_URL|cat:'&viewname='|cat:$CUSTOM_VIEW->getId()|cat:'&app='|cat:$SELECTED_MENU_CATEGORY}" oncontextmenu="return false;" data-filter-id="{$CUSTOM_VIEW->getId()}" title="{$VIEWNAME|@escape:'html'}">{$VIEWNAME|@escape:'html'}</a> 
@@ -80,11 +86,9 @@
                                         {/foreach}
                                     </ul>
 								<div class='clearfix'> 
-									{if $smarty.foreach.customView.iteration - 10 - $count} 
-										<a class="toggleFilterSize" data-more-text=" {$smarty.foreach.customView.iteration - 10 - $count} {vtranslate('LBL_MORE',Vtiger)|@strtolower}" data-less-text="Show less">
-											{if $smarty.foreach.customView.iteration gt 10} 
-												{$smarty.foreach.customView.iteration - 10 - $count} {vtranslate('LBL_MORE',Vtiger)|@strtolower} 
-											{/if} 
+									{if $hidden_count} 
+										<a class="toggleFilterSize" data-more-text="{$hidden_count} {vtranslate('LBL_MORE',Vtiger)|@strtolower}" data-less-text="Show less">
+												{$hidden_count} {vtranslate('LBL_MORE',Vtiger)|@strtolower} 
 										</a>{/if} 
 									</div>
                              </div>
