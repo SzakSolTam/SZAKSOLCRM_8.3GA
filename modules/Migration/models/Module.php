@@ -50,6 +50,8 @@ class Migration_Module_Model extends Vtiger_Module_Model {
                         array('740' => '7.4.0'),
                         array('750' => '7.5.0'),
                         array('800' => '8.0.0'),
+						array('810' => '8.1.0'),
+						array('820' => '8.2.0'),
 		);
 		return $versions;
 	}
