@@ -43,7 +43,7 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model{
             $id = $db->getUniqueID(self::tableName);
             //To keep id in the beginning
             array_unshift($params, $id);
-            $query = 'INSERT INTO '.self::tableName.' VALUES(?,?,?,?,?,?,?,?,?)';
+            $query = 'INSERT INTO '.self::tableName.'(id,server,server_port,server_username,server_password,server_type,smtp_auth,server_path,from_email_field) VALUES(?,?,?,?,?,?,?,?,?)';
         }else{
             $query = 'UPDATE '.self::tableName.' SET server = ?, server_port= ?, server_username = ?, server_password = ?,
                 server_type = ?,  smtp_auth= ?, server_path = ?, from_email_field=? WHERE id = ?';
