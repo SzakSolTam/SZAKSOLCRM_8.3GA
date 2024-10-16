@@ -138,7 +138,7 @@
 			   {if $QUANTITY_EDITABLE eq false} disabled=disabled {/if} />
 
 		{if isset($PURCHASE_COST_EDITABLE) && $PURCHASE_COST_EDITABLE eq false and $MODULE neq 'PurchaseOrder'}
-			<input id="{$purchaseCost}" type="hidden" value="{if ((float)$data.$purchaseCost)}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
+			<input id="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
             <span style="display:none" class="purchaseCost">0</span>
 			<input name="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}" />
 		{/if}
@@ -158,7 +158,7 @@
 
 	{if isset($PURCHASE_COST_EDITABLE) && $PURCHASE_COST_EDITABLE}
 		<td>
-			<input id="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
+			<input id="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
 			<input name="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}" />
 			<span class="pull-right purchaseCost">{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}</span>
 		</td>
