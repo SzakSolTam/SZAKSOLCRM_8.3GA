@@ -201,7 +201,7 @@ function getProductTaxPercentage($type,$productid,$default='')
 		$taxpercentage = decimalFormat($taxpercentage);
 	}
 	$regions=$adb->query_result($res,0, 'regions');
-	return array('percentage' => $taxpercentage, 'regions' => Zend_Json::decode(html_entity_decode(!empty($regions) ? $regions : '')));
+	return array('percentage' => $taxpercentage, 'regions' => Zend_Json::decode(html_entity_decode(!empty($regions) ? $regions : '[]')));
 }
 
 /**	Function used to add the history entry in the relevant tables for PO, SO, Quotes and Invoice modules
