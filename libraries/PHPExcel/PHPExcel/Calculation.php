@@ -2265,7 +2265,7 @@ class PHPExcel_Calculation {
 		$formula = trim($formula);
 		if ($formula[0] != '=') return self::_wrapResult($formula);
 		$formula = ltrim(substr($formula,1));
-		if (!isset($formula{0})) return self::_wrapResult($formula);
+		if (!isset($formula[0])) return self::_wrapResult($formula);
 
 		$wsTitle = "\x00Wrk";
 		if ($pCell !== NULL) {
@@ -2558,7 +2558,7 @@ class PHPExcel_Calculation {
 	}	//	function _showTypeDetails()
 
 
-	private static function _convertMatrixReferences($formula) {
+	private function _convertMatrixReferences($formula) {
 		static $matrixReplaceFrom = array('{',';','}');
 		static $matrixReplaceTo = array('MKMATRIX(MKMATRIX(','),MKMATRIX(','))');
 
@@ -2616,7 +2616,7 @@ class PHPExcel_Calculation {
 
 	// Convert infix to postfix notation
 	private function _parseFormula($formula, PHPExcel_Cell $pCell = null) {
-		if (($formula = self::_convertMatrixReferences(trim($formula))) === false) {
+		if (($formula = $this->_convertMatrixReferences(trim($formula))) === false) {
 			return FALSE;
 		}
 
