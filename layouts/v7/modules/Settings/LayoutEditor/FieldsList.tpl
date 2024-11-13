@@ -167,7 +167,7 @@
 															<div class="defaultValue col-sm-12 {if !$FIELD_MODEL->hasDefaultValue()}disabled{/if} 
 																 {if $FIELD_MODEL->isDefaultValueOptionDisabled()} cursorPointerNotAllowed {/if}">
 																{assign var=DEFAULT_VALUE value=$FIELD_MODEL->getDefaultFieldValueToViewInV7FieldsLayOut()}
-																{if $DEFAULT_VALUE}
+																{if isset($DEFAULT_VALUE) && $DEFAULT_VALUE !== ''}
 																	{if is_array($DEFAULT_VALUE)}
 																		{foreach key=DEFAULT_FIELD_NAME item=DEFAULT_FIELD_VALUE from=$DEFAULT_VALUE}
 																			<div class="row">
@@ -341,7 +341,7 @@
 															<div class="defaultValue col-sm-12 {if !$FIELD_MODEL->hasDefaultValue()}disabled{/if} 
 																 {if $FIELD_MODEL->isDefaultValueOptionDisabled()} cursorPointerNotAllowed {/if}">
 																{assign var=DEFAULT_VALUE value=$FIELD_MODEL->getDefaultFieldValueToViewInV7FieldsLayOut()}
-																{if $DEFAULT_VALUE}
+																{if isset($DEFAULT_VALUE) && $DEFAULT_VALUE !== ''}
 																	{if is_array($DEFAULT_VALUE)}
 																		{foreach key=DEFAULT_FIELD_NAME item=DEFAULT_FIELD_VALUE from=$DEFAULT_VALUE}
 																			<div class="row defaultValueContent">
