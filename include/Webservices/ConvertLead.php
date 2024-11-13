@@ -145,18 +145,25 @@ function vtws_convertlead($entityvalues, $user) {
 
 
 	try {
-		$accountIdComponents = vtws_getIdComponents($entityIds['Accounts']);
-		$accountId = $accountIdComponents[1];
-
-		$contactIdComponents = vtws_getIdComponents($entityIds['Contacts']);
-		$contactId = $contactIdComponents[1];
-
-		if(!empty($entityIds['Potentials'])){
+		$accountId = null;
+		if (isset($entityIds['Accounts']) && $entityIds['Accounts']) {
+			$accountIdComponents = vtws_getIdComponents($entityIds['Accounts']);
+			$accountId = $accountIdComponents[1];
+		}
+		
+		$contactId = null;		
+		if (isset($entityIds['Contacts']) && $entityIds['Contacts']) {
+			$contactIdComponents = vtws_getIdComponents($entityIds['Contacts']);
+			$contactId = $contactIdComponents[1];
+		}
+		
+		$potentialId = null;
+		if(isset($entityIds['Potentials']) && $entityIds['Potentials']){
 			$potentialIdComponents = vtws_getIdComponents($entityIds['Potentials']);
 			$potentialId = $potentialIdComponents[1];
 		}
 
-		if (!empty($accountId) && !empty($contactId) && !empty($potentialId)) {
+		if (!empty($contactId) && !empty($potentialId)) {
 			$sql = "insert into vtiger_contpotentialrel values(?,?)";
 			$result = $adb->pquery($sql, array($contactId, $potentialId));
 			if ($result === false) {
