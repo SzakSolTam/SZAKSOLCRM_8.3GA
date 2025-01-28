@@ -426,6 +426,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
         if(empty($accessibleUser)) {
 			if($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, "ACTIVE", "", $private,$module);
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '4'){
+				$accessibleUser = $this->getSameRolelUsersWithSubordinates();
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '2'){
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
@@ -436,6 +438,24 @@ class Users_Record_Model extends Vtiger_Record_Model {
 		return $accessibleUser;
 	}
 
+	/**
+	 * Function to get same ROLE and subordinates Users
+	 * @return <array> Users
+	 */
+	public function getSameRolelUsersWithSubordinates(){
+		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
+                $roleID = $currentUserRoleModel->getId();
+		//$sameLevelRoles = $currentUserRoleModel->getSameLevelRoles();
+                //$sameLevelUsers = $this->getAllUsersOnRoles($sameLevelRoles);
+                $thisRole = array($roleID =>$currentUserRoleModel );
+                $sameLevelUsers = $this->getAllUsersOnRoles($thisRole);
+		$subordinateUsers = $this->getRoleBasedSubordinateUsers();
+		foreach ($subordinateUsers as $userId => $userName) {
+			$sameLevelUsers[$userId] = $userName;
+		}
+		return $sameLevelUsers;
+	}
+        
 	/**
 	 * Function to get same level and subordinates Users
 	 * @return <array> Users

@@ -68,6 +68,11 @@
                                 <div class="radio">
                                     <label>
                                     <input type="radio" value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '2'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>
+                                    &nbsp;{vtranslate('LBL_USERS_WITH_SAME_LEVEL_AND_SUBORDINATES',$QUALIFIED_MODULE)}</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                    <input type="radio" value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '4'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>
                                     &nbsp;{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL',$QUALIFIED_MODULE)}</label>
                                 </div>
                                 <div class="radio">
