@@ -426,12 +426,12 @@ class Users_Record_Model extends Vtiger_Record_Model {
         if(empty($accessibleUser)) {
 			if($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, "ACTIVE", "", $private,$module);
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '4'){
-				$accessibleUser = $this->getSameRolelUsersWithSubordinates();
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '2'){
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '4'){
+				$accessibleUser = $this->getSameRolelUsersWithSubordinates();
 			}
 			Vtiger_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);
 		}
