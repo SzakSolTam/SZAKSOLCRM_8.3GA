@@ -35,6 +35,7 @@ $languageStrings = array(
 	'LBL_ALL_USERS' => 'All Users',
 	'LBL_USERS_WITH_LOWER_LEVEL' => 'Users having Subordinate Role',
 	'LBL_USERS_WITH_SAME_OR_LOWER_LEVEL' => 'Users having Same Role or Subordinate Role',
+        'LBL_USERS_WITH_SAME_LEVEL_AND_SUBORDINATES' => 'Users having Same Level or Subordinate Role',
     
     /*Vtiger7 String*/
     'LBL_EDIT_ROLE' => 'Edit Role',
