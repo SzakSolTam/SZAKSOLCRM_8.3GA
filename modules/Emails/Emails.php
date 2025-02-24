@@ -532,7 +532,7 @@ class Emails extends CRMEntity {
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $sharingRuleInfoVariable;
 			$sharedTabId = null;
-			if (!empty($sharingRuleInfo) && (php7_count($sharingRuleInfo['ROLE']) > 0 ||
+			if (is_array($sharingRuleInfo) && !empty($sharingRuleInfo) && (php7_count($sharingRuleInfo['ROLE']) > 0 ||
 					php7_count($sharingRuleInfo['GROUP']) > 0)) {
 				$tableName = $tableName . '_t' . $tabId;
 				$sharedTabId = $tabId;
