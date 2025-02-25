@@ -24,10 +24,17 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType {
 	 * @return <Object>
 	 */
 	public function getDisplayValue($value, $record=false, $recordInstance=false) {
+
+		// Reverted applying currency like user-format (decimal) conversion
+		// as it would truncate values (on edit-save) when user-prefs has lower precision 
+		// than field precision leads to loss of decimal part.
+		//
 		//The value is formatting to the user preffered format
 		//The third parameter for the converTouserFormat() function is skipConversion. 
 		//We set skipConversion to true because there's no need to convert the values for different currency formats.
-		$value = CurrencyField::convertToUserFormat(decimalFormat($value), null, true);
+		/*$value = CurrencyField::convertToUserFormat(decimalFormat($value), null, true);*/
+
+		$value = decimalFormat($value);
 		return $value;
 	}
 
