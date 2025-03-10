@@ -128,8 +128,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			}
 		}
 
-		$viewer->assign('NO_PAGINATION', true);
-		
+		global $PERFORMANCE_CONFIG;
+		if (isset($PERFORMANCE_CONFIG['DETAILVIEW_RECORD_NAVIGATION'])) {
+			/* reversed config var value */
+			$viewer->assign('NO_PAGINATION', !($PERFORMANCE_CONFIG['DETAILVIEW_RECORD_NAVIGATION']));
+		} else {
+			$viewer->assign('NO_PAGINATION', false);
+		}
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if(!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
