@@ -27,6 +27,8 @@ CsrfMagic = function(real) {
 CsrfMagic.prototype = {
 
     open: function(method, url, async, username, password) {
+        // track for cross-domain check.
+        this.csrf_reqUrl = url;
         if (method == 'POST') this.csrf_isPost = true;
         // deal with Opera bug, thanks jQuery
         if (username) return this.csrf_open(method, url, async, username, password);
@@ -53,10 +55,18 @@ CsrfMagic.prototype = {
         }
         delete this.csrf_reqContentType;
 
+        // Avoid CSRF for cross-domain requests
+        var crossDomain = false;
+        if (this.csrf_reqUrl && this.csrf_reqUrl.indexOf("://") >= 0 && this.csrf_reqUrl.indexOf(location.origin) !== 0) {
+            crossDomain = true;
+        }
+        delete this.csrf_reqUrl;
+
         if(data instanceof FormData) {
-            data.append(csrfMagicName,csrfMagicToken);
+            if (!crossDomain) data.append(csrfMagicName,csrfMagicToken);
             return this.csrf_send(data);
         }else{
+            if (crossDomain) prepend = "";
             return this.csrf_send(prepend + data);
         }
     },
