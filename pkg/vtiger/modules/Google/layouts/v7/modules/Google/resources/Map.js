@@ -45,7 +45,7 @@ Vtiger.Class("Google_Map_Js", {}, {
 
 			if (API_KEY == 'YOUR_MAP_API_KEY' && typeof console) console.error("Google Map API Key not configured."); 
 
-			jQuery.getScript("https://maps.google.com/maps/api/js?v=3.53&key=" + API_KEY + "&sensor=true&async=2&callback=initialize", function () {});
+			jQuery.getScript("https://maps.google.com/maps/api/js?key=" + API_KEY + "&sensor=true&async=2&callback=initialize", function () {});
 	},
 
 	getQueryString : function (address) {
