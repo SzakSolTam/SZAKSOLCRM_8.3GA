@@ -45,6 +45,14 @@ CsrfMagic.prototype = {
             delete this.csrf_purportedLength;
         }
         delete this.csrf_isPost;
+
+        // Should avoid prepending token for some special types.
+        // ex: Google Map protobuf request.
+        if (this.csrf_reqContentType && (this.csrf_reqContentType.indexOf("application/json+protobuf")!=-1)) {
+            prepend = "";
+        }
+        delete this.csrf_reqContentType;
+
         if(data instanceof FormData) {
             data.append(csrfMagicName,csrfMagicToken);
             return this.csrf_send(data);
@@ -62,6 +70,10 @@ CsrfMagic.prototype = {
         if (this.csrf_isPost && header == "Content-length") {
             this.csrf_purportedLength = value;
             return;
+        }
+        // Track the Content-type to determine token prepend during send.
+        if (header.toLowerCase() == "content-type") {
+            this.csrf_reqContentType = value;
         }
         return this.csrf_setRequestHeader(header, value);
     },
