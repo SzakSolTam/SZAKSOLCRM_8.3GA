@@ -266,7 +266,7 @@ Vtiger_Detail_Js("Project_Detail_Js",{
 		var tasksWidget = summaryViewContainer.find('.widgetContainer_tasks');
 		tasksWidget.on('click', '.editTaskDetails', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
-			var newValue = currentTarget.text();
+			var newValue = currentTarget.attr('data-value');
 			var element = currentTarget.closest('ul.dropdown-menu');
 			var editElement = element.closest('.dropdown');
 			var oldValue = element.data('oldValue');

@@ -71,7 +71,7 @@
 													{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 													<li class="editTaskDetails emptyOption" value=""><a>{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}</a></li>
 													{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-														<li class="editTaskDetails" value="{$PICKLIST_VALUE}"><a>{$PICKLIST_VALUE}</a></li>
+														<li class="editTaskDetails" data-value="{$PICKLIST_NAME}"><a>{$PICKLIST_VALUE}</a></li>
 													{/foreach}
 												</ul>
 											</div>
