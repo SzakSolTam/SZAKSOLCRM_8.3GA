@@ -203,7 +203,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		bootbox.confirm({
             title : title,
 			buttons: buttonsInfo,
-			message: data['message'],
+			message: typeof (data['message']) == "object" ? data.message : data['message'], /* error | string */
             htmlSupportEnable: data.hasOwnProperty('htmlSupportEnable') ? data['htmlSupportEnable'] : true,
 			callback: function(result) {
 				if (result) {
@@ -217,7 +217,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         return aDeferred.promise();
     },
     showAlertBox: function(data, cb) {
-        var message = data['message'];
+        var message = typeof (data['message']) == "object" ? data.message : data['message'], /* error | string */
         if (typeof cb == 'function') {
             bootbox.alert(message, cb);
         }
@@ -560,6 +560,8 @@ jQuery.Class("Vtiger_Helper_Js",{
             'title' : app.vtranslate('JS_ALERT')
         }        
         options = jQuery.extend(defaultOptions,options);
+        
+        if (typeof (options['message']) == "object") { options.message = options['message'].message; }
         jQuery.notify(options,settings);
     },
     
@@ -574,6 +576,9 @@ jQuery.Class("Vtiger_Helper_Js",{
         }
         options = jQuery.extend(defaultOptions, options);
         settings = jQuery.extend(defaultSettings, settings);
+        
+        if (typeof (options['message']) == "object") { options.message = options['message'].message; }
+        
         jQuery.notify(options,settings);
     },
     
@@ -583,6 +588,8 @@ jQuery.Class("Vtiger_Helper_Js",{
             'title' : app.vtranslate('JS_SUCCESS')
         }
         options = jQuery.extend(defaultOptions, options);
+        
+        if (typeof (options['message']) == "object") { options.message = options['message'].message; }
         jQuery.notify(options,settings);
     },
     
