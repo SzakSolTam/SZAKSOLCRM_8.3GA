@@ -50,7 +50,7 @@ class EmailTemplate {
             for ($i = 0; $i < php7_count($templateVariablePair); $i++) {
                 $templateVariablePair[$i] = str_replace('$', '', $templateVariablePair[$i]);
                 list($module, $columnName) = explode('-', $templateVariablePair[$i]);
-				if(isset($columnName) && strpos($columnName, ':') !== false) {
+				if(isset($columnName)) {
 					list($parentColumn, $childColumn) = explode(':', $columnName);
 					$this->templateFields[$module][] = $parentColumn;
 					$this->referencedFields[$parentColumn][] = $childColumn;
