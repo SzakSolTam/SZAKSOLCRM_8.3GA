@@ -1827,6 +1827,8 @@
 		<field name="server_password" type="C" size="255" />
 		<field name="server_type" type="C" size="20" />
 		<field name="smtp_auth" type="C" size="5" />
+		<field name="smtp_auth_type" type="C" size="20" />
+		<field name="smtp_auth_expireson" type="L" />
 		<field name="server_path" type="C" size="256" />
 		<field name="from_email_field" type="C" size="50" />
 		<opt platform="mysql">Engine=InnoDB DEFAULT CHARSET utf8</opt>
@@ -3167,6 +3169,9 @@
 			<notnull />
 		</field>
 		<field name="mail_servername" type="C" size="50" />
+		<field name="auth_type" type="C" size="20" />
+		<field name="auth_expireson" type="L" />
+		<field name="mail_proxy" type="C" size="50" />
 		<field name="box_refresh" type="I" size="10" />
 		<field name="mails_per_page" type="I" size="10" />
 		<field name="ssltype" type="C" size="50" />
