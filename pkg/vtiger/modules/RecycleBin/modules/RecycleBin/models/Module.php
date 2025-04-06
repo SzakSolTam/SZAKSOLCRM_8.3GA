@@ -162,7 +162,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 
 		//Delete the records in vtiger crmentity and relatedlists.
 		$query = 'DELETE FROM vtiger_crmentity WHERE deleted = ? and crmid in('.generateQuestionMarks($recordIds).')';
-		$db->pquery($query, array(1, $recordIds));
+		$db->pquery($query, array_merge([1], $recordIds));
 	}
 
 	/**Function to delete files from CRM.
