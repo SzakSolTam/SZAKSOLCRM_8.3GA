@@ -181,6 +181,44 @@ Vtiger_Detail_Js("Reports_Detail_Js",{},{
             return (memberList != null && (memberList.indexOf('All::Users') != -1)) ? true : false
         },
     
+        //The event responsible for handling the action of displaying email previews in reports.
+        registerEventForEmailsdetailview : function(){
+            var detailContentsHolder = this.getContentHolder();
+   
+            var params = {};
+            params['module'] = "Emails";
+            params['view'] = "ComposeEmail";
+            params['relatedLoad'] = true;
+   
+            detailContentsHolder.on('click','[name="emailsDetailView"]',function(e){
+                e.stopPropagation();
+                var element = jQuery(e.currentTarget);
+                var recordId = element.data('id');
+                mode = 'emailPreview';
+                params['parentModule'] = app.getModuleName();
+                params['mode'] = mode;
+                params['record'] = recordId;
+                app.helper.showProgress();
+                app.request.post({data:params}).then(function(err,data){
+                    app.helper.hideProgress();
+                    if(err === null){
+                        var dataObj = jQuery(data);
+                        var descriptionContent = dataObj.find('#iframeDescription').val();
+                        app.helper.showModal(data,{cb:function(){
+                            app.event.trigger('post.EmailPreview.load',null);
+                            jQuery('#emailPreviewIframe').contents().find('html').html(descriptionContent);
+                            jQuery("#emailPreviewIframe").height(jQuery('.email-body-preview').height());
+                            jQuery('#emailPreviewIframe').contents().find('html').find('a').on('click', function(e) {
+                                e.preventDefault();
+                                var url = jQuery(e.currentTarget).attr('href');
+                                window.open(url, '_blank');
+                            });
+                        }});
+                    }
+                });
+            })
+        }, 
+    
 	registerEvents : function(){
 		this.registerSaveOrGenerateReportEvent();
         this.registerEventsForActions();
@@ -189,6 +227,7 @@ Vtiger_Detail_Js("Reports_Detail_Js",{},{
         this.generateReportCount(parseInt(jQuery("#countValue").text()));
 		this.registerConditionBlockChangeEvent();
 		this.registerEventForModifyCondition();
-                this.registerOnlyAllUsersInSharedList();
+        this.registerOnlyAllUsersInSharedList();
+        this.registerEventForEmailsdetailview();
 	}
 });

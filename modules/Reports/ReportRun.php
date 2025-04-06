@@ -3175,6 +3175,8 @@ class ReportRun extends CRMEntity {
 						if ($fld->name == $this->primarymodule . '_LBL_ACTION' && $fieldvalue != '-' && $operation != 'ExcelExport') {
 							if($this->primarymodule == 'ModComments') {
 								$fieldvalue = "<a href='index.php?module=".getSalesEntityType($fieldvalue)."&view=Detail&record=".$fieldvalue."' target='_blank'>" . getTranslatedString('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							} else if($this->primarymodule == 'Emails'){
+								$fieldvalue = "<a class='emailField' name='emailsDetailView' data-id ='$fieldvalue'>" . getTranslatedString('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 							} else {
 								$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . getTranslatedString('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 							}
