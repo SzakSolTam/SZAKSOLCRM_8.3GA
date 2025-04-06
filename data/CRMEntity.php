@@ -726,7 +726,16 @@ class CRMEntity {
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
-
+			// Default field values will be assigned, if fields dosen't comeup with fieldvalues from structure.
+			if (!$this->column_fields[$fieldname]) {
+				$moduleModel = Vtiger_Module_Model::getInstance($module);
+				$fieldModel = Vtiger_Field_Model::getInstance($fieldname,$moduleModel);
+				
+				$defaultFieldValue = $fieldModel->getDefaultFieldValue();
+				if(!empty($defaultFieldValue)) {
+					$fldvalue = vtlib_purify($defaultFieldValue);
+				}
+			}
 			if ($insertion_mode == 'edit') {
 				if ($uitype != 4 && !$skipUpdateForField) {
 					array_push($update, $columname . "=?");
