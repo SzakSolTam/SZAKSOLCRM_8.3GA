@@ -215,7 +215,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 				var adjustedHeight = this.getContainer().height() - 50;
 				app.helper.showVerticalScroll(widgetContent, {'height': adjustedHeight});
 			}
-			widgetContent.css({overflowY:'auto'});
+			widgetContent.css({height: widgetContent.height() - 100});
 		}
 	},
 	

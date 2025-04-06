@@ -190,6 +190,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 		$listViewContoller = $this->get('listview_controller');
 
 		 $searchParams = $this->get('search_params');
+		 $fieldvalue = $searchParams[0]['columns'][0]['value'];
+		 /**
+		  * NOTE: Validating the comparator, and field from SearchParams in isConditionExistsInParams() func.
+		  * IF exists comparator == 'C', modified through addCondition() func.  
+		  */
+		 if ($this->isConditionExistsInParams("assigned_user_id", "c")) {
+			$queryGenerator->addCondition('assigned_user_id',$fieldvalue,'e');
+        }
 		if(empty($searchParams)) {
 			$searchParams = array();
 		}
@@ -279,6 +287,20 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
 		}
 		return $listViewRecordModels;
+	}
+	function isConditionExistsInParams($fieldname = null, $cmp = null) {
+
+		$searchParams = $this->get('search_params');
+
+		if(is_array($searchParams) && is_array($searchParams[0]) && is_array($searchParams[0]['columns']) && !empty($searchParams[0]['columns'])) {
+			foreach($searchParams[0]['columns'] as $condition) {
+				$columnParts = explode(':', $condition['columnname']);
+				if($columnParts[2] == $fieldname && $condition['comparator'] == $cmp) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
