@@ -301,6 +301,9 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model {
 			$params = array($this->getId());
 			$neutralizedField = $fieldName;
 			$fieldDefaultValue = $fieldDetails['defaultvalue'];
+			if (!is_array($fieldDefaultValue) && $fieldDefaultValue == 0) {
+				$fieldDefaultValue = '';
+			}
 
 			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $sourceModuleModel);
 			$dataType = $fieldModel->getFieldDataType();
