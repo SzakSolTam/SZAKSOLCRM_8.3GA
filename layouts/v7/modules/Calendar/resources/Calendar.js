@@ -1810,8 +1810,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			},
 			getWeekDay: function (date) {
 				var weekDay = date.format('dddd');
-				var label = 'LBL_' + weekDay.toUpperCase();
-				return app.vtranslate(label).toUpperCase();
+				return weekDay.toUpperCase();
 			},
 			renderHtml: function () {
 				var startDate = moment(this.intervalStart);
