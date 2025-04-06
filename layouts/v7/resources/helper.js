@@ -217,7 +217,7 @@ jQuery.Class("Vtiger_Helper_Js",{
         return aDeferred.promise();
     },
     showAlertBox: function(data, cb) {
-        var message = typeof (data['message']) == "object" ? data.message : data['message'], /* error | string */
+        var message = typeof (data['message']) == "object" ? data.message : data['message']; /* error | string */
         if (typeof cb == 'function') {
             bootbox.alert(message, cb);
         }
