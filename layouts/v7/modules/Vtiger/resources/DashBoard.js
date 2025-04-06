@@ -569,7 +569,7 @@ Vtiger.Class("Vtiger_DashBoard_Js",{
 						if(chartType != ''){
 							fullscreenview += ' <input type="hidden" value="'+chartType+'" name="charttype">\n\
 												<input type="hidden" value="'+clickThrough+'" name="clickthrough">\n\
-												<div id="chartDiv" name="chartcontent" style="width:100%;height:100%" data-mode="preview"></div> \n\
+												<div id="chartDiv" name="chartcontent" style="width:85%;height:100%" data-mode="preview"></div> \n\
 												<input class="widgetData" type="hidden" value="" name="data">';
 						} else {
 							fullscreenview += ' <div class="dashboardWidgetContent" style="width:100%;height:100%" data-displaymode="fullscreen">\n\
