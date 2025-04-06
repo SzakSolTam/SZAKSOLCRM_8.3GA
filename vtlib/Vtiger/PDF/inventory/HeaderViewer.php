@@ -94,7 +94,7 @@ class Vtiger_PDF_InventoryHeaderViewer extends Vtiger_PDF_HeaderViewer {
 			$pdf->MultiCell($contentWidth*2.0, $contentHeight, $this->model->get('title'), 0, 'R', 0, 1, $contentX-$contentWidth,
 				 $headerFrame->y+2);
 
-			$offsetY = 4;
+			$offsetY = 8;
 
 			foreach($modelColumn2 as $label => $value) {
 				if(is_array($value)) {
@@ -105,7 +105,7 @@ class Vtiger_PDF_InventoryHeaderViewer extends Vtiger_PDF_HeaderViewer {
 						$offsetY = 0;
 					}
 				} else {
-					$offsetY = 4;
+					$offsetY = 8;
 					
 				$pdf->SetFont('freeserif', 'B');
 				$pdf->SetFillColor(205,201,201);
