@@ -250,7 +250,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$taxClassDetails[$i]['percentage'] = getTaxPercentage($taxClassDetails[$i]['taxname']);
 			}
 
-			$regionDetails = $taxValueDetails['regions'];
+			$regionDetails = is_array($taxValueDetails['regions']) ? $taxValueDetails['regions'] : array();
 			$regionsList = array();
 
 			if (is_array($regionDetails)) {
