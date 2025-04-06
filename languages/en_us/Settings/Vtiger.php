@@ -34,6 +34,7 @@ $languageStrings = array(
 	'LBL_PBXMANAGER' => 'PBXManager',
     'LBL_INTEGRATION' => 'Integration',
     'LBL_EXCHANGE_CONNECTOR' => 'Exchange Connector',
+	'LBL_GPT' => 'GPT',
     
     // Fields
 	'LBL_DESCRIPTION' => 'Description',

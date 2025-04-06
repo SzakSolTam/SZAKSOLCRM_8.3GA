@@ -61,6 +61,8 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 			if(err == null) {
 				var modalContainer = app.helper.showModal(data, {cb: function(){
 					 thisInstance.registerEvents();
+					var GPTEmailEditInstance = new GPT_MassEdit_Js();
+					GPTEmailEditInstance.registerEvents();
 				}});
 				return aDeferred.resolve(modalContainer);
 			}
