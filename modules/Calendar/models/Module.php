@@ -1025,4 +1025,32 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		}
 		return $moduleIcon;
 	}
+
+	public static function getAllForModule($moduleModel) {
+		global $adb;
+		$instances = false;
+		$eventModel = Vtiger_Module_Model::getInstance('Events');
+		$query = "SELECT * FROM vtiger_field WHERE tabid = ? OR (tablename = 'vtiger_activitycf' AND tabid = ?) ORDER BY sequence";
+		$queryParams = Array($moduleModel->id, $eventModel->id);
+		$result = $adb->pquery($query,$queryParams);
+
+		for($index = 0; $index < $adb->num_rows($result); ++$index) {
+			$instance = new Vtiger_Field();
+			$instance->initialize($adb->fetch_array($result), $moduleInstance);
+			$instances[] = $instance;
+		}
+
+		$fieldModelList = array();
+
+		foreach($instances as $fieldObject){
+				$fieldModelObject = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObject);
+				$block = $fieldModelObject->get('block');
+			
+			if ($block) {
+				$fieldModelList[$block->id][] = $fieldModelObject;
+			}
+		}
+		return $fieldModelList;
+		
+	}
 }

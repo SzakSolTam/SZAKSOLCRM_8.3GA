@@ -385,9 +385,13 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
-	public function getFields($blockInstance=false) {
+	public function getFields($blockInstance=false,$request=false) {
 		if(empty($this->fields)){
-			$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this);
+			if ($request && $request->get('view') =='Import' && $this->getName()=='Calendar' ) {
+				$moduleBlockFields = Calendar_Module_Model::getAllForModule($this);
+			} else {
+				$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this);
+			}
 			$this->fields = array();
 			foreach($moduleBlockFields as $moduleFields){
 				foreach($moduleFields as $moduleField){

@@ -105,7 +105,7 @@ class Import_FileReader_Reader {
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
 
-		$moduleFields = $this->moduleModel->getFields();
+		$moduleFields = $this->moduleModel->getFields(false,$this->request);
 		$moduleImportableFields = $this->moduleModel->getAdditionalImportFields();
 		$moduleFields = array_merge($moduleFields, $moduleImportableFields);
 
