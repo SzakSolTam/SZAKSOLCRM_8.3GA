@@ -119,7 +119,10 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 					}else if($mappingInfo['valuetype'] == 'rawtext' && Vtiger_Functions::isDateValue($mappingInfo['value'])) {
                                             $mappingInfo['value'] = DateTimeField::convertToDBFormat($mappingInfo['value']);
                                             $fieldMapping[$key] = $mappingInfo;
-                                        }
+                                        } else if ($mappingInfo['valuetype'] == 'rawtext' && Vtiger_Functions::isTimeValue($mappingInfo['value'])){
+											$mappingInfo['value'] = date('H:i:s', strtotime($mappingInfo['value']));
+											$fieldMapping[$key] = $mappingInfo;
+											}
 				}
 			}
                         $taskObject->field_value_mapping = Zend_Json::encode($fieldMapping);
