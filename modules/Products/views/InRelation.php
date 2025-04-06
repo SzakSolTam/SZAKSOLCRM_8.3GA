@@ -81,7 +81,6 @@ class Products_InRelation_View extends Vtiger_RelatedList_View {
 		$subProductsCostsInfo = array();
 		if ($moduleName === $relatedModuleName && $relationListView->tab_label === 'Product Bundles') {//Products && Child Products
 			$parentModuleModel = $parentRecordModel->getModule();
-			$relationField = $parentModuleModel->getField('qty_per_unit');
 
 			if ((!$request->get('sortorder') && !$request->get('page'))) {
 				$parentRecordModel->set('currency_id', getProductBaseCurrency($parentId, $parentModuleModel->getName()));
