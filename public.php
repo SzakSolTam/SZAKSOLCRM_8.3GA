@@ -21,7 +21,13 @@ if(isset($_REQUEST['type']) && isset($_REQUEST['key']) && $_REQUEST['type'] == '
 	$imageFormat = strtolower($extension[1]);
 	if (in_array($imageFormat, $allowedLogoImageFormats)) {
 		checkFileAccess($finalFilePath);
-		Vtiger_ShowFile_Helper::show($finalFilePath, $imageFormat);
+		
+		/* rebuild expected content-type */
+		$contentType = "image/" . $extension[1];
+		if (strtolower($extension[1]) == "svg") {
+	        	$contentType = "image/svg+xml";
+		}
+		Vtiger_ShowFile_Helper::show($finalFilePath, $contentType);
 	}
 	return;
 }
