@@ -1089,7 +1089,7 @@ function calculateValidationRules(form,params,meta){
 			var referenceElement = referenceWrapper.find('[data-fieldtype="reference"]').length ?
 					referenceWrapper.find('[data-fieldtype="reference"]') :
 					referenceWrapper.find('[data-fieldtype="multireference"]');
-			referenceElement.valid();
+			if(referenceElement.is('form')) referenceElement.valid();
 		});
 
 		return validobj;
