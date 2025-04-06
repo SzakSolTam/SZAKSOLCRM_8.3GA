@@ -1243,13 +1243,13 @@ class CRMEntity {
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
 		if ($uitype == 57 && $fldvalue == '') {
-			return 0;
+			return null;
 		}
 		if (is_uitype($uitype, "_date_") && $fldvalue == '' || $uitype == '14') {
 			return null;
 		}
 		if ($datatype == 'I' || $datatype == 'N' || $datatype == 'NN') {
-			return 0;
+			return null;
 		}
 		$log->debug("Exiting function get_column_value");
 		return $fldvalue;
