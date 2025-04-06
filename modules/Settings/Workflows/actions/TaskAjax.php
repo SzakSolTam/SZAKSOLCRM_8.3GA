@@ -104,6 +104,10 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
 
 			$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
+			$startDays = json_decode($taskObject->startDays);
+			$endDays = json_decode($taskObject->endDays);
+			$endDatefield = $taskObject->endDatefield;
+
 			if (is_array($fieldMapping)) {
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if ($mappingInfo['valuetype'] == 'expression') {
@@ -129,6 +133,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 					$module = 'Events';
 				} else {
 					$module = 'Calendar';
+				}
+				if($taskType === 'VTCreateEventTask') {
+					if($endDatefield == "createdtime" ) {
+						if (!($endDays > $startDays)) {
+							throw new Exception("CHECK THE END DATE&TIME VALUE ");
+						}
+					}
 				}
 				$moduleModel = Vtiger_Module_Model::getInstance($module);
 				$fieldsList = $moduleModel->getFields();
