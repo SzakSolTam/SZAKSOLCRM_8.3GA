@@ -1,13 +1,18 @@
 {
+    // Extra globals.
+    "predef" : [
+      "require",
+      "define"
+    ],
     "jquery": true,
     "browser": true,
 
     "eqeqeq": true,
     "freeze": true,
     //"indent": 4, // when we move to spaces
-    "latedef": true,
+    "latedef": false,
     "undef": true,
-    "unused": true,
+    "unused": false,
     "immed": true,
     "trailing": true,
     "maxcomplexity": 50, // Can we get this under 5?
