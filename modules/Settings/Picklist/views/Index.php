@@ -31,6 +31,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
             $defaultField = $request->get('fieldname');
             if(!empty($defaultField)) {
                 $selectedPickListFieldModel = $pickListFields[$defaultField];
+                $viewer->assign('DEFAULT_FIELD', $defaultField);
             } else {
                 $selectedPickListFieldModel = reset($pickListFields);
             }
@@ -55,7 +56,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View {
         }
         $viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
         $viewer->assign('QUALIFIED_NAME',$qualifiedName);
-        $viewer->assign('DEFAULT_FIELD', $defaultField);
+        
         
 		$viewer->view('Index.tpl',$qualifiedName);
     }
