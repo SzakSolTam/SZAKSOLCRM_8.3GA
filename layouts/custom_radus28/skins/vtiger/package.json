@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-less": "^3.0.0",
+    "liftoff": "^5.0.0"
+  }
+}
