@@ -20,7 +20,7 @@
 					{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 						{if !empty($IMAGE_INFO.url)}
 							<span class="logo col-xs-2">
-								<img height="75px" width="75px" src="{$IMAGE_INFO.url}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
+								<img height="75px" width="75px" src="{$IMAGE_INFO.url}" alt="{urldecode(decode_html($IMAGE_INFO.orgname))}" title="{urldecode(decode_html($IMAGE_INFO.orgname))}" data-image-id="{$IMAGE_INFO.id}">
 							</span>
 						{/if}
 					{/foreach}
