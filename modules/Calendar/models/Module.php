@@ -805,7 +805,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		for($i=0;$i<$noOfRows;$i++){
 			$newRow = $db->query_result_rowdata($result, $i);
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
-			$model->setData($newRow);
+
+			/*Explanation: Applying decode_html for the values because the decoded values fetched from db is encoded
+			in above query_result_rowdata() function using to_html()*/
+
+			/*Purpose: It's necessary to escape special characters within the decoded values before transmitting the data 
+			to the template (tpl) file. */
+			
+			$model->setData(array_map('decode_html',$newRow));
 			$model->setId($newRow['activityid']);
 			$basicInfo = array();
 			foreach($quickCreateFields as $fieldName => $fieldModel){
