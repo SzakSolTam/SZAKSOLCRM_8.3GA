@@ -530,35 +530,38 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['shipping_handling_charge'] = $shCharge;
 
 	//To set the Shipping & Handling tax values
-	//calculate S&H tax
-	$shtaxtotal = 0;
-	//First we should get all available taxes and then retrieve the corresponding tax values
-	$shtax_details = getAllTaxes('available','sh','edit',$focus->id);
+	$total_tax_on_charges = 0;
+	$all_taxes = getAllTaxes('available', '', 'edit', $focus->id);
+	
+	$chargesAndTaxInfo = $adb->pquery("SELECT vtiger_inventorychargesrel.* FROM vtiger_inventorychargesrel WHERE recordid = ?", array($focus->id));
+	$num_rows = $adb->num_rows($chargesAndTaxInfo);
 
-	//if taxtype is group then the tax should be same for all products in vtiger_inventoryproductrel table
-	for($shtax_count=0;$shtax_count<php7_count($shtax_details);$shtax_count++)
-	{
-		$shtax_name = $shtax_details[$shtax_count]['taxname'];
-		$shtax_label = $shtax_details[$shtax_count]['taxlabel'];
-		$shtax_percent = 0;
-		//if condition is added to call this function when we create PO/SO/Quotes/Invoice from Product module
-		if (in_array($module, $inventoryModules)) {
-			$shtax_percent = getInventorySHTaxPercent($focus->id,$shtax_name,$shtax_count);
+	if($num_rows > 0){
+		$charges = $adb->query_result($chargesAndTaxInfo, 0, "charges");
+		$charges = html_entity_decode($charges);
+		$charges = Zend_Json::decode($charges);
+	
+		foreach($charges as $charge){
+			foreach($charge["taxes"] as $id => $tax){
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["taxid"] 	   = $all_taxes[$id - 1]["taxid"];				
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["taxname"]    = $all_taxes[$id - 1]["taxname"];
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["taxlabel"]   = $all_taxes[$id - 1]["taxlabel"];
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["type"] 	   = $all_taxes[$id - 1]["type"];
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["method"]     = $all_taxes[$id - 1]["method"];
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["regions"]    = Zend_Json::decode(html_entity_decode($all_taxes[$id - 1]["regions"]));
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["compoundon"] = Zend_Json::decode(html_entity_decode($all_taxes[$id - 1]["compoundon"]));
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["percentage"] = isset($product_Detail[1]["final_details"]["sh_taxes"][$id]["percentage"])?
+																					 $product_Detail[1]["final_details"]["sh_taxes"][$id]["percentage"]: 0 + $tax;
+				$product_Detail[1]["final_details"]["sh_taxes"][$id]["ammount"]    = isset($product_Detail[1]["final_details"]["sh_taxes"][$id]["ammount"])?
+																					 $product_Detail[1]["final_details"]["sh_taxes"][$id]["ammount"]: 0 + ($tax / 100) * $charge["value"];
+				
+				$total_tax_on_charges += ($tax / 100) * $charge["value"];
+			}
 		}
-		$shtaxamount = $shCharge*$shtax_percent/100;
-		$shtaxtotal = $shtaxtotal + $shtaxamount;
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['taxname']	= $shtax_name;
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['taxlabel']	= $shtax_label;
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['percentage']	= $shtax_percent;
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['amount']		= $shtaxamount;
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['taxid']		= $shtax_details[$shtax_count]['taxid'];
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['type']		= $shtax_details[$shtax_count]['type'];
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['method']		= $shtax_details[$shtax_count]['method'];
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['regions']	= Zend_Json::decode(html_entity_decode($shtax_details[$shtax_count]['regions']));
-		$product_Detail[1]['final_details']['sh_taxes'][$shtax_count]['compoundon']	= Zend_Json::decode(html_entity_decode($shtax_details[$shtax_count]['compoundon']));
 	}
-	$shtaxtotal = number_format($shtaxtotal, $no_of_decimal_places,'.','');
-	$product_Detail[1]['final_details']['shtax_totalamount'] = $shtaxtotal;
+
+	$total_tax_on_charges = number_format($total_tax_on_charges, $no_of_decimal_places,'.','');
+	$product_Detail[1]['final_details']['shtax_totalamount'] = $total_tax_on_charges;
 
 	//To set the Adjustment value
 	$adjustment = (isset($focus->column_fields['txtAdjustment']) && $focus->column_fields['txtAdjustment'] != '') ? $focus->column_fields['txtAdjustment'] : 0;
