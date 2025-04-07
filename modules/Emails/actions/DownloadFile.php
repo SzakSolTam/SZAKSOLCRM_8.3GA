@@ -25,8 +25,8 @@ class Emails_DownloadFile_Action extends Vtiger_Action_Controller {
 
         $attachmentId = $request->get('attachment_id');
         $name = $request->get('name');
-        $query = "SELECT * FROM vtiger_attachments WHERE attachmentsid = ? AND name = ?" ;
-        $result = $db->pquery($query, array($attachmentId, $name));
+        $query = "SELECT * FROM vtiger_attachments WHERE attachmentsid = ?" ; // removed name since attachment id is unique
+        $result = $db->pquery($query, array($attachmentId)); 
 
         if($db->num_rows($result) == 1)
         {
