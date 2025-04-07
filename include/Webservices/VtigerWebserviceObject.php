@@ -80,6 +80,11 @@ class VtigerWebserviceObject{
 	static function fromId($adb,$entityId){		
 		$rowData = false;
 		
+		if (strpos($entityId, 'x')) {
+			$components = vtws_getIdComponents($entityId);
+			$entityId = $components[0];
+		}
+		
 		// If the information not available in cache?
 		if(!isset(self::$_fromIdCache[$entityId])) {
 			$result = $adb->pquery("select * from vtiger_ws_entity where id=?",array($entityId));
@@ -99,7 +104,7 @@ class VtigerWebserviceObject{
 					$rowData['handler_path'],$rowData['handler_class']);
 		}
 		
-		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED,"Permission to perform the operation is denied for id");
+		throw new WebServiceException(WebServiceErrorCode::$INVALIDID,"Webservice entity corresponding to id $entityId not found");
 	}
 	
 	static function fromQuery($adb,$query){
