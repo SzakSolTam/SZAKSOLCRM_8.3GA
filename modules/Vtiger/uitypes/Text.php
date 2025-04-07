@@ -22,7 +22,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType {
                 if($removeTags){
                     $value = strip_tags($value,'<br>');
                 }
-		return nl2br(purifyHtmlEventAttributes($value, true));
+		return nl2br(purifyHtmlEventAttributes(decode_html($value), true));
 	}
     
     /**
