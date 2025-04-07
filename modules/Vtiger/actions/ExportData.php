@@ -230,6 +230,9 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 		if(empty($type)) {
 			return 'text/csv';
 		}
+		else {
+			return 'text/ics';
+		}
 	}
 
 	/**

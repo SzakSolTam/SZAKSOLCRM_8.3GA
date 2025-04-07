@@ -36,6 +36,10 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 		if ($request->get('type') == 'csv') {
 			return parent::getExportContentType($request);
 		}
+		else if ($request->get('type') == 'ics') {
+			return parent::getExportContentType($request);
+
+		}
 		return 'text/calendar';
 	}
 
@@ -48,6 +52,9 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 		if ($request->get('type') == 'csv') {
 			parent::ExportData($request);
 			return;
+		}
+		else if ($request->get('type') == 'ics') {
+			parent::ExportData($request);
 		}
 
 		$db = PearDatabase::getInstance();
