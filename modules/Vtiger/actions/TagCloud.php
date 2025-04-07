@@ -105,13 +105,30 @@ class Vtiger_TagCloud_Action extends Vtiger_Mass_Action {
 		}
 
 		$result = array();
-		foreach($newTags as $tagName) {
-			if(empty($tagName)) continue;
-			$tagModel = new Vtiger_Tag_Model();
-			$tagModel->set('tag', $tagName)->setType($newTagType);
-			$tagId = $tagModel->create();
-			array_push($existingTags, $tagId);
-			$result['new'][$tagId] = array('name'=> decode_html($tagName), 'type' => $newTagType);
+		try{
+			foreach($newTags as $tagName) {
+				if(empty($tagName)) continue;
+				$tagModel = new Vtiger_Tag_Model();
+				$tagModel->set('tag', $tagName)->setType($newTagType);
+
+				//handle name clash condition.
+				$existingInstances = Vtiger_Tag_Model::getAllUserTags($userId);
+				foreach($existingInstances as $instance){
+					if($instance->get('owner') == $userId && $instance->getName() == $tagModel->getName() ||
+					($instance->get('owner') !== $userId && $tagModel->getType() != Vtiger_Tag_Model::PRIVATE_TYPE)){
+						throw new Exception(vtranslate('LBL_SAME_TAG_EXISTS', $module));
+					}
+				}
+
+				$tagId = $tagModel->create();
+				array_push($existingTags, $tagId);
+				$result['new'][$tagId] = array('name'=> decode_html($tagName), 'type' => $newTagType);
+			}
+		}catch(Exception $e){
+			$response = new Vtiger_Response();
+			$response->setError($e->getMessage());
+			$response->emit();
+			return;
 		}
 		$existingTags = array_unique($existingTags);
 
