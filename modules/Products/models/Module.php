@@ -160,7 +160,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				$fieldName = 'service_no';
 			}
 
-			$query = "SELECT label, crmid, $fieldName FROM vtiger_crmentity
+			$query = "SELECT label, crmid, setype, $fieldName FROM vtiger_crmentity
 						INNER JOIN $tableName ON $tableName.$baseFieldName = vtiger_crmentity.crmid
 						WHERE $fieldName LIKE ? AND vtiger_crmentity.deleted = 0 AND discontinued = 1";
 			$result = $db->pquery($query, array("%$searchValue%"));
