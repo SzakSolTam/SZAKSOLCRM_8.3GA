@@ -1,8 +1,8 @@
 {
-    "name": "vtiger/vtigercrm",
+    "name": "SzakSolCRM/vtigercrm",
     "description": "Vtiger CRM",
     "type": "project",
-    "license": "VPL",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Vtiger",

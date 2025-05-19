@@ -1,0 +1,176 @@
+Traced on 2025-05-19 04:51:51
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 04:53:25
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 04:53:30
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 04:55:53
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 04:56:28
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 04:56:32
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:03:46
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:04:24
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:18:53
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:18:57
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:19:28
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:20:30
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:21:11
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:21:13
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:21:21
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:21:37
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:22:30
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:22:31
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::checkFileAccessForInclusion::25<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\vtlib\Vtiger\AccessControl.php::loadUserPrivilegesWithId::44<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\modules\Users\Users.php::loadUserPrivileges::646<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::retrieveCurrentUserInfoFromFile::47<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::getLogin::104<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::process::26<br>
+Traced on 2025-05-19 05:26:18
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:26:37
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:27:05
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
+Traced on 2025-05-19 05:27:07
+FileAccessForInclusion - 
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\include\utils\CommonUtils.php::checkFileAccessForInclusion::388<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::checkFileAccessForInclusion::65<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\Loader.php::includeOnce::191<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\includes\main\WebUI.php::vimport::15<br>
+C:\AppData\GitHub\SZAKSOLCRM_8.3GA\index.php::include_once::23<br>
