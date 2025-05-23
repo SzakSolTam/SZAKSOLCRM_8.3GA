@@ -1,0 +1,10 @@
+<module>
+    <name>HttpRequest</name>
+    <label>HttpRequest</label>
+    <type>extension</type>
+    <version>1.0</version>
+    <dependencies>
+        <vtiger_version>8.0.0</vtiger_version>
+        <vtiger_max_version>8.*</vtiger_max_version>
+    </dependencies>
+</module>
