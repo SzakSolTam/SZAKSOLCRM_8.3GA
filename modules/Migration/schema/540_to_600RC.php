@@ -99,6 +99,7 @@ if(!defined('INSTALLATION_MODE')) {
 	$taskTypes[] = array("name"=>"VTCreateEntityTask", "label"=>"Create Entity", "classname"=>"VTCreateEntityTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTCreateEntityTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTCreateEntityTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'');
 	$taskTypes[] = array("name"=>"VTSMSTask", "label"=>"SMS Task", "classname"=>"VTSMSTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTSMSTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTSMSTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>'SMSNotifier');
 
+        $taskTypes[] = array("name"=>"VTWebhookTask", "label"=>"Webhook Task", "classname"=>"VTWebhookTask", "classpath"=>"modules/com_vtiger_workflow/tasks/VTWebhookTask.inc", "templatepath"=>"com_vtiger_workflow/taskforms/VTWebhookTask.tpl", "modules"=>$defaultModules, "sourcemodule"=>"");
 	foreach ($taskTypes as $taskType) {
 		VTTaskType::registerTaskType($taskType);
 	}

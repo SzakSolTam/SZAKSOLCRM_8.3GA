@@ -536,9 +536,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    VTUpdateFieldsTaskCustomValidation: function () {
       return this.checkDuplicateFieldsSelected();
    },
-   VTCreateEntityTaskCustomValidation: function () {
-      return this.checkDuplicateFieldsSelected();
-   },
+  VTCreateEntityTaskCustomValidation: function () {
+     return this.checkDuplicateFieldsSelected();
+  },
+  VTWebhookTaskCustomValidation: function () {
+     return this.checkDuplicateFieldsSelected();
+  },
    VTCreateEventTaskCustomValidation: function () {
       return this.checkStartAndEndDate();
    },
@@ -585,10 +588,14 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       var values = this.getValues(tasktype);
       jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
    },
-   preSaveVTCreateEntityTask: function (tasktype) {
-      var values = this.getValues(tasktype);
-      jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
-   },
+  preSaveVTCreateEntityTask: function (tasktype) {
+     var values = this.getValues(tasktype);
+     jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
+  },
+  preSaveVTWebhookTask: function (tasktype) {
+     var values = this.getValues(tasktype);
+     jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
+  },
    preSaveVTEmailTask: function (tasktype) {
       var textAreaElement = jQuery('#content');
       //To keep the plain text value to the textarea which need to be
@@ -611,9 +618,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    getVTCreateEntityTaskFieldList: function () {
       return new Array('fieldname', 'value', 'valuetype', 'modulename');
    },
-   getVTUpdateFieldsTaskFieldList: function () {
-      return new Array('fieldname', 'value', 'valuetype');
-   },
+  getVTUpdateFieldsTaskFieldList: function () {
+     return new Array('fieldname', 'value', 'valuetype');
+  },
+  getVTWebhookTaskFieldList: function () {
+     return new Array('fieldname', 'value', 'valuetype');
+  },
    getValues: function (tasktype) {
       var thisInstance = this;
       var conditionsContainer = jQuery('#save_fieldvaluemapping');
@@ -813,9 +823,9 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    registerVTCreateTodoTaskEvents: function () {
       vtUtils.registerEventForTimeFields(jQuery('#saveTask'));
    },
-   registerVTUpdateFieldsTaskEvents: function () {
-      var thisInstance = this;
-      this.registerAddFieldEvent();
+  registerVTUpdateFieldsTaskEvents: function () {
+     var thisInstance = this;
+     this.registerAddFieldEvent();
       this.registerDeleteConditionEvent();
       this.registerFieldChange();
       this.fieldValueMap = false;
@@ -826,8 +836,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
       jQuery.each(fields, function (i, field) {
          thisInstance.loadFieldSpecificUi(jQuery(field));
       });
-      this.getPopUp(jQuery('#saveTask'));
-   },
+     this.getPopUp(jQuery('#saveTask'));
+  },
+  registerVTWebhookTaskEvents: function () {
+     this.registerVTUpdateFieldsTaskEvents();
+  },
    registerVTPushNotificationTaskEvents: function () {
       this.registerFillMailContentEvent();
    },
