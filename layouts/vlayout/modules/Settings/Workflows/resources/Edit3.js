@@ -139,9 +139,13 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		return this.checkDuplicateFieldsSelected();
 	},
 	
-	VTCreateEntityTaskCustomValidation : function() {
-		return this.checkDuplicateFieldsSelected();
-	},
+        VTCreateEntityTaskCustomValidation : function() {
+                return this.checkDuplicateFieldsSelected();
+        },
+
+        VTWebhookTaskCustomValidation : function() {
+                return this.checkDuplicateFieldsSelected();
+        },
 	
 	checkDuplicateFieldsSelected : function() {
 		var selectedFieldNames = jQuery('#save_fieldvaluemapping').find('.conditionRow').find('[name="fieldname"]');
@@ -163,10 +167,15 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
 	},
 	
-	preSaveVTCreateEntityTask : function(tasktype) {
-		var values = this.getValues(tasktype);
-		jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
-	},
+        preSaveVTCreateEntityTask : function(tasktype) {
+                var values = this.getValues(tasktype);
+                jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
+        },
+
+        preSaveVTWebhookTask : function(tasktype) {
+                var values = this.getValues(tasktype);
+                jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
+        },
     
     preSaveVTEmailTask : function(tasktype) {
         var textAreaElement = jQuery('#content');
@@ -193,9 +202,13 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		return new Array('fieldname', 'value', 'valuetype','modulename');
 	},
 	
-	getVTUpdateFieldsTaskFieldList : function() {
-		return new Array('fieldname', 'value', 'valuetype');
-	},
+        getVTUpdateFieldsTaskFieldList : function() {
+                return new Array('fieldname', 'value', 'valuetype');
+        },
+
+        getVTWebhookTaskFieldList : function() {
+                return new Array('fieldname', 'value', 'valuetype');
+        },
 	
 	getValues : function(tasktype) {
 		var thisInstance = this;
@@ -410,9 +423,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		app.registerEventForTimeFields(jQuery('#saveTask'));
 	},
 	
-	registerVTUpdateFieldsTaskEvents : function() {
-		var thisInstance = this;
-		this.registerAddFieldEvent();
+        registerVTUpdateFieldsTaskEvents : function() {
+                var thisInstance = this;
+                this.registerAddFieldEvent();
 		this.registerDeleteConditionEvent();
 		this.registerFieldChange();
 		this.fieldValueMap = false;
@@ -423,8 +436,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 		jQuery.each(fields,function(i,field){
 			thisInstance.loadFieldSpecificUi(jQuery(field));
 		});
-		this.getPopUp(jQuery('#saveTask'));
-	},
+                this.getPopUp(jQuery('#saveTask'));
+        },
+
+        registerVTWebhookTaskEvents : function() {
+                this.registerVTUpdateFieldsTaskEvents();
+        },
         
 	registerAddFieldEvent : function() {
 		jQuery('#addFieldBtn').on('click',function(e) {

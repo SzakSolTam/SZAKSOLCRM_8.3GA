@@ -54,6 +54,8 @@ $languageStrings = array(
 	'LBL_RECEPIENTS'               => 'Recepients'                  , // TODO: Review
 	'LBL_ADD_FIELDS'               => 'Add Fields'                  , // TODO: Review
 	'LBL_SMS_TEXT'                 => 'Sms Text'                    , // TODO: Review
+        'LBL_WEBHOOK_URL'             => 'Webhook URL',
+        'LBL_METHOD'                 => 'HTTP metódus',
 	'LBL_SET_FIELD_VALUES'         => 'Set Field Values'            , // TODO: Review
 	'LBL_IN_ACTIVE'                => 'In Active'                   , // TODO: Review
 	'LBL_SEND_NOTIFICATION'        => 'Send Notification'           , // TODO: Review
@@ -102,6 +104,7 @@ $languageStrings = array(
     'LBL_VTSMSTask' => 'SMS', 
     'LBL_VTPushNotificationTask' => 'Mobile bejelentése',
     'LBL_VTCreateEntityTask' => 'Rekord létrehozása',
+    'LBL_VTWebhookTask' => 'Webhook',
 	'LBL_MAX_SCHEDULED_WORKFLOWS_EXCEEDED' => 'Maximális száma (%s) a jegyzékben szereplő munkafolyamatok túllépték',
 
   'LBL_EDITING_WORKFLOW' => 'Szerkesztési Munkafolyamat',
@@ -160,6 +163,7 @@ $jsLanguageStrings = array(
   'VTUpdateFieldsTask' => 'Frissítés Mezők',
   'VTSMSTask' => 'SMS Feladat',
   'VTPushNotificationTask' => 'Mobil Push Értesítés',
+  'VTWebhookTask' => 'Webhook Feladat',
   'VTCreateEntityTask' => 'Bejegyzés Létrehozása',
   'LBL_EXPRESSION_INVALID' => 'Kifejezés Érvénytelen',
 
